@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fabi's Grill — Pedido</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; height: 100%; }
+
+  :root {
+    --marrom: #8b5a2b;
+    --marrom-escuro: #5c3a1a;
+    --dourado: #c8873a;
+    --creme: #f5f0e6;
+    --creme-escuro: #e8dfd0;
+    --preto: #1a1a1a;
+    --preto-suave: #2a2a2a;
+  }
+
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, Roboto, sans-serif;
+    background: var(--creme);
+    color: var(--preto);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ===== HEADER — logo Fabi's Grill ===== */
+  header {
+    background: linear-gradient(135deg, var(--preto) 0%, var(--marrom-escuro) 100%);
+    padding: 14px 20px;
+    box-shadow: 0 3px 12px rgba(0,0,0,.35);
+    flex-shrink: 0;
+    border-bottom: 3px solid var(--dourado);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 180px; height: 180px;
+    background: radial-gradient(circle, var(--dourado) 0%, transparent 70%);
+    opacity: .25;
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  header .logo-fabis {
+    max-height: 72px;
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    display: block;
+    filter: drop-shadow(0 3px 10px rgba(0,0,0,.5));
+    position: relative;
+    z-index: 1;
+  }
+  @media (max-width: 480px) {
+    header .logo-fabis { max-height: 56px; }
+  }
+
+  /* ===== ABAS ===== */
+  .tabs {
+    display: flex;
+    gap: 6px;
+    padding: 12px 14px;
+    background: var(--preto-suave);
+    border-bottom: 3px solid var(--dourado);
+    overflow-x: auto;
+    flex-shrink: 0;
+    scrollbar-width: thin;
+  }
+  .tabs::-webkit-scrollbar { height: 5px; }
+  .tabs::-webkit-scrollbar-thumb { background: var(--marrom); border-radius: 3px; }
+
+  .tab {
+    flex-shrink: 0;
+    padding: 9px 16px;
+    border-radius: 24px;
+    border: 2px solid var(--marrom);
+    background: transparent;
+    color: var(--creme-escuro);
+    font-size: .84rem;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all .2s;
+  }
+  .tab:hover {
+    background: rgba(200,135,58,.15);
+    border-color: var(--dourado);
+  }
+  .tab.ativa {
+    background: linear-gradient(135deg, var(--dourado), var(--marrom));
+    color: var(--preto);
+    border-color: var(--creme);
+    box-shadow: 0 2px 8px rgba(200,135,58,.5);
+    font-weight: 800;
+  }
+  .tab .badge {
+    display: inline-block;
+    background: var(--preto);
+    color: var(--dourado);
+    font-size: .68rem;
+    font-weight: 800;
+    padding: 1px 7px;
+    border-radius: 999px;
+    margin-left: 6px;
+  }
+  .tab.ativa .badge { background: var(--preto); color: var(--dourado); }
+
+  /* ===== TOOLBAR ===== */
+  .toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 12px 16px;
+    background: var(--creme);
+    border-bottom: 2px solid var(--creme-escuro);
+    flex-shrink: 0;
+  }
+  .toolbar input[type="search"] {
+    flex: 1;
+    min-width: 160px;
+    padding: 10px 14px;
+    border: 2px solid var(--creme-escuro);
+    border-radius: 10px;
+    font-size: .95rem;
+    background: #fff;
+    outline: none;
+    transition: border-color .2s;
+    color: var(--preto);
+  }
+  .toolbar input[type="search"]::placeholder { color: #a89b88; }
+  .toolbar input[type="search"]:focus { border-color: var(--marrom); }
+  .toolbar button {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 10px;
+    font-size: .9rem;
+    font-weight: 700;
+    cursor: pointer;
+    background: var(--creme-escuro);
+    color: var(--marrom-escuro);
+    transition: background .2s;
+  }
+  .toolbar button:hover { background: #ddd0ba; }
+  .toolbar button.danger { background: var(--preto); color: var(--creme); }
+  .toolbar button.danger:hover { background: #333; }
+
+  /* ===== LISTA ===== */
+  main {
+    flex: 1;
+    padding: 14px 16px 30px;
+    overflow-y: auto;
+  }
+
+  .item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #fff;
+    border: 2px solid var(--creme-escuro);
+    border-radius: 14px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+    transition: all .15s;
+  }
+  .item.selecionado {
+    border-color: var(--marrom);
+    background: linear-gradient(to right, #fdf8ee, #f9efd9);
+    box-shadow: 0 2px 10px rgba(139,90,43,.15);
+  }
+  .item .info { flex: 1; min-width: 0; }
+  .item .nome {
+    font-weight: 700;
+    font-size: .96rem;
+    color: var(--preto);
+  }
+  .item .detalhe {
+    font-size: .76rem;
+    color: #8a7d68;
+    margin-top: 3px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .item .tag-box {
+    display: inline-block;
+    background: var(--dourado);
+    color: var(--preto);
+    font-size: .66rem;
+    font-weight: 800;
+    padding: 1px 7px;
+    border-radius: 4px;
+    margin-left: 6px;
+    vertical-align: middle;
+    letter-spacing: .5px;
+  }
+
+  .check {
+    width: 28px; height: 28px;
+    border-radius: 8px;
+    border: 2.5px solid var(--creme-escuro);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    font-size: 1rem;
+    color: transparent;
+    background: #fff;
+    transition: all .15s;
+  }
+  .item.selecionado .check {
+    background: linear-gradient(135deg, var(--dourado), var(--marrom));
+    border-color: var(--marrom-escuro);
+    color: var(--creme);
+    text-shadow: 1px 1px 0 rgba(0,0,0,.3);
+  }
+
+  .qty {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-shrink: 0;
+  }
+  .qty button {
+    width: 34px; height: 34px;
+    border-radius: 9px;
+    border: 2px solid var(--creme-escuro);
+    background: var(--creme);
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--marrom-escuro);
+    cursor: pointer;
+    transition: all .15s;
+  }
+  .qty button:hover {
+    background: var(--dourado);
+    border-color: var(--marrom);
+    color: var(--preto);
+  }
+  .qty input {
+    width: 50px;
+    text-align: center;
+    padding: 7px 4px;
+    border: 2px solid var(--creme-escuro);
+    border-radius: 9px;
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--marrom-escuro);
+    background: #fff;
+  }
+  .qty input:focus { outline: none; border-color: var(--marrom); }
+
+  .vazio {
+    text-align: center;
+    color: #a89b88;
+    padding: 50px 20px;
+    font-size: .95rem;
+  }
+
+  /* ===== FOOTER ===== */
+  footer {
+    background: linear-gradient(135deg, var(--preto) 0%, var(--marrom-escuro) 100%);
+    color: var(--creme);
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    box-shadow: 0 -3px 12px rgba(0,0,0,.3);
+    flex-shrink: 0;
+    border-top: 3px solid var(--dourado);
+  }
+  footer .resumo { flex: 1; font-size: .9rem; }
+  footer .resumo strong {
+    font-size: 1.2rem;
+    color: var(--dourado);
+    font-weight: 900;
+  }
+  footer button {
+    padding: 13px 22px;
+    border: 2px solid var(--creme);
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 800;
+    cursor: pointer;
+    background: linear-gradient(135deg, var(--dourado), var(--marrom));
+    color: var(--creme);
+    transition: all .2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,.3);
+    text-shadow: 1px 1px 0 rgba(0,0,0,.3);
+    letter-spacing: .3px;
+  }
+  footer button:hover {
+    background: linear-gradient(135deg, #d9993f, #a06a35);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(200,135,58,.5);
+  }
+  footer button:disabled {
+    background: #4a4a4a;
+    border-color: #666;
+    color: #999;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+    text-shadow: none;
+  }
+
+  /* ===== MODAL ===== */
+  .modal-bg {
+    position: fixed; inset: 0;
+    background: rgba(26,26,26,.75);
+    display: none;
+    align-items: center; justify-content: center;
+    padding: 16px;
+    z-index: 50;
+  }
+  .modal-bg.aberto { display: flex; }
+  .modal {
+    background: var(--creme);
+    border-radius: 18px;
+    max-width: 560px;
+    width: 100%;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0,0,0,.5);
+    border: 3px solid var(--marrom);
+  }
+  .modal header {
+    background: linear-gradient(135deg, var(--preto) 0%, var(--marrom-escuro) 100%);
+    border-bottom: 3px solid var(--dourado);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+  }
+  .modal header .logo-fabis { max-height: 48px; }
+  .modal header .subtitulo {
+    margin: 8px 0 0;
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: var(--dourado);
+    text-transform: uppercase;
+  }
+  .modal .conteudo { padding: 18px; overflow: auto; }
+  .modal pre {
+    background: #fff;
+    padding: 14px;
+    border-radius: 10px;
+    white-space: pre-wrap;
+    font-size: .93rem;
+    line-height: 1.65;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    margin: 0;
+    border: 2px solid var(--creme-escuro);
+    color: var(--preto);
+  }
+  .modal .acoes {
+    padding: 14px 18px;
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    border-top: 2px solid var(--creme-escuro);
+    flex-wrap: wrap;
+    background: var(--creme);
+  }
+  .modal .acoes button {
+    padding: 11px 18px;
+    border-radius: 10px;
+    border: none;
+    font-size: .95rem;
+    cursor: pointer;
+    font-weight: 700;
+    transition: all .15s;
+  }
+  .modal .acoes .fechar {
+    background: var(--creme-escuro);
+    color: var(--marrom-escuro);
+  }
+  .modal .acoes .fechar:hover { background: #ddd0ba; }
+  .modal .acoes .copiar {
+    background: linear-gradient(135deg, var(--dourado), var(--marrom));
+    color: var(--creme);
+    text-shadow: 1px 1px 0 rgba(0,0,0,.3);
+  }
+  .modal .acoes .copiar:hover { background: linear-gradient(135deg, #d9993f, #a06a35); }
+  .modal .acoes .whatsapp {
+    background: #25D366;
+    color: #fff;
+    text-shadow: 1px 1px 0 rgba(0,0,0,.2);
+  }
+  .modal .acoes .whatsapp:hover { background: #1ebe5b; }
+</style>
+</head>
+<body>
+
+<header>
+  <!-- Se usares ficheiro externo: src="logo-fabis.png" -->
+  <!-- Se usares base64: substitui por src="data:image/png;base64,COLA_AQUI..." -->
+  <img src="logo-fabis.png" alt="Fabi's Grill Temple Bar" class="logo-fabis">
+</header>
+
+<div class="tabs" id="tabs"></div>
+
+<div class="toolbar">
+  <input type="search" id="busca" placeholder="Buscar item...">
+  <button id="btnLimpar" class="danger">Limpar</button>
+</div>
+
+<main id="lista"></main>
+
+<footer>
+  <div class="resumo">
+    <strong id="totalItens">0</strong> itens selecionados
+  </div>
+  <button id="btnVerPedido" disabled>Ver pedido</button>
+</footer>
+
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <header>
+      <img src="logo-fabis.png" alt="Fabi's Grill" class="logo-fabis">
+      <p class="subtitulo">Resumo do Pedido</p>
+    </header>
+    <div class="conteudo">
+      <pre id="textoPedido"></pre>
+    </div>
+    <div class="acoes">
+      <button class="fechar" id="btnFechar">Fechar</button>
+      <button class="copiar" id="btnCopiar">Copiar</button>
+      <button class="whatsapp" id="btnWhatsApp">📲 Enviar WhatsApp</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* =========================================================
+   LISTA DE ITENS
+   ========================================================= */
+const ITENS = [
+  "1 box mushrooms (Cogumelos / Mushroom G / box of mushrooms (G))",
+  "Pumpkin (legumes assados)",
+  "Aubergine (Beringela / box aubergine / 7 aubergines unit)",
+  "Carrots (Cenoura / bag carrots 10kg / bag of carrot)",
+  "Green lime (Lima verde / box green lime)",
+  "Mixed Peppers (Pimentos mistos / mix peppers)",
+  "Onions (Cebola / bag onion 10kg / bag Onions 10 kg)",
+  "Fresh Parsley (Salsa fresca / fresh Paraley / flat parsley)",
+  "Fresh Coriander (Coentros frescos)",
+  "Skinny chips 7x7 (Batata frita / box thin cut chips 7x7 / 4 bag skinny chips)",
+  "Cheese unit (Queijo / bag cheese unit / box of cheese / 3 bag cheese)",
+  "Peeled garlic (Alho descascado)",
+  "Fresh cream (Natas frescas / fresh cream cheese)",
+  "Tomatoes (Tomates / box tomatos / plum tomatos / box Plum tomatoes)",
+  "Sweet corn (Milho doce)",
+  "Pure passion fruit (Maracujá / passion fruit)",
+  "Chicken filet (Filé de frango / 2 box chicken filet)",
+  "Cheddar slice hamburger (Fatias de cheddar para hambúrguer / white cheddar)",
+  "Brioche bun (Pão brioche)",
+  "Burger (Hambúrguer)",
+  "Fresh spring onion (Cebolinha fresca)",
+  "Cabbage (Repolho / box York cabbage)",
+  "Ham (Fiambre / 1kg ham cooked)",
+  "Fresh orange (Laranja fresca / fresh orange juice)",
+  "Fresh pineapple (Abacaxi fresco)",
+  "Tofu (Tofoo)",
+  "Mayo (Maionese / mayonnaise sachets)",
+  "Bread crumbs (Farinha de rosca / pão de ratos / bread crumbs MIAU)",
+  "Olive oil (Azeite)",
+  "Ketchup (Ketchup / ketchup sachets)",
+  "Plum tomatoes (Tomate plum)",
+  "Tilda rice (Arroz Tilda / bag tilda rice / bag of blue rice tilda)",
+  "Contra filet (Contrafilé)",
+  "Vinegar (Vinagre)",
+  "Odmilus 25kg (Odmilus)",
+  "Puck (Puck / puck spread)",
+  "Ice berg lettuce (Alface americana / box ice berg / box of lettuce (iceberg))",
+  "Paprika Powder (Páprica em pó / smoked paprika / bag paprika)",
+  "Boneless and skinless Tilapia (Tilápia sem pele e sem espinha)",
+  "Oregano (Orégãos)",
+  "Colmans mustard (Mostarda Colmans)",
+  "Sea salt (Sal marinho)",
+  "Eggs (Ovos / try eggs)",
+  "Legumes para assar",
+  "Mint (Hortelã)",
+  "Pork loin (Lombo de porco / porck loin)",
+  "Griffin potatoes (Batata Griffin / bag potatoes 10kg)",
+  "Basil (Manjericão)",
+  "Top rib (Costela / Top rib)",
+  "Franks red hot sauce 3.8L (Molho picante Frank's RedHot)",
+  "Coke Zero 330ml (Coca-Cola Zero 330ml / coke zero 500ml)",
+  "Sparkling Water 500ml (Água com gás 500ml / still water 500ml)",
+  "Coke Cola 330ml (Coca-Cola 330ml / coke cola 500ml)",
+  "Fanta Orange 330ml (Fanta Laranja 330ml)",
+  "Seven Up 330ml",
+  "Courgette (1 box courgette)",
+  "Thin cut fries 7x7 (2 box thin cut fries 7x7)",
+  "Bacon (1 pack bacon)",
+  "Red cheddar slices (1 red cheddar slices)",
+  "Striploin (1 striploin)",
+  "Gloves /XL (GLOVES /XL)",
+  "Blue paper (2 blue paper)",
+  "Washing up (1 washing up)",
+  "Bleach (1 bleach)"
+];
+
+/* =========================================================
+   CATEGORIAS / ABAS
+   ========================================================= */
+const CATEGORIAS = [
+  { id: "vegetais",  nome: "🥬 Vegetais/Frutas" },
+  { id: "carnes",    nome: "🥩 Carnes" },
+  { id: "mercearia", nome: "🧂 Mercearia" },
+  { id: "paes",      nome: "🍞 Pães/Arroz" },
+  { id: "bebidas",   nome: "🥤 Bebidas" },
+  { id: "limpeza",   nome: "🧴 Limpeza" },
+  { id: "outros",    nome: "📦 Outros" }
+];
+
+function categoriaId(nome) {
+  const n = nome.toLowerCase();
+  if (/(coke|fanta|seven up|water|água)/.test(n)) return "bebidas";
+  if (/(mushroom|cogumelo|pumpkin|aubergine|beringela|carrot|cenoura|lime|lima|pepper|pimento|onion|cebola|parsley|salsa|coriander|coentros|garlic|alho|tomato|tomate|corn|milho|passion|maracujá|spring onion|cebolinha|cabbage|repolho|lettuce|alface|legumes|potato|batata|courgette|pineapple|abacaxi|orange|laranja)/.test(n)) return "vegetais";
+  if (/(cheese|queijo|cream|natas|tofu|puck|mayo|maionese|ketchup|mustard|mostarda|vinegar|vinagre|oil|azeite|salt|sal|paprika|oregano|orégãos|mint|hortelã|basil|manjericão|bread crumbs|farinha)/.test(n)) return "mercearia";
+  if (/(chicken|frango|ham|fiambre|pork|lombo|rib|costela|filet|filé|tilapia|tilápia|egg|ovo|burger|hambúrguer|cheddar|bacon|striploin)/.test(n)) return "carnes";
+  if (/(brioche|bun|pão|rice|arroz|chips|batata frita|tilda|fries)/.test(n)) return "paes";
+  if (/(gloves|blue paper|washing|bleach|odmilus)/.test(n)) return "limpeza";
+  return "outros";
+}
+
+/* =========================================================
+   BOX / NOME CURTO
+   ========================================================= */
+function isBox(item) {
+  return /\bbox\b/i.test(item);
+}
+
+function nomeCurto(item) {
+  const mapa = {
+    "Pumpkin (legumes assados)": "pumpkin 🎃",
+    "Mixed Peppers (Pimentos mistos / mix peppers)": "mix peppers",
+    "Fresh Parsley (Salsa fresca / fresh Paraley / flat parsley)": "fresh parsley",
+    "Fresh Coriander (Coentros frescos)": "fresh coriander",
+    "Cheese unit (Queijo / bag cheese unit / box of cheese / 3 bag cheese)": "cheese unit",
+    "Peeled garlic (Alho descascado)": "peeled garlic",
+    "Fresh cream (Natas frescas / fresh cream cheese)": "fresh cream",
+    "Sweet corn (Milho doce)": "sweet corn",
+    "Pure passion fruit (Maracujá / passion fruit)": "passion fruit",
+    "Burger (Hambúrguer)": "burger",
+    "Fresh spring onion (Cebolinha fresca)": "fresh spring onion",
+    "Ham (Fiambre / 1kg ham cooked)": "ham cooked 1kg",
+    "Fresh orange (Laranja fresca / fresh orange juice)": "fresh orange",
+    "Tofu (Tofoo)": "tofu",
+    "Mayo (Maionese / mayonnaise sachets)": "mayo sachets",
+    "Olive oil (Azeite)": "olive oil",
+    "Ketchup (Ketchup / ketchup sachets)": "ketchup sachets",
+    "Plum tomatoes (Tomate plum)": "plum tomatoes",
+    "Contra filet (Contrafilé)": "contra filet",
+    "Vinegar (Vinagre)": "vinegar",
+    "Odmilus 25kg (Odmilus)": "odmilus 25kg",
+    "Puck (Puck / puck spread)": "puck spread",
+    "Oregano (Orégãos)": "oregano",
+    "Colmans mustard (Mostarda Colmans)": "colmans mustard",
+    "Sea salt (Sal marinho)": "sea salt",
+    "Eggs (Ovos / try eggs)": "eggs",
+    "Legumes para assar": "legumes para assar",
+    "Mint (Hortelã)": "mint",
+    "Pork loin (Lombo de porco / porck loin)": "pork loin",
+    "Basil (Manjericão)": "basil",
+    "Top rib (Costela / Top rib)": "top rib",
+    "Franks red hot sauce 3.8L (Molho picante Frank's RedHot)": "franks red hot 3.8L",
+    "Coke Zero 330ml (Coca-Cola Zero 330ml / coke zero 500ml)": "coke zero 330ml",
+    "Sparkling Water 500ml (Água com gás 500ml / still water 500ml)": "sparkling water 500ml",
+    "Coke Cola 330ml (Coca-Cola 330ml / coke cola 500ml)": "coke cola 330ml",
+    "Fanta Orange 330ml (Fanta Laranja 330ml)": "fanta orange 330ml",
+    "Seven Up 330ml": "seven up 330ml",
+    "Bacon (1 pack bacon)": "pack bacon",
+    "Red cheddar slices (1 red cheddar slices)": "red cheddar slices",
+    "Striploin (1 striploin)": "striploin",
+    "Gloves /XL (GLOVES /XL)": "GLOVES /XL",
+    "Blue paper (2 blue paper)": "blue paper",
+    "Washing up (1 washing up)": "washing up",
+    "Bleach (1 bleach)": "bleach"
+  };
+  if (mapa[item]) return mapa[item];
+
+  let base = item.split(" (")[0].trim();
+  base = base.replace(/^\d+\s*(box|bag|pack|unit)\s+/i, "");
+  if (isBox(item) && !/^box\b/i.test(base)) base = "box " + base;
+  return base;
+}
+
+/* =========================================================
+   ESTADO
+   ========================================================= */
+const estado = {};
+let filtro = "";
+let abaAtiva = "vegetais";
+
+/* =========================================================
+   RENDER DAS ABAS
+   ========================================================= */
+const tabsEl = document.getElementById("tabs");
+
+function renderTabs() {
+  tabsEl.innerHTML = "";
+  CATEGORIAS.forEach(cat => {
+    const itensCat = ITENS.filter(i => categoriaId(i) === cat.id);
+    const selecionados = itensCat.reduce((s, i) => s + (estado[i] || 0), 0);
+
+    const btn = document.createElement("button");
+    btn.className = "tab" + (abaAtiva === cat.id ? " ativa" : "");
+    btn.innerHTML = cat.nome +
+      (selecionados > 0 ? `<span class="badge">${selecionados}</span>` : "");
+    btn.onclick = () => {
+      abaAtiva = cat.id;
+      filtro = "";
+      document.getElementById("busca").value = "";
+      render();
+    };
+    tabsEl.appendChild(btn);
+  });
+}
+
+/* =========================================================
+   RENDER DA LISTA
+   ========================================================= */
+const listaEl = document.getElementById("lista");
+const totalEl = document.getElementById("totalItens");
+const btnVer = document.getElementById("btnVerPedido");
+
+function render() {
+  renderTabs();
+  listaEl.innerHTML = "";
+
+  const itensAba = ITENS.filter(i => categoriaId(i) === abaAtiva);
+  const itensFiltrados = itensAba.filter(i =>
+    i.toLowerCase().includes(filtro)
+  );
+
+  if (itensFiltrados.length === 0) {
+    const v = document.createElement("div");
+    v.className = "vazio";
+    v.textContent = "Nenhum item nesta categoria.";
+    listaEl.appendChild(v);
+  } else {
+    itensFiltrados.forEach(item => renderItem(item, listaEl));
+  }
+
+  atualizarTotal();
+}
+
+function renderItem(item, container) {
+  const qtd = estado[item] || 0;
+  const div = document.createElement("div");
+  div.className = "item" + (qtd > 0 ? " selecionado" : "");
+
+  const check = document.createElement("div");
+  check.className = "check";
+  check.textContent = "✓";
+  check.onclick = () => toggleItem(item);
+
+  const info = document.createElement("div");
+  info.className = "info";
+  const partes = item.split(" (");
+  const nome = partes[0];
+  const detalhe = partes[1] ? "(" + partes.slice(1).join(" (") : "";
+  const tagBox = isBox(item) ? '<span class="tag-box">BOX</span>' : "";
+  info.innerHTML = `<div class="nome">${nome}${tagBox}</div>` +
+                   (detalhe ? `<div class="detalhe">${detalhe}</div>` : "");
+  info.onclick = () => toggleItem(item);
+
+  const qty = document.createElement("div");
+  qty.className = "qty";
+  const btnMenos = document.createElement("button");
+  btnMenos.textContent = "−";
+  btnMenos.onclick = (e) => { e.stopPropagation(); alterarQtd(item, -1); };
+  const input = document.createElement("input");
+  input.type = "number";
+  input.min = "0";
+  input.value = qtd;
+  input.onclick = (e) => e.stopPropagation();
+  input.onchange = (e) => {
+    const v = Math.max(0, parseInt(e.target.value) || 0);
+    estado[item] = v;
+    render();
+  };
+  const btnMais = document.createElement("button");
+  btnMais.textContent = "+";
+  btnMais.onclick = (e) => { e.stopPropagation(); alterarQtd(item, +1); };
+
+  qty.appendChild(btnMenos);
+  qty.appendChild(input);
+  qty.appendChild(btnMais);
+
+  div.appendChild(check);
+  div.appendChild(info);
+  div.appendChild(qty);
+  container.appendChild(div);
+}
+
+function toggleItem(item) {
+  if (estado[item] && estado[item] > 0) estado[item] = 0;
+  else estado[item] = 1;
+  render();
+}
+
+function alterarQtd(item, delta) {
+  const atual = estado[item] || 0;
+  estado[item] = Math.max(0, atual + delta);
+  render();
+}
+
+function atualizarTotal() {
+  const total = Object.values(estado).reduce((a, b) => a + b, 0);
+  totalEl.textContent = total;
+  btnVer.disabled = total === 0;
+}
+
+/* =========================================================
+   GERAR TEXTO DO PEDIDO
+   ========================================================= */
+function gerarTextoPedido() {
+  const linhas = [];
+  linhas.push("Hello Ercan, could you send it to Fabis Grill temple bar, ");
+  linhas.push("");
+
+  ITENS.forEach(item => {
+    const qtd = estado[item] || 0;
+    if (qtd > 0) linhas.push(`${qtd} ${nomeCurto(item)} `);
+  });
+
+  linhas.push("");
+  linhas.push("Obrigado! 🙏");
+
+  return linhas.join("\n");
+}
+
+/* =========================================================
+   EVENTOS
+   ========================================================= */
+document.getElementById("busca").addEventListener("input", (e) => {
+  filtro = e.target.value.toLowerCase().trim();
+  if (filtro) {
+    listaEl.innerHTML = "";
+    const resultados = ITENS.filter(i => i.toLowerCase().includes(filtro));
+    if (resultados.length === 0) {
+      const v = document.createElement("div");
+      v.className = "vazio";
+      v.textContent = "Nenhum item encontrado.";
+      listaEl.appendChild(v);
+    } else {
+      resultados.forEach(item => renderItem(item, listaEl));
+    }
+    return;
+  }
+  render();
+});
+
+document.getElementById("btnLimpar").addEventListener("click", () => {
+  if (confirm("Limpar todos os itens selecionados?")) {
+    Object.keys(estado).forEach(k => delete estado[k]);
+    render();
+  }
+});
+
+/* =========================================================
+   MODAL / RESUMO
+   ========================================================= */
+const modalBg = document.getElementById("modalBg");
+const textoPedido = document.getElementById("textoPedido");
+
+document.getElementById("btnVerPedido").addEventListener("click", () => {
+  textoPedido.textContent = gerarTextoPedido();
+  modalBg.classList.add("aberto");
+});
+
+document.getElementById("btnFechar").addEventListener("click", () => {
+  modalBg.classList.remove("aberto");
+});
+
+modalBg.addEventListener("click", (e) => {
+  if (e.target === modalBg) modalBg.classList.remove("aberto");
+});
+
+document.getElementById("btnCopiar").addEventListener("click", async () => {
+  const texto = gerarTextoPedido();
+  try {
+    await navigator.clipboard.writeText(texto);
+    alert("Pedido copiado!");
+  } catch {
+    const range = document.createRange();
+    range.selectNode(textoPedido);
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(range);
+    document.execCommand("copy");
+    alert("Pedido copiado!");
+  }
+});
+
+document.getElementById("btnWhatsApp").addEventListener("click", () => {
+  const texto = gerarTextoPedido();
+  const textoCodificado = encodeURIComponent(texto);
+  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  const url = isMobile
+    ? `whatsapp://send?text=${textoCodificado}`
+    : `https://wa.me/?text=${textoCodificado}`;
+  window.open(url, "_blank");
+});
+
+/* =========================================================
+   INIT
+   ========================================================= */
+render();
+</script>
+</body>
+</html>
