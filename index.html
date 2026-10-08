@@ -2,11 +2,25 @@
 <html lang="pt">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
 <title>Fabi's Grill — Pedido</title>
 <style>
   * { box-sizing: border-box; }
-  html, body { margin: 0; padding: 0; height: 100%; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    touch-action: pan-y;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    overscroll-behavior: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+  }
 
   :root {
     --marrom: #8b5a2b;
@@ -30,7 +44,7 @@
     flex-direction: column;
   }
 
-  /* ===== HEADER — logo Fabi's Grill ===== */
+  /* ===== HEADER ===== */
   header {
     background: linear-gradient(135deg, var(--preto) 0%, var(--marrom-escuro) 100%);
     padding: 14px 20px;
@@ -148,6 +162,8 @@
     outline: none;
     transition: border-color .2s;
     color: var(--preto);
+    -webkit-user-select: text;
+    user-select: text;
   }
   .toolbar input[type="search"]::placeholder { color: #a89b88; }
   .toolbar input[type="search"]:focus { border-color: var(--marrom); }
@@ -275,6 +291,8 @@
     color: var(--marrom-escuro);
     background: #fff;
     transition: all .15s;
+    -webkit-user-select: text;
+    user-select: text;
   }
   .qty input:focus { outline: none; border-color: var(--marrom); }
 
@@ -401,6 +419,8 @@
     margin: 0;
     border: 2px solid var(--creme-escuro);
     color: var(--preto);
+    -webkit-user-select: text;
+    user-select: text;
   }
   .modal .acoes {
     padding: 14px 18px;
@@ -776,7 +796,7 @@ function gerarTextoPedido() {
   });
 
   linhas.push("");
-  linhas.push("Obrigado! 🙏");
+  linhas.push("Thank you! 🙏");
 
   return linhas.join("\n");
 }
@@ -851,6 +871,30 @@ document.getElementById("btnWhatsApp").addEventListener("click", () => {
     ? `whatsapp://send?text=${textoCodificado}`
     : `https://wa.me/?text=${textoCodificado}`;
   window.open(url, "_blank");
+});
+
+/* =========================================================
+   BLOQUEAR ZOOM (pinch, duplo-toque, Ctrl+scroll, Ctrl+/−)
+   ========================================================= */
+document.addEventListener('gesturestart', e => e.preventDefault());
+document.addEventListener('gesturechange', e => e.preventDefault());
+document.addEventListener('gestureend', e => e.preventDefault());
+
+let lastTouchEnd = 0;
+document.addEventListener('touchend', (e) => {
+  const now = Date.now();
+  if (now - lastTouchEnd <= 300) e.preventDefault();
+  lastTouchEnd = now;
+}, { passive: false });
+
+document.addEventListener('wheel', (e) => {
+  if (e.ctrlKey) e.preventDefault();
+}, { passive: false });
+
+document.addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && (e.key === '+' || e.key === '-' || e.key === '0' || e.key === '=')) {
+    e.preventDefault();
+  }
 });
 
 /* =========================================================
