@@ -553,9 +553,11 @@ const ITENS = [
   "Basil (Manjericão)",
   "Top rib (Costela / Top rib)",
   "Franks red hot sauce 3.8L (Molho picante Frank's RedHot)",
-  "Coke Zero 330ml (Coca-Cola Zero 330ml / coke zero 500ml)",
+  "Coke Zero 330ml (Coca-Cola Zero 330ml)",
+  "Coke Zero 500ml (Coca-Cola Zero 500ml)",
   "Sparkling Water 500ml (Água com gás 500ml / still water 500ml)",
-  "Coke Cola 330ml (Coca-Cola 330ml / coke cola 500ml)",
+  "Coke Cola 330ml (Coca-Cola 330ml)",
+  "Coke Cola 500ml (Coca-Cola 500ml)",
   "Fanta Orange 330ml (Fanta Laranja 330ml)",
   "Seven Up 330ml",
   "Courgette (1 box courgette)",
@@ -634,9 +636,11 @@ function nomeCurto(item) {
     "Basil (Manjericão)": "basil",
     "Top rib (Costela / Top rib)": "top rib",
     "Franks red hot sauce 3.8L (Molho picante Frank's RedHot)": "franks red hot 3.8L",
-    "Coke Zero 330ml (Coca-Cola Zero 330ml / coke zero 500ml)": "coke zero 330ml",
+    "Coke Zero 330ml (Coca-Cola Zero 330ml)": "coke zero 330ml",
+    "Coke Zero 500ml (Coca-Cola Zero 500ml)": "coke zero 500ml",
     "Sparkling Water 500ml (Água com gás 500ml / still water 500ml)": "sparkling water 500ml",
-    "Coke Cola 330ml (Coca-Cola 330ml / coke cola 500ml)": "coke cola 330ml",
+    "Coke Cola 330ml (Coca-Cola 330ml)": "coke cola 330ml",
+    "Coke Cola 500ml (Coca-Cola 500ml)": "coke cola 500ml",
     "Fanta Orange 330ml (Fanta Laranja 330ml)": "fanta orange 330ml",
     "Seven Up 330ml": "seven up 330ml",
     "Bacon (1 pack bacon)": "pack bacon",
@@ -874,7 +878,7 @@ document.getElementById("btnWhatsApp").addEventListener("click", () => {
 });
 
 /* =========================================================
-   BLOQUEAR ZOOM (pinch, duplo-toque, Ctrl+scroll, Ctrl+/−)
+   BLOQUEAR ZOOM
    ========================================================= */
 document.addEventListener('gesturestart', e => e.preventDefault());
 document.addEventListener('gesturechange', e => e.preventDefault());
