@@ -44,7 +44,6 @@
     flex-direction: column;
   }
 
-  /* ===== HEADER ===== */
   header {
     background: linear-gradient(135deg, var(--preto) 0%, var(--marrom-escuro) 100%);
     padding: 14px 20px;
@@ -81,7 +80,6 @@
     header .logo-fabis { max-height: 56px; }
   }
 
-  /* ===== ABAS ===== */
   .tabs {
     display: flex;
     gap: 6px;
@@ -141,7 +139,6 @@
     50% { transform: scale(1.12); }
   }
 
-  /* ===== TOOLBAR ===== */
   .toolbar {
     display: flex;
     flex-wrap: wrap;
@@ -182,7 +179,6 @@
   .toolbar button.danger { background: var(--preto); color: var(--creme); }
   .toolbar button.danger:hover { background: #333; }
 
-  /* ===== LISTA ===== */
   main {
     flex: 1;
     padding: 14px 16px 30px;
@@ -201,7 +197,6 @@
     transition: all .15s;
   }
 
-  /* ✅ ITEM SELECIONADO — VERDE */
   .item.selecionado {
     border-color: var(--verde);
     background: linear-gradient(to right, #f0fdf4, #dcfce7);
@@ -250,7 +245,6 @@
     background: #fff;
     transition: all .15s;
   }
-  /* ✅ CHECK VERDE quando selecionado */
   .item.selecionado .check {
     background: linear-gradient(135deg, #22c55e, #16a34a);
     border-color: var(--verde-escuro);
@@ -296,7 +290,6 @@
   }
   .qty input:focus { outline: none; border-color: var(--marrom); }
 
-  /* ✅ QUANTIDADE VERDE quando selecionado */
   .item.selecionado .qty input {
     border-color: var(--verde);
     background: #f0fdf4;
@@ -320,7 +313,6 @@
     font-size: .95rem;
   }
 
-  /* ===== FOOTER ===== */
   footer {
     background: linear-gradient(135deg, var(--preto) 0%, var(--marrom-escuro) 100%);
     color: var(--creme);
@@ -367,7 +359,6 @@
     text-shadow: none;
   }
 
-  /* ===== MODAL ===== */
   .modal-bg {
     position: fixed; inset: 0;
     background: rgba(26,26,26,.75);
@@ -503,6 +494,7 @@
    LISTA DE ITENS
    ========================================================= */
 const ITENS = [
+  /* ===== VEGETAIS / FRUTAS ===== */
   "1 box mushrooms (Cogumelos / Mushroom G / box of mushrooms (G))",
   "Pumpkin (legumes assados)",
   "Aubergine (Beringela / box aubergine / 7 aubergines unit)",
@@ -512,91 +504,132 @@ const ITENS = [
   "Onions (Cebola / bag onion 10kg / bag Onions 10 kg)",
   "Fresh Parsley (Salsa fresca / fresh Paraley / flat parsley)",
   "Fresh Coriander (Coentros frescos)",
-  "Skinny chips 7x7 (Batata frita / box thin cut chips 7x7 / 4 bag skinny chips)",
-  "Cheese unit (Queijo / bag cheese unit / box of cheese / 3 bag cheese)",
-  "Peeled garlic (Alho descascado)",
-  "Fresh cream (Natas frescas / fresh cream cheese)",
   "Tomatoes (Tomates / box tomatos / plum tomatos / box Plum tomatoes)",
   "Sweet corn (Milho doce)",
   "Pure passion fruit (Maracujá / passion fruit)",
-  "Chicken filet (Filé de frango / 2 box chicken filet)",
-  "Cheddar slice hamburger (Fatias de cheddar para hambúrguer / white cheddar)",
-  "Brioche bun (Pão brioche)",
-  "Burger (Hambúrguer)",
   "Fresh spring onion (Cebolinha fresca)",
   "Cabbage (Repolho / box York cabbage)",
+  "Fresh orange (Laranja fresca / fresh orange juice / box of fresh orange)",
+  "Fresh pineapple (Abacaxi fresco / box of fresh pineapple)",
+  "Ice berg lettuce (Alface americana / box ice berg / box of lettuce (iceberg))",
+  "Plum tomatoes (Tomate plum / box Plum tomatoes)",
+  "Legumes para assar",
+  "Mint (Hortelã)",
+  "Basil (Manjericão)",
+  "Courgette (1 box courgette)",
+
+  /* ===== CARNES / PROTEÍNAS ===== */
+  "Chicken filet (Filé de frango / 2 box chicken filet / box chicken filet)",
+  "Cheddar slice hamburger (Fatias de cheddar para hambúrguer / white cheddar / red cheddar slices)",
+  "Burger (Hambúrguer)",
   "Ham (Fiambre / 1kg ham cooked)",
-  "Fresh orange (Laranja fresca / fresh orange juice)",
-  "Fresh pineapple (Abacaxi fresco)",
+  "Bacon (1 pack bacon)",
+  "Striploin (1 striploin)",
+  "Contra filet (Contrafilé)",
+  "Pork loin (Lombo de porco / porck loin)",
+  "Top rib (Costela / Top rib)",
+  "Boneless and skinless Tilapia (Tilápia sem pele e sem espinha / fish)",
+  "Eggs (Ovos / try eggs / tray of eggs / tray eggs)",
+
+  /* ===== MERCEARIA ===== */
+  "Cheese unit (Queijo / bag cheese unit / box of cheese / 3 bag cheese)",
+  "Peeled garlic (Alho descascado)",
+  "Fresh cream (Natas frescas / fresh cream cheese)",
   "Tofu (Tofoo)",
   "Mayo (Maionese / mayonnaise sachets)",
   "Bread crumbs (Farinha de rosca / pão de ratos / bread crumbs MIAU)",
   "Olive oil (Azeite)",
   "Ketchup (Ketchup / ketchup sachets)",
-  "Plum tomatoes (Tomate plum)",
-  "Tilda rice (Arroz Tilda / bag tilda rice / bag of blue rice tilda)",
-  "Contra filet (Contrafilé)",
   "Vinegar (Vinagre)",
   "Odmilus 25kg (Odmilus)",
   "Puck (Puck / puck spread)",
-  "Ice berg lettuce (Alface americana / box ice berg / box of lettuce (iceberg))",
   "Paprika Powder (Páprica em pó / smoked paprika / bag paprika)",
-  "Boneless and skinless Tilapia (Tilápia sem pele e sem espinha)",
   "Oregano (Orégãos)",
   "Colmans mustard (Mostarda Colmans)",
   "Sea salt (Sal marinho)",
-  "Eggs (Ovos / try eggs)",
-  "Legumes para assar",
-  "Mint (Hortelã)",
-  "Pork loin (Lombo de porco / porck loin)",
-  "Griffin potatoes (Batata Griffin / bag potatoes 10kg)",
-  "Basil (Manjericão)",
-  "Top rib (Costela / Top rib)",
   "Franks red hot sauce 3.8L (Molho picante Frank's RedHot)",
+  "Cassava flour (Farinha de mandioca)",
+
+  /* ===== PÃES / ARROZ / BATATAS ===== */
+  "Skinny chips 7x7 (Batata frita / box thin cut chips 7x7 / 4 bag skinny chips / box skinny chips 7x7)",
+  "Brioche bun (Pão brioche)",
+  "Tilda rice (Arroz Tilda / bag tilda rice / bag of blue rice tilda)",
+  "Griffin potatoes (Batata Griffin / bag potatoes 10kg)",
+
+  /* ===== BEBIDAS ===== */
   "Coke Zero 330ml (Coca-Cola Zero 330ml)",
   "Coke Zero 500ml (Coca-Cola Zero 500ml)",
-  "Sparkling Water 500ml (Água com gás 500ml / still water 500ml)",
   "Coke Cola 330ml (Coca-Cola 330ml)",
   "Coke Cola 500ml (Coca-Cola 500ml)",
   "Fanta Orange 330ml (Fanta Laranja 330ml)",
   "Seven Up 330ml",
-  "Courgette (1 box courgette)",
-  "Thin cut fries 7x7 (2 box thin cut fries 7x7)",
-  "Bacon (1 pack bacon)",
-  "Red cheddar slices (1 red cheddar slices)",
-  "Striploin (1 striploin)",
-  "Gloves /XL (GLOVES /XL)",
+  "Sparkling Water 500ml (Água com gás 500ml)",
+  "Still Water 500ml (Água sem gás 500ml)",
+  "Water 5L (Água 5L)",
+
+  /* ===== LIMPEZA ===== */
+  "Gloves /XL (GLOVES /XL / Gloves L / XL)",
   "Blue paper (2 blue paper)",
-  "Washing up (1 washing up)",
-  "Bleach (1 bleach)"
+  "Washing up (1 washing up / washing up liquid)",
+  "Bleach (1 bleach)",
+  "Black bag bin (Saco do lixo preto)",
+  "Yellow sponge (Esponja amarela)",
+  "Napkins (Guardanapos / box of napkins)",
+
+  /* ===== EMBALAGEM ===== */
+  "C500 (Embalagem c500)",
+  "C650 (Embalagem c650)",
+  "8oz (Embalagem 8oz)",
+  "4oz (Embalagem 4oz)",
+  "3LB (Embalagem 3LB)",
+  "Fish and chips (Embalagem fish and chips)",
+  "White paper for chips (Papel branco para batatas)",
+  "S.O.S brown carrier bags Flat Handle LARGE"
 ];
 
 /* =========================================================
    CATEGORIAS / ABAS
    ========================================================= */
 const CATEGORIAS = [
-  { id: "vegetais",  nome: "🥬 Vegetais/Frutas" },
-  { id: "carnes",    nome: "🥩 Carnes" },
-  { id: "mercearia", nome: "🧂 Mercearia" },
-  { id: "paes",      nome: "🍞 Pães/Arroz" },
-  { id: "bebidas",   nome: "🥤 Bebidas" },
-  { id: "limpeza",   nome: "🧴 Limpeza" },
-  { id: "outros",    nome: "📦 Outros" }
+  { id: "vegetais",   nome: "🥬 Vegetais/Frutas" },
+  { id: "carnes",     nome: "🥩 Carnes" },
+  { id: "mercearia",  nome: "🧂 Mercearia" },
+  { id: "paes",       nome: "🍞 Pães/Arroz" },
+  { id: "bebidas",    nome: "🥤 Bebidas" },
+  { id: "limpeza",    nome: "🧴 Limpeza" },
+  { id: "embalagem",  nome: "📦 Embalagem" },
+  { id: "outros",     nome: "❓ Outros" }
 ];
 
 function categoriaId(nome) {
   const n = nome.toLowerCase();
+
+  /* Bebidas */
   if (/(coke|fanta|seven up|water|água)/.test(n)) return "bebidas";
+
+  /* Embalagem */
+  if (/(c500|c650|8oz|4oz|3lb|fish and chips|white paper for chips|S\.O\.S|carrier bags|napkins|guardanapos)/i.test(n)) return "embalagem";
+
+  /* Limpeza */
+  if (/(gloves|blue paper|washing|bleach|black bag bin|yellow sponge)/.test(n)) return "limpeza";
+
+  /* Vegetais / Frutas */
   if (/(mushroom|cogumelo|pumpkin|aubergine|beringela|carrot|cenoura|lime|lima|pepper|pimento|onion|cebola|parsley|salsa|coriander|coentros|garlic|alho|tomato|tomate|corn|milho|passion|maracujá|spring onion|cebolinha|cabbage|repolho|lettuce|alface|legumes|potato|batata|courgette|pineapple|abacaxi|orange|laranja)/.test(n)) return "vegetais";
-  if (/(cheese|queijo|cream|natas|tofu|puck|mayo|maionese|ketchup|mustard|mostarda|vinegar|vinagre|oil|azeite|salt|sal|paprika|oregano|orégãos|mint|hortelã|basil|manjericão|bread crumbs|farinha)/.test(n)) return "mercearia";
-  if (/(chicken|frango|ham|fiambre|pork|lombo|rib|costela|filet|filé|tilapia|tilápia|egg|ovo|burger|hambúrguer|cheddar|bacon|striploin)/.test(n)) return "carnes";
-  if (/(brioche|bun|pão|rice|arroz|chips|batata frita|tilda|fries)/.test(n)) return "paes";
-  if (/(gloves|blue paper|washing|bleach|odmilus)/.test(n)) return "limpeza";
+
+  /* Mercearia */
+  if (/(cheese|queijo|cream|natas|tofu|puck|mayo|maionese|ketchup|mustard|mostarda|vinegar|vinagre|oil|azeite|salt|sal|paprika|oregano|orégãos|mint|hortelã|basil|manjericão|bread crumbs|farinha|cassava)/.test(n)) return "mercearia";
+
+  /* Carnes */
+  if (/(chicken|frango|ham|fiambre|pork|lombo|rib|costela|filet|filé|tilapia|tilápia|egg|ovo|burger|hambúrguer|cheddar|bacon|striploin|fish)/.test(n)) return "carnes";
+
+  /* Pães / Arroz */
+  if (/(brioche|bun|pão|rice|arroz|chips|batata frita|tilda|fries|potatoes)/.test(n)) return "paes";
+
   return "outros";
 }
 
 /* =========================================================
-   BOX / NOME CURTO
+   NOME CURTO PARA A MENSAGEM
    ========================================================= */
 function isBox(item) {
   return /\bbox\b/i.test(item);
@@ -604,52 +637,86 @@ function isBox(item) {
 
 function nomeCurto(item) {
   const mapa = {
+    /* Vegetais / Frutas */
     "Pumpkin (legumes assados)": "pumpkin 🎃",
     "Mixed Peppers (Pimentos mistos / mix peppers)": "mix peppers",
     "Fresh Parsley (Salsa fresca / fresh Paraley / flat parsley)": "fresh parsley",
     "Fresh Coriander (Coentros frescos)": "fresh coriander",
+    "Sweet corn (Milho doce)": "sweet corn",
+    "Pure passion fruit (Maracujá / passion fruit)": "passion fruit",
+    "Fresh spring onion (Cebolinha fresca)": "fresh spring onion",
+    "Fresh orange (Laranja fresca / fresh orange juice / box of fresh orange)": "box of fresh orange",
+    "Fresh pineapple (Abacaxi fresco / box of fresh pineapple)": "box of fresh pineapple",
+    "Plum tomatoes (Tomate plum / box Plum tomatoes)": "plum tomatoes",
+    "Legumes para assar": "legumes para assar",
+    "Mint (Hortelã)": "mint",
+    "Basil (Manjericão)": "basil",
+
+    /* Carnes */
+    "Burger (Hambúrguer)": "burger",
+    "Ham (Fiambre / 1kg ham cooked)": "ham cooked 1kg",
+    "Bacon (1 pack bacon)": "pack bacon",
+    "Striploin (1 striploin)": "striploin",
+    "Contra filet (Contrafilé)": "contra filet",
+    "Pork loin (Lombo de porco / porck loin)": "pork loin",
+    "Top rib (Costela / Top rib)": "top rib",
+    "Boneless and skinless Tilapia (Tilápia sem pele e sem espinha / fish)": "fish",
+    "Eggs (Ovos / try eggs / tray of eggs / tray eggs)": "try eggs",
+    "Cheddar slice hamburger (Fatias de cheddar para hambúrguer / white cheddar / red cheddar slices)": "cheddar slice hamburger",
+
+    /* Mercearia */
     "Cheese unit (Queijo / bag cheese unit / box of cheese / 3 bag cheese)": "cheese unit",
     "Peeled garlic (Alho descascado)": "peeled garlic",
     "Fresh cream (Natas frescas / fresh cream cheese)": "fresh cream",
-    "Sweet corn (Milho doce)": "sweet corn",
-    "Pure passion fruit (Maracujá / passion fruit)": "passion fruit",
-    "Burger (Hambúrguer)": "burger",
-    "Fresh spring onion (Cebolinha fresca)": "fresh spring onion",
-    "Ham (Fiambre / 1kg ham cooked)": "ham cooked 1kg",
-    "Fresh orange (Laranja fresca / fresh orange juice)": "fresh orange",
     "Tofu (Tofoo)": "tofu",
-    "Mayo (Maionese / mayonnaise sachets)": "mayo sachets",
+    "Mayo (Maionese / mayonnaise sachets)": "mayo",
+    "Bread crumbs (Farinha de rosca / pão de ratos / bread crumbs MIAU)": "bread crumbs",
     "Olive oil (Azeite)": "olive oil",
-    "Ketchup (Ketchup / ketchup sachets)": "ketchup sachets",
-    "Plum tomatoes (Tomate plum)": "plum tomatoes",
-    "Contra filet (Contrafilé)": "contra filet",
+    "Ketchup (Ketchup / ketchup sachets)": "ketchup",
     "Vinegar (Vinagre)": "vinegar",
     "Odmilus 25kg (Odmilus)": "odmilus 25kg",
-    "Puck (Puck / puck spread)": "puck spread",
+    "Puck (Puck / puck spread)": "puck",
+    "Paprika Powder (Páprica em pó / smoked paprika / bag paprika)": "paprika smoked",
     "Oregano (Orégãos)": "oregano",
     "Colmans mustard (Mostarda Colmans)": "colmans mustard",
     "Sea salt (Sal marinho)": "sea salt",
-    "Eggs (Ovos / try eggs)": "eggs",
-    "Legumes para assar": "legumes para assar",
-    "Mint (Hortelã)": "mint",
-    "Pork loin (Lombo de porco / porck loin)": "pork loin",
-    "Basil (Manjericão)": "basil",
-    "Top rib (Costela / Top rib)": "top rib",
     "Franks red hot sauce 3.8L (Molho picante Frank's RedHot)": "franks red hot 3.8L",
+    "Cassava flour (Farinha de mandioca)": "cassava flour",
+
+    /* Pães / Arroz */
+    "Brioche bun (Pão brioche)": "brioche bun",
+    "Tilda rice (Arroz Tilda / bag tilda rice / bag of blue rice tilda)": "bag tilda rice",
+    "Griffin potatoes (Batata Griffin / bag potatoes 10kg)": "bag potatoes 10kg",
+
+    /* Bebidas */
     "Coke Zero 330ml (Coca-Cola Zero 330ml)": "coke zero 330ml",
     "Coke Zero 500ml (Coca-Cola Zero 500ml)": "coke zero 500ml",
-    "Sparkling Water 500ml (Água com gás 500ml / still water 500ml)": "sparkling water 500ml",
     "Coke Cola 330ml (Coca-Cola 330ml)": "coke cola 330ml",
     "Coke Cola 500ml (Coca-Cola 500ml)": "coke cola 500ml",
     "Fanta Orange 330ml (Fanta Laranja 330ml)": "fanta orange 330ml",
     "Seven Up 330ml": "seven up 330ml",
-    "Bacon (1 pack bacon)": "pack bacon",
-    "Red cheddar slices (1 red cheddar slices)": "red cheddar slices",
-    "Striploin (1 striploin)": "striploin",
-    "Gloves /XL (GLOVES /XL)": "GLOVES /XL",
+    "Sparkling Water 500ml (Água com gás 500ml)": "sparkling water 500ml",
+    "Still Water 500ml (Água sem gás 500ml)": "still water 500ml",
+    "Water 5L (Água 5L)": "water 5L",
+
+    /* Limpeza */
+    "Gloves /XL (GLOVES /XL / Gloves L / XL)": "gloves L / XL",
     "Blue paper (2 blue paper)": "blue paper",
-    "Washing up (1 washing up)": "washing up",
-    "Bleach (1 bleach)": "bleach"
+    "Washing up (1 washing up / washing up liquid)": "washing up",
+    "Bleach (1 bleach)": "bleach",
+    "Black bag bin (Saco do lixo preto)": "black bag bin",
+    "Yellow sponge (Esponja amarela)": "yellow sponge",
+    "Napkins (Guardanapos / box of napkins)": "box of napkins",
+
+    /* Embalagem */
+    "C500 (Embalagem c500)": "c500",
+    "C650 (Embalagem c650)": "c650",
+    "8oz (Embalagem 8oz)": "8oz",
+    "4oz (Embalagem 4oz)": "4oz",
+    "3LB (Embalagem 3LB)": "3LB",
+    "Fish and chips (Embalagem fish and chips)": "fish and chips",
+    "White paper for chips (Papel branco para batatas)": "white paper for chips",
+    "S.O.S brown carrier bags Flat Handle LARGE": "S.O.S brown carrier bags LARGE"
   };
   if (mapa[item]) return mapa[item];
 
