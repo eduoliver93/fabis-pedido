@@ -3,97 +3,54 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="mobile-web-app-capable" content="yes">
 <title>Fabi's Grill — Pedido</title>
 <style>
   * { box-sizing: border-box; }
   html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
+    margin: 0; padding: 0; height: 100%;
     touch-action: pan-y;
-    -webkit-text-size-adjust: 100%;
-    -ms-text-size-adjust: 100%;
-    text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%; text-size-adjust: 100%;
     overscroll-behavior: none;
-    user-select: none;
-    -webkit-user-select: none;
-    -webkit-touch-callout: none;
+    user-select: none; -webkit-user-select: none; -webkit-touch-callout: none;
   }
-
   :root {
-    --marrom: #8b5a2b;
-    --marrom-escuro: #5c3a1a;
-    --dourado: #c8873a;
-    --creme: #f5f0e6;
-    --creme-escuro: #e8dfd0;
-    --preto: #1a1a1a;
-    --preto-suave: #2a2a2a;
-    --verde: #16a34a;
-    --verde-claro: #dcfce7;
-    --verde-escuro: #15803d;
+    --marrom: #8b5a2b; --marrom-escuro: #5c3a1a; --dourado: #c8873a;
+    --creme: #f5f0e6; --creme-escuro: #e8dfd0;
+    --preto: #1a1a1a; --preto-suave: #2a2a2a;
+    --verde: #16a34a; --verde-claro: #dcfce7; --verde-escuro: #15803d;
     --vermelho: #dc2626;
   }
-
   body {
     font-family: 'Segoe UI', system-ui, -apple-system, Roboto, sans-serif;
-    background: var(--creme);
-    color: var(--preto);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+    background: var(--creme); color: var(--preto);
+    min-height: 100vh; display: flex; flex-direction: column;
   }
-
   header {
     background: linear-gradient(135deg, var(--preto) 0%, var(--marrom-escuro) 100%);
-    padding: 14px 20px;
-    box-shadow: 0 3px 12px rgba(0,0,0,.35);
-    flex-shrink: 0;
-    border-bottom: 3px solid var(--dourado);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
+    padding: 14px 20px; box-shadow: 0 3px 12px rgba(0,0,0,.35);
+    flex-shrink: 0; border-bottom: 3px solid var(--dourado);
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
   }
   header::before {
-    content: '';
-    position: absolute;
-    top: -60px; right: -60px;
+    content: ''; position: absolute; top: -60px; right: -60px;
     width: 180px; height: 180px;
     background: radial-gradient(circle, var(--dourado) 0%, transparent 70%);
-    opacity: .25;
-    border-radius: 50%;
-    pointer-events: none;
+    opacity: .25; border-radius: 50%; pointer-events: none;
   }
   header .logo-fabis {
-    max-height: 72px;
-    max-width: 100%;
-    width: auto;
-    height: auto;
-    display: block;
-    filter: drop-shadow(0 3px 10px rgba(0,0,0,.5));
-    position: relative;
-    z-index: 1;
+    max-height: 72px; max-width: 100%; width: auto; height: auto;
+    display: block; filter: drop-shadow(0 3px 10px rgba(0,0,0,.5));
+    position: relative; z-index: 1;
   }
-  @media (max-width: 480px) {
-    header .logo-fabis { max-height: 56px; }
-  }
+  @media (max-width: 480px) { header .logo-fabis { max-height: 56px; } }
 
-  /* ===== INDICADOR DE ESTADO (Sync) ===== */
   .sync-status {
-    position: fixed;
-    top: 16px;
-    right: 16px;
-    font-size: .75rem;
-    font-weight: 700;
-    padding: 6px 12px;
-    border-radius: 999px;
+    position: fixed; top: 16px; right: 16px;
+    font-size: .75rem; font-weight: 700;
+    padding: 6px 12px; border-radius: 999px;
     box-shadow: 0 2px 10px rgba(0,0,0,.3);
-    z-index: 100;
-    transition: opacity .3s;
-    color: #fff;
+    z-index: 100; transition: opacity .3s; color: #fff;
   }
   .sync-status.online { background: var(--verde); }
   .sync-status.saving { background: var(--dourado); }
@@ -101,373 +58,178 @@
   .sync-status.oculto { opacity: 0; }
 
   .tabs {
-    display: flex;
-    gap: 6px;
-    padding: 12px 14px;
-    background: var(--preto-suave);
-    border-bottom: 3px solid var(--dourado);
-    overflow-x: auto;
-    flex-shrink: 0;
-    scrollbar-width: thin;
+    display: flex; gap: 6px; padding: 12px 14px;
+    background: var(--preto-suave); border-bottom: 3px solid var(--dourado);
+    overflow-x: auto; flex-shrink: 0; scrollbar-width: thin;
   }
   .tabs::-webkit-scrollbar { height: 5px; }
   .tabs::-webkit-scrollbar-thumb { background: var(--marrom); border-radius: 3px; }
 
   .tab {
-    flex-shrink: 0;
-    padding: 9px 16px;
-    border-radius: 24px;
-    border: 2px solid var(--marrom);
-    background: transparent;
-    color: var(--creme-escuro);
-    font-size: .84rem;
-    font-weight: 700;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all .2s;
+    flex-shrink: 0; padding: 9px 16px; border-radius: 24px;
+    border: 2px solid var(--marrom); background: transparent;
+    color: var(--creme-escuro); font-size: .84rem; font-weight: 700;
+    cursor: pointer; white-space: nowrap; transition: all .2s;
   }
-  .tab:hover {
-    background: rgba(200,135,58,.15);
-    border-color: var(--dourado);
-  }
+  .tab:hover { background: rgba(200,135,58,.15); border-color: var(--dourado); }
   .tab.ativa {
     background: linear-gradient(135deg, var(--dourado), var(--marrom));
-    color: var(--preto);
-    border-color: var(--creme);
-    box-shadow: 0 2px 8px rgba(200,135,58,.5);
-    font-weight: 800;
+    color: var(--preto); border-color: var(--creme);
+    box-shadow: 0 2px 8px rgba(200,135,58,.5); font-weight: 800;
   }
   .tab .badge {
-    display: inline-block;
-    background: var(--verde);
-    color: #fff;
-    font-size: .7rem;
-    font-weight: 800;
-    padding: 2px 8px;
-    border-radius: 999px;
-    margin-left: 6px;
+    display: inline-block; background: var(--verde); color: #fff;
+    font-size: .7rem; font-weight: 800; padding: 2px 8px;
+    border-radius: 999px; margin-left: 6px;
     box-shadow: 0 0 0 2px rgba(255,255,255,.3);
     animation: pulse 1.5s ease-in-out infinite;
   }
-  .tab.ativa .badge {
-    background: var(--verde);
-    color: #fff;
-    box-shadow: 0 0 0 2px var(--creme);
-  }
-  @keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.12); }
-  }
+  .tab.ativa .badge { background: var(--verde); color: #fff; box-shadow: 0 0 0 2px var(--creme); }
+  @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.12)} }
 
   .toolbar {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    padding: 12px 16px;
-    background: var(--creme);
-    border-bottom: 2px solid var(--creme-escuro);
+    display: flex; flex-wrap: wrap; gap: 8px; padding: 12px 16px;
+    background: var(--creme); border-bottom: 2px solid var(--creme-escuro);
     flex-shrink: 0;
   }
   .toolbar input[type="search"] {
-    flex: 1;
-    min-width: 160px;
-    padding: 10px 14px;
-    border: 2px solid var(--creme-escuro);
-    border-radius: 10px;
-    font-size: .95rem;
-    background: #fff;
-    outline: none;
-    transition: border-color .2s;
-    color: var(--preto);
-    -webkit-user-select: text;
-    user-select: text;
+    flex: 1; min-width: 160px; padding: 10px 14px;
+    border: 2px solid var(--creme-escuro); border-radius: 10px;
+    font-size: .95rem; background: #fff; outline: none; color: var(--preto);
+    -webkit-user-select: text; user-select: text;
   }
   .toolbar input[type="search"]::placeholder { color: #a89b88; }
   .toolbar input[type="search"]:focus { border-color: var(--marrom); }
   .toolbar button {
-    padding: 10px 16px;
-    border: none;
-    border-radius: 10px;
-    font-size: .9rem;
-    font-weight: 700;
-    cursor: pointer;
-    background: var(--creme-escuro);
-    color: var(--marrom-escuro);
-    transition: background .2s;
+    padding: 10px 16px; border: none; border-radius: 10px;
+    font-size: .9rem; font-weight: 700; cursor: pointer;
+    background: var(--creme-escuro); color: var(--marrom-escuro);
   }
   .toolbar button:hover { background: #ddd0ba; }
   .toolbar button.danger { background: var(--preto); color: var(--creme); }
   .toolbar button.danger:hover { background: #333; }
 
-  main {
-    flex: 1;
-    padding: 14px 16px 30px;
-    overflow-y: auto;
-  }
+  main { flex: 1; padding: 14px 16px 30px; overflow-y: auto; }
 
   .item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    background: #fff;
-    border: 2px solid var(--creme-escuro);
-    border-radius: 14px;
-    padding: 12px 14px;
-    margin-bottom: 10px;
+    display: flex; align-items: center; gap: 12px;
+    background: #fff; border: 2px solid var(--creme-escuro);
+    border-radius: 14px; padding: 12px 14px; margin-bottom: 10px;
     transition: all .15s;
   }
-
   .item.selecionado {
     border-color: var(--verde);
     background: linear-gradient(to right, #f0fdf4, #dcfce7);
     box-shadow: 0 2px 10px rgba(22,163,74,.2);
   }
-
   .item .info { flex: 1; min-width: 0; }
-  .item .nome {
-    font-weight: 700;
-    font-size: .96rem;
-    color: var(--preto);
-    transition: color .15s;
-  }
+  .item .nome { font-weight: 700; font-size: .96rem; color: var(--preto); }
   .item.selecionado .nome { color: var(--verde-escuro); }
-
   .item .detalhe {
-    font-size: .76rem;
-    color: #8a7d68;
-    margin-top: 3px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    font-size: .76rem; color: #8a7d68; margin-top: 3px;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
   }
   .item .tag-box {
-    display: inline-block;
-    background: var(--dourado);
-    color: var(--preto);
-    font-size: .66rem;
-    font-weight: 800;
-    padding: 1px 7px;
-    border-radius: 4px;
-    margin-left: 6px;
-    vertical-align: middle;
-    letter-spacing: .5px;
+    display: inline-block; background: var(--dourado); color: var(--preto);
+    font-size: .66rem; font-weight: 800; padding: 1px 7px;
+    border-radius: 4px; margin-left: 6px; vertical-align: middle;
   }
-
   .check {
-    width: 28px; height: 28px;
-    border-radius: 8px;
+    width: 28px; height: 28px; border-radius: 8px;
     border: 2.5px solid var(--creme-escuro);
     display: flex; align-items: center; justify-content: center;
-    cursor: pointer;
-    flex-shrink: 0;
-    font-size: 1rem;
-    color: transparent;
-    background: #fff;
-    transition: all .15s;
+    cursor: pointer; flex-shrink: 0; font-size: 1rem;
+    color: transparent; background: #fff; transition: all .15s;
   }
   .item.selecionado .check {
     background: linear-gradient(135deg, #22c55e, #16a34a);
-    border-color: var(--verde-escuro);
-    color: #fff;
-    text-shadow: 1px 1px 0 rgba(0,0,0,.3);
+    border-color: var(--verde-escuro); color: #fff;
   }
-
-  .qty {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    flex-shrink: 0;
-  }
+  .qty { display: flex; align-items: center; gap: 5px; flex-shrink: 0; }
   .qty button {
-    width: 34px; height: 34px;
-    border-radius: 9px;
-    border: 2px solid var(--creme-escuro);
-    background: var(--creme);
-    font-size: 1.15rem;
-    font-weight: 800;
-    color: var(--marrom-escuro);
+    width: 34px; height: 34px; border-radius: 9px;
+    border: 2px solid var(--creme-escuro); background: var(--creme);
+    font-size: 1.15rem; font-weight: 800; color: var(--marrom-escuro);
     cursor: pointer;
-    transition: all .15s;
   }
-  .qty button:hover {
-    background: var(--dourado);
-    border-color: var(--marrom);
-    color: var(--preto);
-  }
+  .qty button:hover { background: var(--dourado); border-color: var(--marrom); color: var(--preto); }
   .qty input {
-    width: 50px;
-    text-align: center;
-    padding: 7px 4px;
-    border: 2px solid var(--creme-escuro);
-    border-radius: 9px;
-    font-size: 1rem;
-    font-weight: 800;
-    color: var(--marrom-escuro);
-    background: #fff;
-    transition: all .15s;
-    -webkit-user-select: text;
-    user-select: text;
+    width: 50px; text-align: center; padding: 7px 4px;
+    border: 2px solid var(--creme-escuro); border-radius: 9px;
+    font-size: 1rem; font-weight: 800; color: var(--marrom-escuro);
+    background: #fff; -webkit-user-select: text; user-select: text;
   }
   .qty input:focus { outline: none; border-color: var(--marrom); }
+  .item.selecionado .qty input { border-color: var(--verde); background: #f0fdf4; color: var(--verde-escuro); }
+  .item.selecionado .qty button { border-color: var(--verde); background: var(--verde-claro); color: var(--verde-escuro); }
+  .item.selecionado .qty button:hover { background: #22c55e; color: #fff; border-color: var(--verde-escuro); }
 
-  .item.selecionado .qty input {
-    border-color: var(--verde);
-    background: #f0fdf4;
-    color: var(--verde-escuro);
-  }
-  .item.selecionado .qty button {
-    border-color: var(--verde);
-    background: var(--verde-claro);
-    color: var(--verde-escuro);
-  }
-  .item.selecionado .qty button:hover {
-    background: #22c55e;
-    color: #fff;
-    border-color: var(--verde-escuro);
-  }
-
-  .vazio {
-    text-align: center;
-    color: #a89b88;
-    padding: 50px 20px;
-    font-size: .95rem;
-  }
+  .vazio { text-align: center; color: #a89b88; padding: 50px 20px; font-size: .95rem; }
 
   footer {
     background: linear-gradient(135deg, var(--preto) 0%, var(--marrom-escuro) 100%);
-    color: var(--creme);
-    padding: 14px 18px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    box-shadow: 0 -3px 12px rgba(0,0,0,.3);
-    flex-shrink: 0;
+    color: var(--creme); padding: 14px 18px;
+    display: flex; align-items: center; gap: 14px;
+    box-shadow: 0 -3px 12px rgba(0,0,0,.3); flex-shrink: 0;
     border-top: 3px solid var(--dourado);
   }
   footer .resumo { flex: 1; font-size: .9rem; }
-  footer .resumo strong {
-    font-size: 1.2rem;
-    color: var(--verde);
-    font-weight: 900;
-  }
+  footer .resumo strong { font-size: 1.2rem; color: var(--verde); font-weight: 900; }
   footer button {
-    padding: 13px 22px;
-    border: 2px solid var(--creme);
-    border-radius: 12px;
-    font-size: 1rem;
-    font-weight: 800;
-    cursor: pointer;
+    padding: 13px 22px; border: 2px solid var(--creme); border-radius: 12px;
+    font-size: 1rem; font-weight: 800; cursor: pointer;
     background: linear-gradient(135deg, var(--dourado), var(--marrom));
-    color: var(--creme);
-    transition: all .2s;
-    box-shadow: 0 2px 8px rgba(0,0,0,.3);
-    text-shadow: 1px 1px 0 rgba(0,0,0,.3);
-    letter-spacing: .3px;
+    color: var(--creme); text-shadow: 1px 1px 0 rgba(0,0,0,.3);
   }
-  footer button:hover {
-    background: linear-gradient(135deg, #d9993f, #a06a35);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(200,135,58,.5);
-  }
-  footer button:disabled {
-    background: #4a4a4a;
-    border-color: #666;
-    color: #999;
-    cursor: not-allowed;
-    box-shadow: none;
-    transform: none;
-    text-shadow: none;
-  }
+  footer button:hover { background: linear-gradient(135deg, #d9993f, #a06a35); }
+  footer button:disabled { background: #4a4a4a; border-color: #666; color: #999; cursor: not-allowed; text-shadow: none; }
 
   .modal-bg {
-    position: fixed; inset: 0;
-    background: rgba(26,26,26,.75);
-    display: none;
-    align-items: center; justify-content: center;
-    padding: 16px;
-    z-index: 50;
+    position: fixed; inset: 0; background: rgba(26,26,26,.75);
+    display: none; align-items: center; justify-content: center;
+    padding: 16px; z-index: 50;
   }
   .modal-bg.aberto { display: flex; }
   .modal {
-    background: var(--creme);
-    border-radius: 18px;
-    max-width: 560px;
-    width: 100%;
-    max-height: 85vh;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    box-shadow: 0 10px 40px rgba(0,0,0,.5);
-    border: 3px solid var(--marrom);
+    background: var(--creme); border-radius: 18px;
+    max-width: 560px; width: 100%; max-height: 85vh;
+    display: flex; flex-direction: column; overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0,0,0,.5); border: 3px solid var(--marrom);
   }
   .modal header {
     background: linear-gradient(135deg, var(--preto) 0%, var(--marrom-escuro) 100%);
     border-bottom: 3px solid var(--dourado);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 16px;
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: center; padding: 16px;
   }
   .modal header .logo-fabis { max-height: 48px; }
   .modal header .subtitulo {
-    margin: 8px 0 0;
-    font-size: .72rem;
-    font-weight: 700;
-    letter-spacing: 3px;
-    color: var(--dourado);
-    text-transform: uppercase;
+    margin: 8px 0 0; font-size: .72rem; font-weight: 700;
+    letter-spacing: 3px; color: var(--dourado); text-transform: uppercase;
   }
   .modal .conteudo { padding: 18px; overflow: auto; }
   .modal pre {
-    background: #fff;
-    padding: 14px;
-    border-radius: 10px;
-    white-space: pre-wrap;
-    font-size: .93rem;
-    line-height: 1.65;
-    font-family: 'Segoe UI', system-ui, sans-serif;
-    margin: 0;
-    border: 2px solid var(--creme-escuro);
-    color: var(--preto);
-    -webkit-user-select: text;
-    user-select: text;
+    background: #fff; padding: 14px; border-radius: 10px;
+    white-space: pre-wrap; font-size: .93rem; line-height: 1.65;
+    font-family: 'Segoe UI', system-ui, sans-serif; margin: 0;
+    border: 2px solid var(--creme-escuro); color: var(--preto);
+    -webkit-user-select: text; user-select: text;
   }
   .modal .acoes {
-    padding: 14px 18px;
-    display: flex;
-    gap: 8px;
-    justify-content: flex-end;
-    border-top: 2px solid var(--creme-escuro);
-    flex-wrap: wrap;
-    background: var(--creme);
+    padding: 14px 18px; display: flex; gap: 8px;
+    justify-content: flex-end; border-top: 2px solid var(--creme-escuro);
+    flex-wrap: wrap; background: var(--creme);
   }
   .modal .acoes button {
-    padding: 11px 18px;
-    border-radius: 10px;
-    border: none;
-    font-size: .95rem;
-    cursor: pointer;
-    font-weight: 700;
-    transition: all .15s;
+    padding: 11px 18px; border-radius: 10px; border: none;
+    font-size: .95rem; cursor: pointer; font-weight: 700;
   }
-  .modal .acoes .fechar {
-    background: var(--creme-escuro);
-    color: var(--marrom-escuro);
-  }
-  .modal .acoes .fechar:hover { background: #ddd0ba; }
+  .modal .acoes .fechar { background: var(--creme-escuro); color: var(--marrom-escuro); }
   .modal .acoes .copiar {
     background: linear-gradient(135deg, var(--dourado), var(--marrom));
-    color: var(--creme);
-    text-shadow: 1px 1px 0 rgba(0,0,0,.3);
+    color: var(--creme); text-shadow: 1px 1px 0 rgba(0,0,0,.3);
   }
-  .modal .acoes .copiar:hover { background: linear-gradient(135deg, #d9993f, #a06a35); }
-  .modal .acoes .whatsapp {
-    background: #25D366;
-    color: #fff;
-    text-shadow: 1px 1px 0 rgba(0,0,0,.2);
-  }
-  .modal .acoes .whatsapp:hover { background: #1ebe5b; }
+  .modal .acoes .whatsapp { background: #25D366; color: #fff; }
 </style>
 </head>
 <body>
@@ -511,32 +273,25 @@
   </div>
 </div>
 
-<!-- Firebase SDK -->
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
 import { getDatabase, ref, onValue, set }
-  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+  from "https://www.gstatic.com/firebasejs/13.0.0/firebase-database.js";
 
-/* =========================================================
-   CONFIGURAÇÃO FIREBASE
-   ========================================================= */
 const firebaseConfig = {
-  apiKey: "AIzaSyDEvYeZd7qdcxWWiasfg_LF77hTakKz960",
-  authDomain: "fabis-grill-b10a4.firebaseapp.com",
-  databaseURL: "https://fabis-grill-b10a4-default-rtdb.firebaseio.com",
-  projectId: "fabis-grill-b10a4",
-  storageBucket: "fabis-grill-b10a4.firebasestorage.app",
-  messagingSenderId: "480065141417",
-  appId: "1:480065141417:web:cc508b787d9f1f822b47b8"
+  apiKey: "AIzaSyByaIxOVLyiyas8F8HXM13EDfquQXta04U",
+  authDomain: "fabis-grill-2026.firebaseapp.com",
+  databaseURL: "https://fabis-grill-2026-default-rtdb.firebaseio.com",
+  projectId: "fabis-grill-2026",
+  storageBucket: "fabis-grill-2026.firebasestorage.app",
+  messagingSenderId: "775124154460",
+  appId: "1:775124154460:web:afcc334783ec6cf8368e99"
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const pedidoRef = ref(db, "pedido_atual");
 
-/* =========================================================
-   LISTA DE ITENS
-   ========================================================= */
 const ITENS = [
   "1 box mushrooms (Cogumelos / Mushroom G / box of mushrooms (G))",
   "Pumpkin (legumes assados)",
@@ -641,9 +396,7 @@ function categoriaId(nome) {
   return "outros";
 }
 
-function isBox(item) {
-  return /\bbox\b/i.test(item);
-}
+function isBox(item) { return /\bbox\b/i.test(item); }
 
 function nomeCurto(item) {
   const mapa = {
@@ -716,23 +469,17 @@ function nomeCurto(item) {
     "S.O.S brown carrier bags Flat Handle LARGE": "S.O.S brown carrier bags LARGE"
   };
   if (mapa[item]) return mapa[item];
-
   let base = item.split(" (")[0].trim();
   base = base.replace(/^\d+\s*(box|bag|pack|unit)\s+/i, "");
   if (isBox(item) && !/^box\b/i.test(base)) base = "box " + base;
   return base;
 }
 
-/* =========================================================
-   ESTADO GLOBAL (sincronizado com Firebase)
-   ========================================================= */
 let estado = {};
 let filtro = "";
 let abaAtiva = "vegetais";
+let primeiraCarga = true;
 
-/* =========================================================
-   INDICADOR DE ESTADO
-   ========================================================= */
 const syncEl = document.getElementById("syncStatus");
 let syncTimeout = null;
 
@@ -740,27 +487,24 @@ function mostrarStatus(texto, tipo) {
   syncEl.textContent = texto;
   syncEl.className = "sync-status " + tipo;
   clearTimeout(syncTimeout);
-  syncTimeout = setTimeout(() => {
-    syncEl.classList.add("oculto");
-  }, 1500);
+  syncTimeout = setTimeout(() => syncEl.classList.add("oculto"), 1500);
 }
 
-/* =========================================================
-   SINCRONIZAÇÃO COM FIREBASE
-   ========================================================= */
 onValue(pedidoRef, (snapshot) => {
   const dados = snapshot.val();
   const novoEstado = {};
   if (dados && typeof dados === "object") {
     Object.keys(dados).forEach(k => {
-      if (ITENS.includes(k) && dados[k] > 0) {
-        novoEstado[k] = dados[k];
-      }
+      if (ITENS.includes(k) && dados[k] > 0) novoEstado[k] = dados[k];
     });
   }
   estado = novoEstado;
   render();
-  mostrarStatus("🔄 Atualizado", "online");
+  if (primeiraCarga) {
+    primeiraCarga = false;
+  } else {
+    mostrarStatus("🔄 Atualizado", "online");
+  }
 });
 
 async function guardarNaCloud() {
@@ -774,9 +518,6 @@ async function guardarNaCloud() {
   }
 }
 
-/* =========================================================
-   RENDER DAS ABAS
-   ========================================================= */
 const tabsEl = document.getElementById("tabs");
 
 function renderTabs() {
@@ -784,14 +525,11 @@ function renderTabs() {
   CATEGORIAS.forEach(cat => {
     const itensCat = ITENS.filter(i => categoriaId(i) === cat.id);
     const selecionados = itensCat.reduce((s, i) => s + (estado[i] || 0), 0);
-
     const btn = document.createElement("button");
     btn.className = "tab" + (abaAtiva === cat.id ? " ativa" : "");
-    btn.innerHTML = cat.nome +
-      (selecionados > 0 ? `<span class="badge">${selecionados}</span>` : "");
+    btn.innerHTML = cat.nome + (selecionados > 0 ? `<span class="badge">${selecionados}</span>` : "");
     btn.onclick = () => {
-      abaAtiva = cat.id;
-      filtro = "";
+      abaAtiva = cat.id; filtro = "";
       document.getElementById("busca").value = "";
       render();
     };
@@ -799,9 +537,6 @@ function renderTabs() {
   });
 }
 
-/* =========================================================
-   RENDER DA LISTA
-   ========================================================= */
 const listaEl = document.getElementById("lista");
 const totalEl = document.getElementById("totalItens");
 const btnVer = document.getElementById("btnVerPedido");
@@ -809,11 +544,8 @@ const btnVer = document.getElementById("btnVerPedido");
 function render() {
   renderTabs();
   listaEl.innerHTML = "";
-
   const itensAba = ITENS.filter(i => categoriaId(i) === abaAtiva);
-  const itensFiltrados = itensAba.filter(i =>
-    i.toLowerCase().includes(filtro)
-  );
+  const itensFiltrados = itensAba.filter(i => i.toLowerCase().includes(filtro));
 
   if (itensFiltrados.length === 0) {
     const v = document.createElement("div");
@@ -823,7 +555,6 @@ function render() {
   } else {
     itensFiltrados.forEach(item => renderItem(item, listaEl));
   }
-
   atualizarTotal();
 }
 
@@ -843,8 +574,7 @@ function renderItem(item, container) {
   const nome = partes[0];
   const detalhe = partes[1] ? "(" + partes.slice(1).join(" (") : "";
   const tagBox = isBox(item) ? '<span class="tag-box">BOX</span>' : "";
-  info.innerHTML = `<div class="nome">${nome}${tagBox}</div>` +
-                   (detalhe ? `<div class="detalhe">${detalhe}</div>` : "");
+  info.innerHTML = `<div class="nome">${nome}${tagBox}</div>` + (detalhe ? `<div class="detalhe">${detalhe}</div>` : "");
   info.onclick = () => toggleItem(item);
 
   const qty = document.createElement("div");
@@ -853,45 +583,33 @@ function renderItem(item, container) {
   btnMenos.textContent = "−";
   btnMenos.onclick = (e) => { e.stopPropagation(); alterarQtd(item, -1); };
   const input = document.createElement("input");
-  input.type = "number";
-  input.min = "0";
-  input.value = qtd;
+  input.type = "number"; input.min = "0"; input.value = qtd;
   input.onclick = (e) => e.stopPropagation();
   input.onchange = (e) => {
     const v = Math.max(0, parseInt(e.target.value) || 0);
-    if (v > 0) estado[item] = v;
-    else delete estado[item];
-    guardarNaCloud();
-    render();
+    if (v > 0) estado[item] = v; else delete estado[item];
+    guardarNaCloud(); render();
   };
   const btnMais = document.createElement("button");
   btnMais.textContent = "+";
   btnMais.onclick = (e) => { e.stopPropagation(); alterarQtd(item, +1); };
 
-  qty.appendChild(btnMenos);
-  qty.appendChild(input);
-  qty.appendChild(btnMais);
-
-  div.appendChild(check);
-  div.appendChild(info);
-  div.appendChild(qty);
+  qty.appendChild(btnMenos); qty.appendChild(input); qty.appendChild(btnMais);
+  div.appendChild(check); div.appendChild(info); div.appendChild(qty);
   container.appendChild(div);
 }
 
 function toggleItem(item) {
   if (estado[item] && estado[item] > 0) delete estado[item];
   else estado[item] = 1;
-  guardarNaCloud();
-  render();
+  guardarNaCloud(); render();
 }
 
 function alterarQtd(item, delta) {
   const atual = estado[item] || 0;
   const novo = Math.max(0, atual + delta);
-  if (novo > 0) estado[item] = novo;
-  else delete estado[item];
-  guardarNaCloud();
-  render();
+  if (novo > 0) estado[item] = novo; else delete estado[item];
+  guardarNaCloud(); render();
 }
 
 function atualizarTotal() {
@@ -900,28 +618,19 @@ function atualizarTotal() {
   btnVer.disabled = total === 0;
 }
 
-/* =========================================================
-   GERAR TEXTO DO PEDIDO
-   ========================================================= */
 function gerarTextoPedido() {
   const linhas = [];
   linhas.push("Hello Ercan, could you send it to Fabis Grill temple bar, ");
   linhas.push("");
-
   ITENS.forEach(item => {
     const qtd = estado[item] || 0;
     if (qtd > 0) linhas.push(`${qtd} ${nomeCurto(item)} `);
   });
-
   linhas.push("");
   linhas.push("Thank you! 🙏");
-
   return linhas.join("\n");
 }
 
-/* =========================================================
-   EVENTOS
-   ========================================================= */
 document.getElementById("busca").addEventListener("input", (e) => {
   filtro = e.target.value.toLowerCase().trim();
   if (filtro) {
@@ -948,9 +657,6 @@ document.getElementById("btnLimpar").addEventListener("click", async () => {
   }
 });
 
-/* =========================================================
-   MODAL / RESUMO
-   ========================================================= */
 const modalBg = document.getElementById("modalBg");
 const textoPedido = document.getElementById("textoPedido");
 
@@ -958,14 +664,8 @@ document.getElementById("btnVerPedido").addEventListener("click", () => {
   textoPedido.textContent = gerarTextoPedido();
   modalBg.classList.add("aberto");
 });
-
-document.getElementById("btnFechar").addEventListener("click", () => {
-  modalBg.classList.remove("aberto");
-});
-
-modalBg.addEventListener("click", (e) => {
-  if (e.target === modalBg) modalBg.classList.remove("aberto");
-});
+document.getElementById("btnFechar").addEventListener("click", () => modalBg.classList.remove("aberto"));
+modalBg.addEventListener("click", (e) => { if (e.target === modalBg) modalBg.classList.remove("aberto"); });
 
 document.getElementById("btnCopiar").addEventListener("click", async () => {
   const texto = gerarTextoPedido();
@@ -986,34 +686,22 @@ document.getElementById("btnWhatsApp").addEventListener("click", () => {
   const texto = gerarTextoPedido();
   const textoCodificado = encodeURIComponent(texto);
   const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-  const url = isMobile
-    ? `whatsapp://send?text=${textoCodificado}`
-    : `https://wa.me/?text=${textoCodificado}`;
+  const url = isMobile ? `whatsapp://send?text=${textoCodificado}` : `https://wa.me/?text=${textoCodificado}`;
   window.open(url, "_blank");
 });
 
-/* =========================================================
-   BLOQUEAR ZOOM
-   ========================================================= */
 document.addEventListener('gesturestart', e => e.preventDefault());
 document.addEventListener('gesturechange', e => e.preventDefault());
 document.addEventListener('gestureend', e => e.preventDefault());
-
 let lastTouchEnd = 0;
 document.addEventListener('touchend', (e) => {
   const now = Date.now();
   if (now - lastTouchEnd <= 300) e.preventDefault();
   lastTouchEnd = now;
 }, { passive: false });
-
-document.addEventListener('wheel', (e) => {
-  if (e.ctrlKey) e.preventDefault();
-}, { passive: false });
-
+document.addEventListener('wheel', (e) => { if (e.ctrlKey) e.preventDefault(); }, { passive: false });
 document.addEventListener('keydown', (e) => {
-  if ((e.ctrlKey || e.metaKey) && (e.key === '+' || e.key === '-' || e.key === '0' || e.key === '=')) {
-    e.preventDefault();
-  }
+  if ((e.ctrlKey || e.metaKey) && (e.key === '+' || e.key === '-' || e.key === '0' || e.key === '=')) e.preventDefault();
 });
 </script>
 </body>
