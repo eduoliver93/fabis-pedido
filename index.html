@@ -279,6 +279,9 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebas
 import { getDatabase, ref, onValue, set }
   from "https://www.gstatic.com/firebasejs/13.0.0/firebase-database.js";
 
+/* =========================================================
+   FIREBASE CONFIG
+   ========================================================= */
 const firebaseConfig = {
   apiKey: "AIzaSyByaIxOVLyiyas8F8HXM13EDfquQXta04U",
   authDomain: "fabis-grill-2026.firebaseapp.com",
@@ -293,101 +296,106 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const pedidoRef = ref(db, "pedido_atual");
 
-/* ===== ITEMS LIST — ALL IN ENGLISH ===== */
+/* =========================================================
+   ITEMS LIST — ALL IN ENGLISH
+   ========================================================= */
 const ITENS = [
   /* VEGETABLES / FRUITS */
-  { id: "box_mushrooms",     nome: "1 box mushrooms",           detalhe: "Mushroom G",       tag: "BOX" },
-  { id: "pumpkin",           nome: "Pumpkin",                   detalhe: "Roasted vegetables" },
-  { id: "box_aubergine",     nome: "1 box aubergine",           detalhe: "7 units",          tag: "BOX" },
-  { id: "bag_carrots",       nome: "1 bag carrots 10kg",        detalhe: "",                 tag: "BAG" },
-  { id: "box_green_lime",    nome: "1 box green lime",          detalhe: "",                 tag: "BOX" },
-  { id: "mix_peppers",       nome: "Mixed peppers" },
-  { id: "bag_onions",        nome: "1 bag onions 10kg",         detalhe: "",                 tag: "BAG" },
-  { id: "fresh_parsley",     nome: "Fresh parsley" },
-  { id: "fresh_coriander",   nome: "Fresh coriander" },
-  { id: "box_tomatoes",      nome: "1 box tomatoes",            detalhe: "Plum tomatoes",    tag: "BOX" },
-  { id: "sweet_corn",        nome: "Sweet corn" },
-  { id: "passion_fruit",     nome: "Pure passion fruit" },
-  { id: "fresh_spring_onion",nome: "Fresh spring onion" },
-  { id: "box_cabbage",       nome: "1 box cabbage",             detalhe: "York cabbage",     tag: "BOX" },
-  { id: "box_fresh_orange",  nome: "1 box fresh orange",        detalhe: "Juice",            tag: "BOX" },
-  { id: "box_fresh_pineapple",nome: "1 box fresh pineapple",    detalhe: "",                 tag: "BOX" },
-  { id: "box_iceberg",       nome: "1 box ice berg lettuce",    detalhe: "Alface americana", tag: "BOX" },
-  { id: "plum_tomatoes",     nome: "Plum tomatoes" },
-  { id: "legumes_assar",     nome: "Legumes para assar" },
-  { id: "mint",              nome: "Mint" },
-  { id: "basil",             nome: "Basil" },
-  { id: "box_courgette",     nome: "1 box courgette",           detalhe: "",                 tag: "BOX" },
+  { id: "box_mushrooms",       nome: "box mushrooms",           detalhe: "Mushroom G",        tag: "BOX" },
+  { id: "pumpkin",             nome: "pumpkin",                 detalhe: "Roasted vegetables" },
+  { id: "box_aubergine",       nome: "box aubergine",           detalhe: "7 units",           tag: "BOX" },
+  { id: "bag_carrots",         nome: "bag carrots 10kg",        detalhe: "",                  tag: "BAG" },
+  { id: "box_green_lime",      nome: "box green lime",          detalhe: "",                  tag: "BOX" },
+  { id: "mix_peppers",         nome: "mix peppers" },
+  { id: "bag_onions",          nome: "bag onions 10kg",         detalhe: "",                  tag: "BAG" },
+  { id: "fresh_parsley",       nome: "fresh parsley" },
+  { id: "fresh_coriander",     nome: "fresh coriander" },
+  { id: "box_tomatoes",        nome: "box tomatoes",            detalhe: "Plum tomatoes",     tag: "BOX" },
+  { id: "sweet_corn",          nome: "sweet corn" },
+  { id: "passion_fruit",       nome: "pure passion fruit" },
+  { id: "fresh_spring_onion",  nome: "fresh spring onion" },
+  { id: "box_cabbage",         nome: "box cabbage",             detalhe: "York cabbage",      tag: "BOX" },
+  { id: "box_fresh_orange",    nome: "box fresh orange",        detalhe: "Juice",             tag: "BOX" },
+  { id: "box_fresh_pineapple", nome: "box fresh pineapple",     detalhe: "",                  tag: "BOX" },
+  { id: "box_iceberg",         nome: "box ice berg",            detalhe: "Alface americana",  tag: "BOX" },
+  { id: "plum_tomatoes",       nome: "plum tomatoes" },
+  { id: "legumes_assar",       nome: "legumes para assar" },
+  { id: "mint",                nome: "mint" },
+  { id: "basil",               nome: "basil" },
+  { id: "box_courgette",       nome: "box courgette",           detalhe: "",                  tag: "BOX" },
 
   /* MEAT / PROTEIN */
-  { id: "box_chicken_filet", nome: "1 box chicken filet",       detalhe: "",                 tag: "BOX" },
-  { id: "cheddar_slices",    nome: "Cheddar slices hamburger",  detalhe: "White · Red" },
-  { id: "burger",            nome: "Burger" },
-  { id: "ham",               nome: "Ham cooked 1kg" },
-  { id: "pack_bacon",        nome: "1 pack bacon",              detalhe: "",                 tag: "PACK" },
-  { id: "striploin",         nome: "Striploin" },
-  { id: "contra_filet",      nome: "Contra filet" },
-  { id: "pork_loin",         nome: "Pork loin" },
-  { id: "top_rib",           nome: "Top rib" },
-  { id: "tilapia",           nome: "Boneless skinless tilapia", detalhe: "Fish" },
-  { id: "eggs",              nome: "Eggs",                       detalhe: "Try · Tray" },
+  { id: "box_chicken_filet",   nome: "box chicken filet",       detalhe: "",                  tag: "BOX" },
+  { id: "cheddar_slices",      nome: "cheddar slices hamburger",detalhe: "White · Red" },
+  { id: "burger",              nome: "burger" },
+  { id: "ham",                 nome: "ham cooked 1kg" },
+  { id: "pack_bacon",          nome: "pack bacon",              detalhe: "",                  tag: "PACK" },
+  { id: "striploin",           nome: "striploin" },
+  { id: "contra_filet",        nome: "contra filet" },
+  { id: "pork_loin",           nome: "pork loin" },
+  { id: "top_rib",             nome: "top rib" },
+  { id: "tilapia",             nome: "boneless skinless tilapia", detalhe: "Fish" },
+  { id: "eggs",                nome: "eggs",                    detalhe: "Try · Tray" },
 
   /* GROCERY */
-  { id: "bag_cheese_unit",   nome: "1 bag cheese unit",         detalhe: "",                 tag: "BAG" },
-  { id: "peeled_garlic",     nome: "Peeled garlic" },
-  { id: "fresh_cream",       nome: "Fresh cream" },
-  { id: "tofu",              nome: "Tofu" },
-  { id: "mayo",              nome: "Mayo",                       detalhe: "Sachets" },
-  { id: "bread_crumbs",      nome: "Bread crumbs",               detalhe: "MIAU" },
-  { id: "olive_oil",         nome: "Olive oil" },
-  { id: "ketchup",           nome: "Ketchup" },
-  { id: "vinegar",           nome: "Vinegar" },
-  { id: "odmilus",           nome: "Odmilus 25kg" },
-  { id: "puck",              nome: "Puck spread" },
-  { id: "paprika",           nome: "Paprika powder",             detalhe: "Smoked" },
-  { id: "oregano",           nome: "Oregano" },
-  { id: "colmans_mustard",   nome: "Colman's mustard" },
-  { id: "sea_salt",          nome: "Sea salt" },
-  { id: "franks_redhot",     nome: "Frank's RedHot 3.8L" },
-  { id: "cassava_flour",     nome: "Cassava flour" },
+  { id: "bag_cheese_unit",     nome: "bag cheese unit",         detalhe: "",                  tag: "BAG" },
+  { id: "peeled_garlic",       nome: "peeled garlic" },
+  { id: "fresh_cream",         nome: "fresh cream" },
+  { id: "tofu",                nome: "tofu" },
+  { id: "mayo",                nome: "mayo",                    detalhe: "Sachets" },
+  { id: "bread_crumbs",        nome: "bread crumbs",            detalhe: "MIAU" },
+  { id: "olive_oil",           nome: "olive oil" },
+  { id: "ketchup",             nome: "ketchup" },
+  { id: "vinegar",             nome: "vinegar" },
+  { id: "odmilus",             nome: "odmilus 25kg" },
+  { id: "puck",                nome: "puck spread" },
+  { id: "paprika",             nome: "paprika powder",          detalhe: "Smoked" },
+  { id: "oregano",             nome: "oregano" },
+  { id: "colmans_mustard",     nome: "colman's mustard" },
+  { id: "sea_salt",            nome: "sea salt" },
+  { id: "franks_redhot",       nome: "frank's redhot 3.8L" },
+  { id: "cassava_flour",       nome: "cassava flour" },
 
   /* BREAD / RICE / POTATOES */
-  { id: "box_skinny_chips",  nome: "1 box skinny chips 7x7",    detalhe: "",                 tag: "BOX" },
-  { id: "box_brioche_bun",   nome: "1 box brioche bun",         detalhe: "",                 tag: "BOX" },
-  { id: "bag_tilda_rice",    nome: "1 bag tilda rice",          detalhe: "Blue rice Tilda",  tag: "BAG" },
-  { id: "bag_potatoes",      nome: "1 bag potatoes 10kg",       detalhe: "Griffin",          tag: "BAG" },
+  { id: "box_skinny_chips",    nome: "box skinny chips 7x7",    detalhe: "",                  tag: "BOX" },
+  { id: "box_brioche_bun",     nome: "box brioche bun",         detalhe: "",                  tag: "BOX" },
+  { id: "bag_tilda_rice",      nome: "bag tilda rice",          detalhe: "Blue rice Tilda",   tag: "BAG" },
+  { id: "bag_potatoes",        nome: "bag potatoes 10kg",       detalhe: "Griffin",           tag: "BAG" },
 
   /* DRINKS */
-  { id: "coke_zero_330",     nome: "Coke Zero 330ml" },
-  { id: "coke_zero_500",     nome: "Coke Zero 500ml" },
-  { id: "coke_cola_330",     nome: "Coke Cola 330ml" },
-  { id: "coke_cola_500",     nome: "Coke Cola 500ml" },
-  { id: "fanta_orange_330",  nome: "Fanta Orange 330ml" },
-  { id: "seven_up_330",      nome: "Seven Up 330ml" },
-  { id: "sparkling_water",   nome: "Sparkling Water 500ml" },
-  { id: "still_water",       nome: "Still Water 500ml" },
-  { id: "water_5l",          nome: "Water 5L" },
+  { id: "coke_zero_330",       nome: "coke zero 330ml" },
+  { id: "coke_zero_500",       nome: "coke zero 500ml" },
+  { id: "coke_cola_330",       nome: "coke cola 330ml" },
+  { id: "coke_cola_500",       nome: "coke cola 500ml" },
+  { id: "fanta_orange_330",    nome: "fanta orange 330ml" },
+  { id: "seven_up_330",        nome: "seven up 330ml" },
+  { id: "sparkling_water",     nome: "sparkling water 500ml" },
+  { id: "still_water",         nome: "still water 500ml" },
+  { id: "water_5l",            nome: "water 5L" },
 
   /* CLEANING */
-  { id: "gloves",            nome: "Gloves L / XL" },
-  { id: "blue_paper",        nome: "Blue paper" },
-  { id: "washing_up",        nome: "Washing up liquid" },
-  { id: "bleach",            nome: "Bleach" },
-  { id: "black_bag_bin",     nome: "Black bag bin" },
-  { id: "yellow_sponge",     nome: "Yellow sponge" },
-  { id: "box_napkins",       nome: "1 box napkins",             detalhe: "",                 tag: "BOX" },
+  { id: "gloves",              nome: "gloves L / XL" },
+  { id: "blue_paper",          nome: "blue paper" },
+  { id: "washing_up",          nome: "washing up liquid" },
+  { id: "bleach",              nome: "bleach" },
+  { id: "black_bag_bin",       nome: "black bag bin" },
+  { id: "yellow_sponge",       nome: "yellow sponge" },
+  { id: "box_napkins",         nome: "box napkins",             detalhe: "",                  tag: "BOX" },
 
   /* PACKAGING */
-  { id: "c500",              nome: "C500" },
-  { id: "c650",              nome: "C650" },
-  { id: "8oz",               nome: "8oz" },
-  { id: "4oz",               nome: "4oz" },
-  { id: "3lb",               nome: "3LB" },
-  { id: "fish_chips_box",    nome: "Fish and chips box" },
-  { id: "white_paper",       nome: "White paper for chips" },
-  { id: "sos_bags",          nome: "S.O.S brown bags LARGE" }
+  { id: "c500",                nome: "c500" },
+  { id: "c650",                nome: "c650" },
+  { id: "8oz",                 nome: "8oz" },
+  { id: "4oz",                 nome: "4oz" },
+  { id: "3lb",                 nome: "3LB" },
+  { id: "fish_chips_box",      nome: "fish and chips box" },
+  { id: "white_paper",         nome: "white paper for chips" },
+  { id: "sos_bags",            nome: "S.O.S brown bags LARGE" }
 ];
 
+/* =========================================================
+   CATEGORIES
+   ========================================================= */
 const CATEGORIAS = [
   { id: "vegetais",   nome: "🥬 Vegetables/Fruits" },
   { id: "carnes",     nome: "🥩 Meat" },
@@ -435,6 +443,9 @@ const CATEGORIA_POR_ID = {};
   "c500","c650","8oz","4oz","3lb","fish_chips_box","white_paper","sos_bags"
 ].forEach(id => CATEGORIA_POR_ID[id] = "embalagem");
 
+/* =========================================================
+   STATE
+   ========================================================= */
 let estado = {};
 let filtro = "";
 let abaAtiva = "vegetais";
@@ -450,6 +461,9 @@ function mostrarStatus(texto, tipo) {
   syncTimeout = setTimeout(() => syncEl.classList.add("oculto"), 1500);
 }
 
+/* =========================================================
+   FIREBASE — REAL-TIME SYNC
+   ========================================================= */
 onValue(pedidoRef, (snapshot) => {
   const dados = snapshot.val();
   const novoEstado = {};
@@ -475,6 +489,9 @@ async function guardarNaCloud() {
   }
 }
 
+/* =========================================================
+   RENDER TABS
+   ========================================================= */
 const tabsEl = document.getElementById("tabs");
 
 function renderTabs() {
@@ -494,6 +511,9 @@ function renderTabs() {
   });
 }
 
+/* =========================================================
+   RENDER LIST
+   ========================================================= */
 const listaEl = document.getElementById("lista");
 const totalEl = document.getElementById("totalItens");
 const btnVer = document.getElementById("btnVerPedido");
@@ -575,6 +595,9 @@ function atualizarTotal() {
   btnVer.disabled = total === 0;
 }
 
+/* =========================================================
+   GENERATE ORDER TEXT
+   ========================================================= */
 function gerarTextoPedido() {
   const linhas = [];
   linhas.push("Hello Ercan, could you send it to Fabis Grill temple bar, ");
@@ -588,6 +611,9 @@ function gerarTextoPedido() {
   return linhas.join("\n");
 }
 
+/* =========================================================
+   EVENTS
+   ========================================================= */
 document.getElementById("busca").addEventListener("input", (e) => {
   filtro = e.target.value.toLowerCase().trim();
   if (filtro) {
@@ -616,6 +642,9 @@ document.getElementById("btnLimpar").addEventListener("click", async () => {
   }
 });
 
+/* =========================================================
+   MODAL / SUMMARY
+   ========================================================= */
 const modalBg = document.getElementById("modalBg");
 const textoPedido = document.getElementById("textoPedido");
 
@@ -649,6 +678,9 @@ document.getElementById("btnWhatsApp").addEventListener("click", () => {
   window.open(url, "_blank");
 });
 
+/* =========================================================
+   BLOCK ZOOM
+   ========================================================= */
 document.addEventListener('gesturestart', e => e.preventDefault());
 document.addEventListener('gesturechange', e => e.preventDefault());
 document.addEventListener('gestureend', e => e.preventDefault());
