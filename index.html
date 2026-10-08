@@ -80,6 +80,25 @@
     header .logo-fabis { max-height: 56px; }
   }
 
+  /* ===== INDICADOR GUARDADO ===== */
+  .save-indicator {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    background: var(--verde);
+    color: #fff;
+    font-size: .75rem;
+    font-weight: 700;
+    padding: 6px 12px;
+    border-radius: 999px;
+    box-shadow: 0 2px 10px rgba(22,163,74,.4);
+    opacity: 0;
+    transition: opacity .3s;
+    pointer-events: none;
+    z-index: 100;
+  }
+  .save-indicator.visivel { opacity: 1; }
+
   .tabs {
     display: flex;
     gap: 6px;
@@ -178,6 +197,14 @@
   .toolbar button:hover { background: #ddd0ba; }
   .toolbar button.danger { background: var(--preto); color: var(--creme); }
   .toolbar button.danger:hover { background: #333; }
+  .toolbar button.novo {
+    background: linear-gradient(135deg, var(--dourado), var(--marrom));
+    color: var(--creme);
+    text-shadow: 1px 1px 0 rgba(0,0,0,.3);
+  }
+  .toolbar button.novo:hover {
+    background: linear-gradient(135deg, #d9993f, #a06a35);
+  }
 
   main {
     flex: 1;
@@ -452,6 +479,8 @@
 </head>
 <body>
 
+<div class="save-indicator" id="saveIndicator">💾 Guardado</div>
+
 <header>
   <img src="logo-fabis.png" alt="Fabi's Grill Temple Bar" class="logo-fabis">
 </header>
@@ -460,6 +489,7 @@
 
 <div class="toolbar">
   <input type="search" id="busca" placeholder="Buscar item...">
+  <button id="btnNovo" class="novo">Novo Pedido</button>
   <button id="btnLimpar" class="danger">Limpar</button>
 </div>
 
@@ -603,28 +633,13 @@ const CATEGORIAS = [
 
 function categoriaId(nome) {
   const n = nome.toLowerCase();
-
-  /* Bebidas */
   if (/(coke|fanta|seven up|water|água)/.test(n)) return "bebidas";
-
-  /* Embalagem */
   if (/(c500|c650|8oz|4oz|3lb|fish and chips|white paper for chips|S\.O\.S|carrier bags|napkins|guardanapos)/i.test(n)) return "embalagem";
-
-  /* Limpeza */
   if (/(gloves|blue paper|washing|bleach|black bag bin|yellow sponge)/.test(n)) return "limpeza";
-
-  /* Vegetais / Frutas */
   if (/(mushroom|cogumelo|pumpkin|aubergine|beringela|carrot|cenoura|lime|lima|pepper|pimento|onion|cebola|parsley|salsa|coriander|coentros|garlic|alho|tomato|tomate|corn|milho|passion|maracujá|spring onion|cebolinha|cabbage|repolho|lettuce|alface|legumes|potato|batata|courgette|pineapple|abacaxi|orange|laranja)/.test(n)) return "vegetais";
-
-  /* Mercearia */
   if (/(cheese|queijo|cream|natas|tofu|puck|mayo|maionese|ketchup|mustard|mostarda|vinegar|vinagre|oil|azeite|salt|sal|paprika|oregano|orégãos|mint|hortelã|basil|manjericão|bread crumbs|farinha|cassava)/.test(n)) return "mercearia";
-
-  /* Carnes */
   if (/(chicken|frango|ham|fiambre|pork|lombo|rib|costela|filet|filé|tilapia|tilápia|egg|ovo|burger|hambúrguer|cheddar|bacon|striploin|fish)/.test(n)) return "carnes";
-
-  /* Pães / Arroz */
   if (/(brioche|bun|pão|rice|arroz|chips|batata frita|tilda|fries|potatoes)/.test(n)) return "paes";
-
   return "outros";
 }
 
@@ -637,7 +652,6 @@ function isBox(item) {
 
 function nomeCurto(item) {
   const mapa = {
-    /* Vegetais / Frutas */
     "Pumpkin (legumes assados)": "pumpkin 🎃",
     "Mixed Peppers (Pimentos mistos / mix peppers)": "mix peppers",
     "Fresh Parsley (Salsa fresca / fresh Paraley / flat parsley)": "fresh parsley",
@@ -651,8 +665,6 @@ function nomeCurto(item) {
     "Legumes para assar": "legumes para assar",
     "Mint (Hortelã)": "mint",
     "Basil (Manjericão)": "basil",
-
-    /* Carnes */
     "Burger (Hambúrguer)": "burger",
     "Ham (Fiambre / 1kg ham cooked)": "ham cooked 1kg",
     "Bacon (1 pack bacon)": "pack bacon",
@@ -663,8 +675,6 @@ function nomeCurto(item) {
     "Boneless and skinless Tilapia (Tilápia sem pele e sem espinha / fish)": "fish",
     "Eggs (Ovos / try eggs / tray of eggs / tray eggs)": "try eggs",
     "Cheddar slice hamburger (Fatias de cheddar para hambúrguer / white cheddar / red cheddar slices)": "cheddar slice hamburger",
-
-    /* Mercearia */
     "Cheese unit (Queijo / bag cheese unit / box of cheese / 3 bag cheese)": "cheese unit",
     "Peeled garlic (Alho descascado)": "peeled garlic",
     "Fresh cream (Natas frescas / fresh cream cheese)": "fresh cream",
@@ -682,13 +692,9 @@ function nomeCurto(item) {
     "Sea salt (Sal marinho)": "sea salt",
     "Franks red hot sauce 3.8L (Molho picante Frank's RedHot)": "franks red hot 3.8L",
     "Cassava flour (Farinha de mandioca)": "cassava flour",
-
-    /* Pães / Arroz */
     "Brioche bun (Pão brioche)": "brioche bun",
     "Tilda rice (Arroz Tilda / bag tilda rice / bag of blue rice tilda)": "bag tilda rice",
     "Griffin potatoes (Batata Griffin / bag potatoes 10kg)": "bag potatoes 10kg",
-
-    /* Bebidas */
     "Coke Zero 330ml (Coca-Cola Zero 330ml)": "coke zero 330ml",
     "Coke Zero 500ml (Coca-Cola Zero 500ml)": "coke zero 500ml",
     "Coke Cola 330ml (Coca-Cola 330ml)": "coke cola 330ml",
@@ -698,8 +704,6 @@ function nomeCurto(item) {
     "Sparkling Water 500ml (Água com gás 500ml)": "sparkling water 500ml",
     "Still Water 500ml (Água sem gás 500ml)": "still water 500ml",
     "Water 5L (Água 5L)": "water 5L",
-
-    /* Limpeza */
     "Gloves /XL (GLOVES /XL / Gloves L / XL)": "gloves L / XL",
     "Blue paper (2 blue paper)": "blue paper",
     "Washing up (1 washing up / washing up liquid)": "washing up",
@@ -707,8 +711,6 @@ function nomeCurto(item) {
     "Black bag bin (Saco do lixo preto)": "black bag bin",
     "Yellow sponge (Esponja amarela)": "yellow sponge",
     "Napkins (Guardanapos / box of napkins)": "box of napkins",
-
-    /* Embalagem */
     "C500 (Embalagem c500)": "c500",
     "C650 (Embalagem c650)": "c650",
     "8oz (Embalagem 8oz)": "8oz",
@@ -724,6 +726,45 @@ function nomeCurto(item) {
   base = base.replace(/^\d+\s*(box|bag|pack|unit)\s+/i, "");
   if (isBox(item) && !/^box\b/i.test(base)) base = "box " + base;
   return base;
+}
+
+/* =========================================================
+   💾 GUARDAR / CARREGAR (localStorage)
+   ========================================================= */
+const STORAGE_KEY = "fabis_grill_pedido_v1";
+
+function guardarPedido() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(estado));
+    mostrarIndicador();
+  } catch (e) {
+    console.warn("Erro ao guardar:", e);
+  }
+}
+
+function carregarPedido() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return;
+    const dados = JSON.parse(raw);
+    Object.keys(dados).forEach(k => {
+      if (dados[k] > 0 && ITENS.includes(k)) {
+        estado[k] = dados[k];
+      }
+    });
+  } catch (e) {
+    console.warn("Erro ao carregar:", e);
+  }
+}
+
+let indicadorTimeout = null;
+function mostrarIndicador() {
+  const el = document.getElementById("saveIndicator");
+  el.classList.add("visivel");
+  clearTimeout(indicadorTimeout);
+  indicadorTimeout = setTimeout(() => {
+    el.classList.remove("visivel");
+  }, 1500);
 }
 
 /* =========================================================
@@ -819,6 +860,7 @@ function renderItem(item, container) {
   input.onchange = (e) => {
     const v = Math.max(0, parseInt(e.target.value) || 0);
     estado[item] = v;
+    guardarPedido();
     render();
   };
   const btnMais = document.createElement("button");
@@ -838,12 +880,14 @@ function renderItem(item, container) {
 function toggleItem(item) {
   if (estado[item] && estado[item] > 0) estado[item] = 0;
   else estado[item] = 1;
+  guardarPedido();
   render();
 }
 
 function alterarQtd(item, delta) {
   const atual = estado[item] || 0;
   estado[item] = Math.max(0, atual + delta);
+  guardarPedido();
   render();
 }
 
@@ -893,9 +937,20 @@ document.getElementById("busca").addEventListener("input", (e) => {
   render();
 });
 
+/* ===== BOTÃO NOVO PEDIDO ===== */
+document.getElementById("btnNovo").addEventListener("click", () => {
+  if (confirm("Começar um novo pedido? Todos os itens selecionados serão apagados.")) {
+    Object.keys(estado).forEach(k => delete estado[k]);
+    guardarPedido();
+    render();
+  }
+});
+
+/* ===== BOTÃO LIMPAR (só desmarca, mantém guardado vazio) ===== */
 document.getElementById("btnLimpar").addEventListener("click", () => {
   if (confirm("Limpar todos os itens selecionados?")) {
     Object.keys(estado).forEach(k => delete estado[k]);
+    guardarPedido();
     render();
   }
 });
@@ -971,6 +1026,7 @@ document.addEventListener('keydown', (e) => {
 /* =========================================================
    INIT
    ========================================================= */
+carregarPedido();   /* Carrega o pedido guardado antes de renderizar */
 render();
 </script>
 </body>
