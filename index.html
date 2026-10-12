@@ -833,34 +833,10 @@
         <div class="local">Temple Bar · Dublin</div>
 
         <div class="info-block">
-          <div class="info-icon">📱</div>
-          <div class="info-text">
-            <div class="info-label">Application</div>
-            <div class="info-value">Order System <small>Staff Order App</small></div>
-          </div>
-        </div>
-
-        <div class="info-block">
-          <div class="info-icon">⚙️</div>
-          <div class="info-text">
-            <div class="info-label">Version</div>
-            <div class="info-value">1.0 <small>First Release</small></div>
-          </div>
-        </div>
-
-        <div class="info-block">
           <div class="info-icon">👨‍💻</div>
           <div class="info-text">
             <div class="info-label">Developed by</div>
             <div class="info-value">EOTECH <small>Eduardo Oliveira</small></div>
-          </div>
-        </div>
-
-        <div class="info-block">
-          <div class="info-icon">☁️</div>
-          <div class="info-text">
-            <div class="info-label">Sync</div>
-            <div class="info-value">Firebase Realtime <small>Live sync between staff</small></div>
           </div>
         </div>
 
@@ -979,7 +955,7 @@ const db = getDatabase(app);
 const pedidoRef = ref(db, "pedido_atual");
 
 /* =========================================================
-   TRANSLATIONS (interface only — items stay in English)
+   TRANSLATIONS
    ========================================================= */
 const TRANSLATIONS = {
   en: {
@@ -1065,7 +1041,7 @@ function aplicarIdioma(lang) {
 }
 
 /* =========================================================
-   ITEMS LIST (ALWAYS ENGLISH)
+   ITEMS LIST
    ========================================================= */
 const ITENS = [
   { id: "iceberg",       nome: "box iceberg lettuce",         pt: "Alface americana",       tag: "BOX" },
@@ -1140,7 +1116,6 @@ const CATEGORIAS = [
   { id: "embalagem",  nomeEN: "📦 Packaging",         nomePT: "📦 Embalagem" }
 ];
 
-/* ===== MAPA ID → CATEGORIA ===== */
 const CATEGORIA_POR_ID = {};
 ["iceberg","cabbage","carrots","tomatoes","mushrooms","spring_onion","green_lime","parsley","coriander","sweet_corn","passion_fruit","pineapple","orange"].forEach(id => CATEGORIA_POR_ID[id] = "vegetais");
 ["striploin","pork_belly","eggs"].forEach(id => CATEGORIA_POR_ID[id] = "carnes");
@@ -1543,7 +1518,6 @@ sidebarBg.addEventListener("touchend", () => {
   touchStartX = 0; touchStartY = 0; touchCurrentX = 0;
 }, { passive: true });
 
-/* Swipe do canto esquerdo para ABRIR */
 let edgeTouchStartX = 0;
 document.addEventListener("touchstart", (e) => {
   if (sidebarBg.classList.contains("aberto")) return;
