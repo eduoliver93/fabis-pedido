@@ -45,7 +45,6 @@
   }
   @media (max-width: 480px) { header .logo-fabis { max-height: 56px; } }
 
-  /* ===== MENU BUTTON ===== */
   .menu-btn {
     position: absolute;
     top: 50%; left: 16px;
@@ -98,13 +97,14 @@
     flex-shrink: 0; padding: 9px 16px; border-radius: 24px;
     border: 2px solid var(--marrom); background: transparent;
     color: var(--creme-escuro); font-size: .84rem; font-weight: 700;
-    cursor: pointer; white-space: nowrap; transition: all .2s;
+    cursor: pointer; white-space: nowrap; transition: all .25s cubic-bezier(0.4, 0, 0.2, 1);
   }
   .tab:hover { background: rgba(200,135,58,.15); border-color: var(--dourado); }
   .tab.ativa {
     background: linear-gradient(135deg, var(--dourado), var(--marrom));
     color: var(--preto); border-color: var(--creme);
     box-shadow: 0 2px 8px rgba(200,135,58,.5); font-weight: 800;
+    transform: scale(1.02);
   }
   .tab .badge {
     display: inline-block; background: var(--verde); color: #fff;
@@ -139,13 +139,28 @@
   .toolbar button.danger { background: var(--preto); color: var(--creme); }
   .toolbar button.danger:hover { background: #333; transform: translateY(-1px); }
 
-  main { flex: 1; padding: 14px 16px 30px; overflow-y: auto; }
+  main {
+    flex: 1; padding: 14px 16px 30px; overflow-y: auto;
+    will-change: opacity, transform;
+  }
+
+  /* ===== TRANSIÇÃO SUAVE ENTRE ABAS ===== */
+  main.transitioning {
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity .12s ease, transform .12s ease;
+  }
+  main.entrando {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity .22s cubic-bezier(0.4, 0, 0.2, 1), transform .22s cubic-bezier(0.4, 0, 0.2, 1);
+  }
 
   .item {
     display: flex; align-items: center; gap: 12px;
     background: #fff; border: 2px solid var(--creme-escuro);
     border-radius: 14px; padding: 12px 14px; margin-bottom: 10px;
-    transition: all .15s;
+    transition: border-color .15s, background .15s, box-shadow .15s;
   }
   .item.selecionado {
     border-color: var(--verde);
@@ -217,7 +232,6 @@
   footer button:hover { background: linear-gradient(135deg, #d9993f, #a06a35); transform: translateY(-1px); }
   footer button:disabled { background: #4a4a4a; border-color: #666; color: #999; cursor: not-allowed; text-shadow: none; transform: none; }
 
-  /* ===== MODAL BASE ===== */
   .modal-bg {
     position: fixed; inset: 0;
     background: rgba(26,26,26,.75);
@@ -295,7 +309,6 @@
   .modal .acoes .whatsapp { background: #25D366; color: #fff; }
   .modal .acoes .whatsapp:hover { background: #1ebe5b; }
 
-  /* ===== CUSTOM CONFIRM MODAL ===== */
   .confirm-bg {
     position: fixed; inset: 0;
     background: rgba(26,26,26,.7);
@@ -423,7 +436,6 @@
     box-shadow: 0 5px 15px rgba(220,38,38,.5);
   }
 
-  /* ===== WHATSAPP MODAL ===== */
   .confirm-box.whatsapp-modal { max-width: 460px; }
   .confirm-box.whatsapp-modal .top {
     background: linear-gradient(135deg, #128C7E 0%, #075E54 100%);
@@ -478,7 +490,6 @@
     box-shadow: 0 5px 15px rgba(37,211,102,.5);
   }
 
-  /* ===== SIDEBAR ===== */
   .sidebar-bg {
     position: fixed; inset: 0;
     background: rgba(26,26,26,.6);
@@ -605,7 +616,6 @@
 
   .sidebar-divider { height: 1px; background: var(--creme-escuro); margin: 8px 20px; }
 
-  /* ===== LANGUAGE SWITCH ===== */
   .lang-switch {
     display: flex; gap: 8px;
     padding: 12px 20px; align-items: center;
@@ -650,7 +660,6 @@
   }
   .sidebar-footer strong { color: var(--marrom-escuro); }
 
-  /* ===== ABOUT MODAL ===== */
   .about-content { text-align: center; padding: 8px 0; }
   .about-content .icon-about {
     width: 72px; height: 72px;
@@ -680,8 +689,6 @@
     text-transform: uppercase;
     margin-bottom: 20px;
   }
-
-  /* ===== DEV PHOTO ===== */
   .about-content .dev-photo {
     width: 110px; height: 110px;
     border-radius: 50%;
@@ -723,7 +730,6 @@
     font-style: italic;
     margin-top: 2px;
   }
-
   .about-content .version-badge {
     display: inline-block;
     background: linear-gradient(135deg, var(--dourado), var(--marrom));
@@ -777,7 +783,6 @@
   <button id="btnVerPedido" disabled data-i18n="viewOrder">View order</button>
 </footer>
 
-<!-- ===== MODAL RESUMO ===== -->
 <div class="modal-bg" id="modalBg">
   <div class="modal">
     <header>
@@ -795,7 +800,6 @@
   </div>
 </div>
 
-<!-- ===== MODAL CONFIRM ===== -->
 <div class="confirm-bg" id="confirmBg">
   <div class="confirm-box">
     <div class="top">
@@ -817,7 +821,6 @@
   </div>
 </div>
 
-<!-- ===== MODAL WHATSAPP ===== -->
 <div class="confirm-bg" id="whatsappBg">
   <div class="confirm-box whatsapp-modal">
     <div class="top">
@@ -842,7 +845,6 @@
   </div>
 </div>
 
-<!-- ===== MODAL ABOUT ===== -->
 <div class="confirm-bg" id="aboutBg">
   <div class="confirm-box about-modal">
     <div class="top">
@@ -880,7 +882,6 @@
   </div>
 </div>
 
-<!-- ===== SIDEBAR ===== -->
 <div class="sidebar-bg" id="sidebarBg">
   <aside class="sidebar">
     <div class="sidebar-header">
@@ -961,9 +962,6 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebas
 import { getDatabase, ref, onValue, set }
   from "https://www.gstatic.com/firebasejs/13.0.0/firebase-database.js";
 
-/* =========================================================
-   FIREBASE CONFIG
-   ========================================================= */
 const firebaseConfig = {
   apiKey: "AIzaSyByaIxOVLyiyas8F8HXM13EDfquQXta04U",
   authDomain: "fabis-grill-2026.firebaseapp.com",
@@ -1179,7 +1177,8 @@ onValue(pedidoRef, (snapshot) => {
     });
   }
   estado = novoEstado;
-  render();
+  renderTabsOnly();
+  renderList();
   if (primeiraCarga) primeiraCarga = false;
   else mostrarStatus("synced", "online");
 });
@@ -1196,10 +1195,83 @@ async function guardarNaCloud() {
 }
 
 /* =========================================================
-   RENDER TABS
+   RENDER — OTIMIZADO
    ========================================================= */
 const tabsEl = document.getElementById("tabs");
+const listaEl = document.getElementById("lista");
+const totalEl = document.getElementById("totalItens");
+const btnVer = document.getElementById("btnVerPedido");
 
+/* Renderiza SÓ a lista */
+function renderList(animar = false) {
+  if (animar) {
+    listaEl.classList.add("transitioning");
+    listaEl.classList.remove("entrando");
+  }
+
+  const doRender = () => {
+    listaEl.innerHTML = "";
+    const itensAba = ITENS.filter(i => CATEGORIA_POR_ID[i.id] === abaAtiva);
+    const itensFiltrados = itensAba.filter(i =>
+      (i.nome + " " + i.pt).toLowerCase().includes(filtro)
+    );
+
+    if (itensFiltrados.length === 0) {
+      const v = document.createElement("div");
+      v.className = "vazio";
+      v.textContent = idiomaAtual === "pt" ? "Nenhum item nesta categoria." : "No items in this category.";
+      listaEl.appendChild(v);
+    } else {
+      const frag = document.createDocumentFragment();
+      itensFiltrados.forEach(item => renderItem(item, frag));
+      listaEl.appendChild(frag);
+    }
+
+    if (animar) {
+      requestAnimationFrame(() => {
+        listaEl.classList.remove("transitioning");
+        listaEl.classList.add("entrando");
+      });
+    }
+  };
+
+  if (animar) {
+    setTimeout(doRender, 100);
+  } else {
+    doRender();
+  }
+}
+
+/* Renderiza SÓ os badges das abas */
+function renderTabsOnly() {
+  const tabButtons = tabsEl.querySelectorAll(".tab");
+  CATEGORIAS.forEach((cat, idx) => {
+    const btn = tabButtons[idx];
+    if (!btn) return;
+
+    if (cat.id === abaAtiva) btn.classList.add("ativa");
+    else btn.classList.remove("ativa");
+
+    const idsCat = Object.keys(CATEGORIA_POR_ID).filter(id => CATEGORIA_POR_ID[id] === cat.id);
+    const selecionados = idsCat.reduce((s, id) => s + (estado[id] || 0), 0);
+
+    const badgeExistente = btn.querySelector(".badge");
+    if (selecionados > 0) {
+      if (badgeExistente) {
+        badgeExistente.textContent = selecionados;
+      } else {
+        const badge = document.createElement("span");
+        badge.className = "badge";
+        badge.textContent = selecionados;
+        btn.appendChild(badge);
+      }
+    } else if (badgeExistente) {
+      badgeExistente.remove();
+    }
+  });
+}
+
+/* Renderiza as ABAS do zero (só na primeira vez ou mudança de idioma) */
 function renderTabs() {
   tabsEl.innerHTML = "";
   CATEGORIAS.forEach(cat => {
@@ -1208,42 +1280,29 @@ function renderTabs() {
     const nome = idiomaAtual === "pt" ? cat.nomePT : cat.nomeEN;
     const btn = document.createElement("button");
     btn.className = "tab" + (abaAtiva === cat.id ? " ativa" : "");
+    btn.dataset.catId = cat.id;
     btn.innerHTML = nome + (selecionados > 0 ? `<span class="badge">${selecionados}</span>` : "");
     btn.onclick = () => {
-      abaAtiva = cat.id; filtro = "";
+      if (abaAtiva === cat.id) return;
+      abaAtiva = cat.id;
+      filtro = "";
       document.getElementById("busca").value = "";
-      render();
+      renderTabsOnly();
+      renderList(true);
     };
     tabsEl.appendChild(btn);
   });
 }
 
-/* =========================================================
-   RENDER LIST
-   ========================================================= */
-const listaEl = document.getElementById("lista");
-const totalEl = document.getElementById("totalItens");
-const btnVer = document.getElementById("btnVerPedido");
-
-function render() {
+/* Render completo */
+function render(animar = false) {
   renderTabs();
-  listaEl.innerHTML = "";
-  const itensAba = ITENS.filter(i => CATEGORIA_POR_ID[i.id] === abaAtiva);
-  const itensFiltrados = itensAba.filter(i =>
-    (i.nome + " " + i.pt).toLowerCase().includes(filtro)
-  );
-
-  if (itensFiltrados.length === 0) {
-    const v = document.createElement("div");
-    v.className = "vazio";
-    v.textContent = idiomaAtual === "pt" ? "Nenhum item nesta categoria." : "No items in this category.";
-    listaEl.appendChild(v);
-  } else {
-    itensFiltrados.forEach(item => renderItem(item, listaEl));
-  }
-  atualizarTotal();
+  renderList(animar);
 }
 
+/* =========================================================
+   RENDER ITEM
+   ========================================================= */
 function renderItem(item, container) {
   const qtd = estado[item.id] || 0;
   const div = document.createElement("div");
@@ -1273,7 +1332,9 @@ function renderItem(item, container) {
   input.onchange = (e) => {
     const v = Math.max(0, parseInt(e.target.value) || 0);
     if (v > 0) estado[item.id] = v; else delete estado[item.id];
-    guardarNaCloud(); render();
+    guardarNaCloud();
+    renderTabsOnly();
+    renderList();
   };
   const btnMais = document.createElement("button");
   btnMais.textContent = "+";
@@ -1287,14 +1348,18 @@ function renderItem(item, container) {
 function toggleItem(id) {
   if (estado[id] && estado[id] > 0) delete estado[id];
   else estado[id] = 1;
-  guardarNaCloud(); render();
+  guardarNaCloud();
+  renderTabsOnly();
+  renderList();
 }
 
 function alterarQtd(id, delta) {
   const atual = estado[id] || 0;
   const novo = Math.max(0, atual + delta);
   if (novo > 0) estado[id] = novo; else delete estado[id];
-  guardarNaCloud(); render();
+  guardarNaCloud();
+  renderTabsOnly();
+  renderList();
 }
 
 function atualizarTotal() {
@@ -1335,11 +1400,13 @@ document.getElementById("busca").addEventListener("input", (e) => {
       v.textContent = idiomaAtual === "pt" ? "Nenhum item encontrado." : "No items found.";
       listaEl.appendChild(v);
     } else {
-      resultados.forEach(item => renderItem(item, listaEl));
+      const frag = document.createDocumentFragment();
+      resultados.forEach(item => renderItem(item, frag));
+      listaEl.appendChild(frag);
     }
     return;
   }
-  render();
+  renderList();
 });
 
 /* =========================================================
@@ -1386,7 +1453,8 @@ btnConfirmOk.addEventListener("click", async () => {
   fecharConfirm();
   estado = {};
   await guardarNaCloud();
-  render();
+  renderTabsOnly();
+  renderList();
 });
 confirmBg.addEventListener("click", (e) => { if (e.target === confirmBg) fecharConfirm(); });
 
