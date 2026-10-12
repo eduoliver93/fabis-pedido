@@ -104,10 +104,11 @@
     padding: 10px 16px; border: none; border-radius: 10px;
     font-size: .9rem; font-weight: 700; cursor: pointer;
     background: var(--creme-escuro); color: var(--marrom-escuro);
+    transition: all .15s;
   }
   .toolbar button:hover { background: #ddd0ba; }
   .toolbar button.danger { background: var(--preto); color: var(--creme); }
-  .toolbar button.danger:hover { background: #333; }
+  .toolbar button.danger:hover { background: #333; transform: translateY(-1px); }
 
   main { flex: 1; padding: 14px 16px 30px; overflow-y: auto; }
 
@@ -152,7 +153,7 @@
     width: 34px; height: 34px; border-radius: 9px;
     border: 2px solid var(--creme-escuro); background: var(--creme);
     font-size: 1.15rem; font-weight: 800; color: var(--marrom-escuro);
-    cursor: pointer;
+    cursor: pointer; transition: all .15s;
   }
   .qty button:hover { background: var(--dourado); border-color: var(--marrom); color: var(--preto); }
   .qty input {
@@ -182,32 +183,60 @@
     font-size: 1rem; font-weight: 800; cursor: pointer;
     background: linear-gradient(135deg, var(--dourado), var(--marrom));
     color: var(--creme); text-shadow: 1px 1px 0 rgba(0,0,0,.3);
+    transition: all .2s;
   }
-  footer button:hover { background: linear-gradient(135deg, #d9993f, #a06a35); }
-  footer button:disabled { background: #4a4a4a; border-color: #666; color: #999; cursor: not-allowed; text-shadow: none; }
+  footer button:hover { background: linear-gradient(135deg, #d9993f, #a06a35); transform: translateY(-1px); }
+  footer button:disabled { background: #4a4a4a; border-color: #666; color: #999; cursor: not-allowed; text-shadow: none; transform: none; }
 
+  /* ===== MODAL BASE ===== */
   .modal-bg {
-    position: fixed; inset: 0; background: rgba(26,26,26,.75);
+    position: fixed; inset: 0;
+    background: rgba(26,26,26,.75);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
     display: none; align-items: center; justify-content: center;
     padding: 16px; z-index: 50;
+    animation: fadeIn .2s ease;
   }
   .modal-bg.aberto { display: flex; }
+
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
   .modal {
     background: var(--creme); border-radius: 18px;
-    max-width: 560px; width: 100%; max-height: 85vh;
+    max-width: 560px; width: 100%; max-height: 88vh;
     display: flex; flex-direction: column; overflow: hidden;
-    box-shadow: 0 10px 40px rgba(0,0,0,.5); border: 3px solid var(--marrom);
+    box-shadow: 0 20px 60px rgba(0,0,0,.6); border: 3px solid var(--dourado);
+    animation: popIn .3s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
+
+  @keyframes popIn {
+    0%   { transform: scale(.85); opacity: 0; }
+    100% { transform: scale(1);   opacity: 1; }
+  }
+
   .modal header {
     background: linear-gradient(135deg, var(--preto) 0%, var(--marrom-escuro) 100%);
     border-bottom: 3px solid var(--dourado);
     display: flex; flex-direction: column; align-items: center;
     justify-content: center; padding: 16px;
+    position: relative; overflow: hidden;
   }
-  .modal header .logo-fabis { max-height: 48px; }
+  .modal header::before {
+    content: '';
+    position: absolute;
+    top: -50px; right: -50px;
+    width: 140px; height: 140px;
+    background: radial-gradient(circle, var(--dourado) 0%, transparent 70%);
+    opacity: .3;
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .modal header .logo-fabis { max-height: 48px; position: relative; z-index: 1; }
   .modal header .subtitulo {
     margin: 8px 0 0; font-size: .72rem; font-weight: 700;
     letter-spacing: 3px; color: var(--dourado); text-transform: uppercase;
+    position: relative; z-index: 1;
   }
   .modal .conteudo { padding: 18px; overflow: auto; }
   .modal pre {
@@ -225,13 +254,224 @@
   .modal .acoes button {
     padding: 11px 18px; border-radius: 10px; border: none;
     font-size: .95rem; cursor: pointer; font-weight: 700;
+    transition: all .15s;
   }
+  .modal .acoes button:hover { transform: translateY(-1px); }
   .modal .acoes .fechar { background: var(--creme-escuro); color: var(--marrom-escuro); }
+  .modal .acoes .fechar:hover { background: #ddd0ba; }
   .modal .acoes .copiar {
     background: linear-gradient(135deg, var(--dourado), var(--marrom));
     color: var(--creme); text-shadow: 1px 1px 0 rgba(0,0,0,.3);
   }
   .modal .acoes .whatsapp { background: #25D366; color: #fff; }
+  .modal .acoes .whatsapp:hover { background: #1ebe5b; }
+
+  /* ===== CUSTOM CONFIRM MODAL ===== */
+  .confirm-bg {
+    position: fixed; inset: 0;
+    background: rgba(26,26,26,.7);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    display: none;
+    align-items: center; justify-content: center;
+    padding: 16px;
+    z-index: 200;
+    animation: fadeIn .2s ease;
+  }
+  .confirm-bg.aberto { display: flex; }
+
+  .confirm-box {
+    background: var(--creme);
+    border-radius: 20px;
+    max-width: 420px;
+    width: 100%;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,.6);
+    border: 3px solid var(--dourado);
+    animation: popIn .3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    text-align: center;
+  }
+
+  .confirm-box .top {
+    background: linear-gradient(135deg, var(--preto) 0%, var(--marrom-escuro) 100%);
+    padding: 20px;
+    border-bottom: 3px solid var(--dourado);
+    position: relative;
+    overflow: hidden;
+  }
+  .confirm-box .top::before {
+    content: '';
+    position: absolute;
+    top: -50px; right: -50px;
+    width: 140px; height: 140px;
+    background: radial-gradient(circle, var(--dourado) 0%, transparent 70%);
+    opacity: .3;
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .confirm-box .top img {
+    max-height: 48px;
+    display: block;
+    margin: 0 auto 8px;
+    filter: drop-shadow(0 2px 8px rgba(0,0,0,.5));
+    position: relative;
+    z-index: 1;
+  }
+  .confirm-box .top .sub {
+    font-size: .7rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: var(--dourado);
+    text-transform: uppercase;
+    position: relative;
+    z-index: 1;
+  }
+
+  .confirm-box .body {
+    padding: 24px 22px 16px;
+  }
+
+  .confirm-box .icon-warn {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #fee2e2, #fecaca);
+    border: 3px solid #dc2626;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2rem;
+    margin: 0 auto 16px;
+    animation: warningPulse 1.8s ease-in-out infinite;
+  }
+
+  @keyframes warningPulse {
+    0%, 100% { transform: scale(1);   box-shadow: 0 0 0 0 rgba(220,38,38,.5); }
+    50%      { transform: scale(1.05); box-shadow: 0 0 0 12px rgba(220,38,38,0); }
+  }
+
+  .confirm-box h2 {
+    margin: 0 0 8px;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--preto);
+    letter-spacing: -.3px;
+  }
+
+  .confirm-box p {
+    margin: 0 0 6px;
+    font-size: .92rem;
+    color: #6b6355;
+    line-height: 1.5;
+  }
+
+  .confirm-box .aviso {
+    margin: 12px 0 0;
+    padding: 10px 14px;
+    background: #fef3c7;
+    border-left: 4px solid var(--dourado);
+    border-radius: 8px;
+    font-size: .82rem;
+    color: #78350f;
+    font-weight: 600;
+    text-align: left;
+  }
+
+  .confirm-box .acoes {
+    padding: 8px 22px 22px;
+    display: flex;
+    gap: 10px;
+  }
+  .confirm-box .acoes button {
+    flex: 1;
+    padding: 14px 18px;
+    border-radius: 12px;
+    border: none;
+    font-size: .95rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all .15s;
+    letter-spacing: .3px;
+  }
+  .confirm-box .acoes .cancelar {
+    background: var(--creme-escuro);
+    color: var(--marrom-escuro);
+  }
+  .confirm-box .acoes .cancelar:hover {
+    background: #ddd0ba;
+    transform: translateY(-1px);
+  }
+  .confirm-box .acoes .confirmar {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: #fff;
+    text-shadow: 1px 1px 0 rgba(0,0,0,.3);
+    box-shadow: 0 3px 10px rgba(220,38,38,.4);
+  }
+  .confirm-box .acoes .confirmar:hover {
+    background: linear-gradient(135deg, #dc2626, #b91c1c);
+    transform: translateY(-1px);
+    box-shadow: 0 5px 15px rgba(220,38,38,.5);
+  }
+
+  /* ===== WHATSAPP MODAL ===== */
+  .confirm-box.whatsapp-modal {
+    max-width: 460px;
+  }
+  .confirm-box.whatsapp-modal .top {
+    background: linear-gradient(135deg, #128C7E 0%, #075E54 100%);
+    border-bottom-color: #25D366;
+  }
+  .confirm-box.whatsapp-modal .top::before {
+    background: radial-gradient(circle, #25D366 0%, transparent 70%);
+  }
+  .confirm-box.whatsapp-modal .top .sub {
+    color: #25D366;
+  }
+  .confirm-box.whatsapp-modal .icon-warn {
+    background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+    border-color: #25D366;
+    animation: none;
+    font-size: 1.8rem;
+  }
+
+  .whatsapp-preview {
+    margin: 14px 0 4px;
+    background: #fff;
+    border: 2px solid var(--creme-escuro);
+    border-radius: 10px;
+    padding: 12px;
+    text-align: left;
+    max-height: 180px;
+    overflow-y: auto;
+  }
+  .whatsapp-preview pre {
+    margin: 0;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: .82rem;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    color: #4a4a4a;
+    border: none;
+    padding: 0;
+    background: transparent;
+  }
+  .whatsapp-info {
+    font-size: .78rem;
+    color: #6b6355;
+    margin-top: 10px;
+    padding: 8px 12px;
+    background: #d1fae5;
+    border-left: 4px solid #25D366;
+    border-radius: 8px;
+    text-align: left;
+    font-weight: 600;
+  }
+
+  .confirm-box.whatsapp-modal .acoes .confirmar {
+    background: linear-gradient(135deg, #25D366, #128C7E);
+    box-shadow: 0 3px 10px rgba(37,211,102,.4);
+  }
+  .confirm-box.whatsapp-modal .acoes .confirmar:hover {
+    background: linear-gradient(135deg, #1ebe5b, #0e6b52);
+    box-shadow: 0 5px 15px rgba(37,211,102,.5);
+  }
 </style>
 </head>
 <body>
@@ -258,6 +498,7 @@
   <button id="btnVerPedido" disabled>View order</button>
 </footer>
 
+<!-- ===== MODAL RESUMO ===== -->
 <div class="modal-bg" id="modalBg">
   <div class="modal">
     <header>
@@ -271,6 +512,53 @@
       <button class="fechar" id="btnFechar">Close</button>
       <button class="copiar" id="btnCopiar">Copy</button>
       <button class="whatsapp" id="btnWhatsApp">📲 Send WhatsApp</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL CONFIRM (Clear all) ===== -->
+<div class="confirm-bg" id="confirmBg">
+  <div class="confirm-box">
+    <div class="top">
+      <img src="logo-fabis.png" alt="Fabi's Grill">
+      <div class="sub">Confirm Action</div>
+    </div>
+    <div class="body">
+      <div class="icon-warn">⚠️</div>
+      <h2>Clear all items?</h2>
+      <p>This will remove <strong>all selected items</strong> for every staff member.</p>
+      <div class="aviso">
+        💡 This cannot be undone. All staff will see the empty order.
+      </div>
+    </div>
+    <div class="acoes">
+      <button class="cancelar" id="btnConfirmCancel">Cancel</button>
+      <button class="confirmar" id="btnConfirmOk">Clear all</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL WHATSAPP ===== -->
+<div class="confirm-bg" id="whatsappBg">
+  <div class="confirm-box whatsapp-modal">
+    <div class="top">
+      <img src="logo-fabis.png" alt="Fabi's Grill">
+      <div class="sub">Send Order</div>
+    </div>
+    <div class="body">
+      <div class="icon-warn">📲</div>
+      <h2>Send via WhatsApp?</h2>
+      <p>Preview of the message:</p>
+      <div class="whatsapp-preview">
+        <pre id="whatsappPreview"></pre>
+      </div>
+      <div class="whatsapp-info">
+        💬 WhatsApp will open — choose the group and tap send.
+      </div>
+    </div>
+    <div class="acoes">
+      <button class="cancelar" id="btnWhatsCancel">Cancel</button>
+      <button class="confirmar" id="btnWhatsOk">Open WhatsApp</button>
     </div>
   </div>
 </div>
@@ -299,8 +587,6 @@ const pedidoRef = ref(db, "pedido_atual");
 
 /* =========================================================
    ITEMS LIST
-   nome = English (goes to WhatsApp message — NO leading number)
-   pt   = Portuguese translation shown below
    ========================================================= */
 const ITENS = [
   /* === VEGETABLES / FRUITS === */
@@ -584,16 +870,8 @@ document.getElementById("busca").addEventListener("input", (e) => {
   render();
 });
 
-document.getElementById("btnLimpar").addEventListener("click", async () => {
-  if (confirm("⚠️ Clear ALL items? This affects all staff!")) {
-    estado = {};
-    await guardarNaCloud();
-    render();
-  }
-});
-
 /* =========================================================
-   MODAL / SUMMARY
+   MODAL: RESUMO DO PEDIDO
    ========================================================= */
 const modalBg = document.getElementById("modalBg");
 const textoPedido = document.getElementById("textoPedido");
@@ -620,12 +898,62 @@ document.getElementById("btnCopiar").addEventListener("click", async () => {
   }
 });
 
-document.getElementById("btnWhatsApp").addEventListener("click", () => {
+/* =========================================================
+   MODAL: CONFIRM (Clear all)
+   ========================================================= */
+const confirmBg = document.getElementById("confirmBg");
+const btnConfirmOk = document.getElementById("btnConfirmOk");
+const btnConfirmCancel = document.getElementById("btnConfirmCancel");
+
+function abrirConfirm() { confirmBg.classList.add("aberto"); }
+function fecharConfirm() { confirmBg.classList.remove("aberto"); }
+
+document.getElementById("btnLimpar").addEventListener("click", abrirConfirm);
+btnConfirmCancel.addEventListener("click", fecharConfirm);
+btnConfirmOk.addEventListener("click", async () => {
+  fecharConfirm();
+  estado = {};
+  await guardarNaCloud();
+  render();
+});
+confirmBg.addEventListener("click", (e) => { if (e.target === confirmBg) fecharConfirm(); });
+
+/* =========================================================
+   MODAL: WHATSAPP
+   ========================================================= */
+const whatsappBg = document.getElementById("whatsappBg");
+const whatsappPreview = document.getElementById("whatsappPreview");
+const btnWhatsOk = document.getElementById("btnWhatsOk");
+const btnWhatsCancel = document.getElementById("btnWhatsCancel");
+
+function abrirWhatsApp() {
+  whatsappPreview.textContent = gerarTextoPedido();
+  whatsappBg.classList.add("aberto");
+}
+function fecharWhatsApp() { whatsappBg.classList.remove("aberto"); }
+
+document.getElementById("btnWhatsApp").addEventListener("click", abrirWhatsApp);
+btnWhatsCancel.addEventListener("click", fecharWhatsApp);
+
+btnWhatsOk.addEventListener("click", () => {
+  fecharWhatsApp();
+  modalBg.classList.remove("aberto");
   const texto = gerarTextoPedido();
   const textoCodificado = encodeURIComponent(texto);
   const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
   const url = isMobile ? `whatsapp://send?text=${textoCodificado}` : `https://wa.me/?text=${textoCodificado}`;
   window.open(url, "_blank");
+});
+
+whatsappBg.addEventListener("click", (e) => { if (e.target === whatsappBg) fecharWhatsApp(); });
+
+/* ===== Fechar com Escape ===== */
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    if (whatsappBg.classList.contains("aberto")) fecharWhatsApp();
+    else if (confirmBg.classList.contains("aberto")) fecharConfirm();
+    else if (modalBg.classList.contains("aberto")) modalBg.classList.remove("aberto");
+  }
 });
 
 /* =========================================================
