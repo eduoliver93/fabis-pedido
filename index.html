@@ -45,6 +45,41 @@
   }
   @media (max-width: 480px) { header .logo-fabis { max-height: 56px; } }
 
+  /* ===== MENU BUTTON ===== */
+  .menu-btn {
+    position: absolute;
+    top: 50%;
+    left: 16px;
+    transform: translateY(-50%);
+    width: 44px; height: 44px;
+    background: rgba(200,135,58,.15);
+    border: 2px solid var(--dourado);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: all .2s;
+    z-index: 5;
+    padding: 0;
+  }
+  .menu-btn:hover {
+    background: var(--dourado);
+    transform: translateY(-50%) scale(1.05);
+  }
+  .menu-btn:hover .hamburger span { background: var(--preto); }
+  .menu-btn .hamburger {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .menu-btn .hamburger span {
+    display: block;
+    width: 20px;
+    height: 2.5px;
+    background: var(--dourado);
+    border-radius: 2px;
+    transition: background .2s;
+  }
+
   .sync-status {
     position: fixed; top: 16px; right: 16px;
     font-size: .75rem; font-weight: 700;
@@ -411,19 +446,13 @@
   }
 
   /* ===== WHATSAPP MODAL ===== */
-  .confirm-box.whatsapp-modal {
-    max-width: 460px;
-  }
+  .confirm-box.whatsapp-modal { max-width: 460px; }
   .confirm-box.whatsapp-modal .top {
     background: linear-gradient(135deg, #128C7E 0%, #075E54 100%);
     border-bottom-color: #25D366;
   }
-  .confirm-box.whatsapp-modal .top::before {
-    background: radial-gradient(circle, #25D366 0%, transparent 70%);
-  }
-  .confirm-box.whatsapp-modal .top .sub {
-    color: #25D366;
-  }
+  .confirm-box.whatsapp-modal .top::before { background: radial-gradient(circle, #25D366 0%, transparent 70%); }
+  .confirm-box.whatsapp-modal .top .sub { color: #25D366; }
   .confirm-box.whatsapp-modal .icon-warn {
     background: linear-gradient(135deg, #d1fae5, #a7f3d0);
     border-color: #25D366;
@@ -472,30 +501,226 @@
     background: linear-gradient(135deg, #1ebe5b, #0e6b52);
     box-shadow: 0 5px 15px rgba(37,211,102,.5);
   }
+
+  /* ===== SIDEBAR ===== */
+  .sidebar-bg {
+    position: fixed; inset: 0;
+    background: rgba(26,26,26,.6);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    display: none;
+    z-index: 300;
+    animation: fadeIn .2s ease;
+  }
+  .sidebar-bg.aberto { display: block; }
+
+  .sidebar {
+    position: fixed;
+    top: 0; left: 0;
+    width: 300px;
+    max-width: 85vw;
+    height: 100%;
+    background: var(--creme);
+    box-shadow: 4px 0 30px rgba(0,0,0,.4);
+    border-right: 3px solid var(--dourado);
+    z-index: 301;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(-100%);
+    transition: transform .3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .sidebar-bg.aberto .sidebar { transform: translateX(0); }
+
+  .sidebar-header {
+    background: linear-gradient(135deg, var(--preto) 0%, var(--marrom-escuro) 100%);
+    padding: 20px;
+    border-bottom: 3px solid var(--dourado);
+    position: relative;
+    overflow: hidden;
+  }
+  .sidebar-header::before {
+    content: '';
+    position: absolute;
+    top: -50px; right: -50px;
+    width: 140px; height: 140px;
+    background: radial-gradient(circle, var(--dourado) 0%, transparent 70%);
+    opacity: .3;
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .sidebar-header img {
+    max-height: 42px;
+    display: block;
+    margin-bottom: 8px;
+    filter: drop-shadow(0 2px 8px rgba(0,0,0,.5));
+    position: relative;
+    z-index: 1;
+  }
+  .sidebar-header .sub {
+    font-size: .68rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: var(--dourado);
+    text-transform: uppercase;
+    position: relative;
+    z-index: 1;
+  }
+  .sidebar-header .fechar {
+    position: absolute;
+    top: 16px; right: 16px;
+    width: 32px; height: 32px;
+    background: rgba(255,255,255,.1);
+    border: none;
+    border-radius: 50%;
+    color: var(--creme);
+    font-size: 1.3rem;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all .2s;
+    z-index: 2;
+    padding: 0;
+  }
+  .sidebar-header .fechar:hover {
+    background: var(--vermelho);
+    transform: rotate(90deg);
+  }
+
+  .sidebar-body {
+    flex: 1;
+    padding: 12px 0;
+    overflow-y: auto;
+  }
+
+  .sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 20px;
+    cursor: pointer;
+    transition: all .15s;
+    border: none;
+    background: transparent;
+    width: 100%;
+    text-align: left;
+    font-size: .95rem;
+    font-weight: 600;
+    color: var(--preto);
+    font-family: inherit;
+  }
+  .sidebar-item:hover {
+    background: var(--creme-escuro);
+    padding-left: 24px;
+  }
+  .sidebar-item .icone {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--dourado), var(--marrom));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+    color: var(--creme);
+    box-shadow: 0 2px 6px rgba(200,135,58,.3);
+  }
+  .sidebar-item .texto { flex: 1; }
+  .sidebar-item .texto .titulo {
+    font-weight: 700;
+    font-size: .95rem;
+    color: var(--preto);
+  }
+  .sidebar-item .texto .desc {
+    font-size: .72rem;
+    color: #8a7d68;
+    margin-top: 2px;
+    font-weight: 500;
+  }
+
+  .sidebar-divider {
+    height: 1px;
+    background: var(--creme-escuro);
+    margin: 8px 20px;
+  }
+
+  /* ===== LANGUAGE SWITCH ===== */
+  .lang-switch {
+    display: flex;
+    gap: 8px;
+    padding: 12px 20px;
+    align-items: center;
+  }
+  .lang-switch .label {
+    font-size: .78rem;
+    font-weight: 700;
+    color: #8a7d68;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-right: 4px;
+  }
+  .lang-btn {
+    flex: 1;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 2px solid var(--creme-escuro);
+    background: #fff;
+    font-size: .85rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all .15s;
+    color: var(--marrom-escuro);
+    font-family: inherit;
+  }
+  .lang-btn:hover {
+    border-color: var(--dourado);
+    background: #fdf8ee;
+  }
+  .lang-btn.ativa {
+    background: linear-gradient(135deg, var(--dourado), var(--marrom));
+    color: var(--creme);
+    border-color: var(--marrom-escuro);
+    box-shadow: 0 2px 6px rgba(200,135,58,.4);
+    text-shadow: 1px 1px 0 rgba(0,0,0,.3);
+  }
+
+  .sidebar-footer {
+    padding: 14px 20px;
+    border-top: 2px solid var(--creme-escuro);
+    font-size: .72rem;
+    color: #a89b88;
+    text-align: center;
+    background: var(--creme-escuro);
+  }
+  .sidebar-footer strong { color: var(--marrom-escuro); }
 </style>
 </head>
 <body>
 
-<div class="sync-status oculto" id="syncStatus">Synced</div>
+<div class="sync-status oculto" id="syncStatus" data-i18n="synced">Synced</div>
 
 <header>
+  <button class="menu-btn" id="menuBtn" aria-label="Menu">
+    <div class="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </button>
   <img src="logo-fabis.png" alt="Fabi's Grill Temple Bar" class="logo-fabis">
 </header>
 
 <div class="tabs" id="tabs"></div>
 
 <div class="toolbar">
-  <input type="search" id="busca" placeholder="Search item...">
-  <button id="btnLimpar" class="danger">Clear all</button>
+  <input type="search" id="busca" placeholder="Search item..." data-i18n-placeholder="searchPlaceholder">
+  <button id="btnLimpar" class="danger" data-i18n="clearAll">Clear all</button>
 </div>
 
 <main id="lista"></main>
 
 <footer>
   <div class="resumo">
-    <strong id="totalItens">0</strong> items selected
+    <strong id="totalItens">0</strong> <span data-i18n="itemsSelected">items selected</span>
   </div>
-  <button id="btnVerPedido" disabled>View order</button>
+  <button id="btnVerPedido" disabled data-i18n="viewOrder">View order</button>
 </footer>
 
 <!-- ===== MODAL RESUMO ===== -->
@@ -503,37 +728,37 @@
   <div class="modal">
     <header>
       <img src="logo-fabis.png" alt="Fabi's Grill" class="logo-fabis">
-      <p class="subtitulo">Order Summary</p>
+      <p class="subtitulo" data-i18n="orderSummary">Order Summary</p>
     </header>
     <div class="conteudo">
       <pre id="textoPedido"></pre>
     </div>
     <div class="acoes">
-      <button class="fechar" id="btnFechar">Close</button>
-      <button class="copiar" id="btnCopiar">Copy</button>
-      <button class="whatsapp" id="btnWhatsApp">📲 Send WhatsApp</button>
+      <button class="fechar" id="btnFechar" data-i18n="close">Close</button>
+      <button class="copiar" id="btnCopiar" data-i18n="copy">Copy</button>
+      <button class="whatsapp" id="btnWhatsApp">📲 <span data-i18n="sendWhatsApp">Send WhatsApp</span></button>
     </div>
   </div>
 </div>
 
-<!-- ===== MODAL CONFIRM (Clear all) ===== -->
+<!-- ===== MODAL CONFIRM ===== -->
 <div class="confirm-bg" id="confirmBg">
   <div class="confirm-box">
     <div class="top">
       <img src="logo-fabis.png" alt="Fabi's Grill">
-      <div class="sub">Confirm Action</div>
+      <div class="sub" data-i18n="confirmAction">Confirm Action</div>
     </div>
     <div class="body">
       <div class="icon-warn">⚠️</div>
-      <h2>Clear all items?</h2>
-      <p>This will remove <strong>all selected items</strong> for every staff member.</p>
-      <div class="aviso">
+      <h2 data-i18n="clearTitle">Clear all items?</h2>
+      <p data-i18n="clearDesc">This will remove all selected items for every staff member.</p>
+      <div class="aviso" data-i18n="clearWarning">
         💡 This cannot be undone. All staff will see the empty order.
       </div>
     </div>
     <div class="acoes">
-      <button class="cancelar" id="btnConfirmCancel">Cancel</button>
-      <button class="confirmar" id="btnConfirmOk">Clear all</button>
+      <button class="cancelar" id="btnConfirmCancel" data-i18n="cancel">Cancel</button>
+      <button class="confirmar" id="btnConfirmOk" data-i18n="clearAll">Clear all</button>
     </div>
   </div>
 </div>
@@ -543,24 +768,100 @@
   <div class="confirm-box whatsapp-modal">
     <div class="top">
       <img src="logo-fabis.png" alt="Fabi's Grill">
-      <div class="sub">Send Order</div>
+      <div class="sub" data-i18n="sendOrder">Send Order</div>
     </div>
     <div class="body">
       <div class="icon-warn">📲</div>
-      <h2>Send via WhatsApp?</h2>
-      <p>Preview of the message:</p>
+      <h2 data-i18n="whatsTitle">Send via WhatsApp?</h2>
+      <p data-i18n="whatsPreview">Preview of the message:</p>
       <div class="whatsapp-preview">
         <pre id="whatsappPreview"></pre>
       </div>
-      <div class="whatsapp-info">
+      <div class="whatsapp-info" data-i18n="whatsInfo">
         💬 WhatsApp will open — choose the group and tap send.
       </div>
     </div>
     <div class="acoes">
-      <button class="cancelar" id="btnWhatsCancel">Cancel</button>
-      <button class="confirmar" id="btnWhatsOk">Open WhatsApp</button>
+      <button class="cancelar" id="btnWhatsCancel" data-i18n="cancel">Cancel</button>
+      <button class="confirmar" id="btnWhatsOk" data-i18n="openWhatsApp">Open WhatsApp</button>
     </div>
   </div>
+</div>
+
+<!-- ===== SIDEBAR ===== -->
+<div class="sidebar-bg" id="sidebarBg">
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <button class="fechar" id="btnSidebarClose">×</button>
+      <img src="logo-fabis.png" alt="Fabi's Grill">
+      <div class="sub" data-i18n="menu">Menu</div>
+    </div>
+    <div class="sidebar-body">
+      <button class="sidebar-item" id="menuSearch">
+        <div class="icone">🔍</div>
+        <div class="texto">
+          <div class="titulo" data-i18n="searchItems">Search Items</div>
+          <div class="desc" data-i18n="searchDesc">Find quickly</div>
+        </div>
+      </button>
+
+      <button class="sidebar-item" id="menuHistory">
+        <div class="icone">📋</div>
+        <div class="texto">
+          <div class="titulo" data-i18n="history">Order History</div>
+          <div class="desc" data-i18n="comingSoon">Coming soon</div>
+        </div>
+      </button>
+
+      <button class="sidebar-item" id="menuStaff">
+        <div class="icone">👤</div>
+        <div class="texto">
+          <div class="titulo" data-i18n="staffProfile">Staff Profile</div>
+          <div class="desc" data-i18n="comingSoon">Coming soon</div>
+        </div>
+      </button>
+
+      <div class="sidebar-divider"></div>
+
+      <div class="lang-switch">
+        <span class="label" data-i18n="language">🌍</span>
+        <button class="lang-btn" id="btnLangEN">EN</button>
+        <button class="lang-btn" id="btnLangPT">PT</button>
+      </div>
+
+      <div class="sidebar-divider"></div>
+
+      <button class="sidebar-item" id="menuAbout">
+        <div class="icone">ℹ️</div>
+        <div class="texto">
+          <div class="titulo" data-i18n="about">About</div>
+          <div class="desc">Version 1.0</div>
+        </div>
+      </button>
+
+      <button class="sidebar-item" id="menuClear">
+        <div class="icone">🗑️</div>
+        <div class="texto">
+          <div class="titulo" data-i18n="clearAll">Clear All</div>
+          <div class="desc" data-i18n="removeAll">Remove all items</div>
+        </div>
+      </button>
+
+      <div class="sidebar-divider"></div>
+
+      <button class="sidebar-item" id="menuLogout">
+        <div class="icone">🚪</div>
+        <div class="texto">
+          <div class="titulo" data-i18n="logout">Logout</div>
+          <div class="desc" data-i18n="comingSoon">Coming soon</div>
+        </div>
+      </button>
+    </div>
+    <div class="sidebar-footer">
+      <strong>Fabi's Grill</strong><br>
+      Temple Bar · Dublin
+    </div>
+  </aside>
 </div>
 
 <script type="module">
@@ -586,7 +887,99 @@ const db = getDatabase(app);
 const pedidoRef = ref(db, "pedido_atual");
 
 /* =========================================================
-   ITEMS LIST
+   TRANSLATIONS (interface only — items stay in English)
+   ========================================================= */
+const TRANSLATIONS = {
+  en: {
+    synced: "Synced",
+    searchPlaceholder: "Search item...",
+    clearAll: "Clear all",
+    itemsSelected: "items selected",
+    viewOrder: "View order",
+    orderSummary: "Order Summary",
+    close: "Close",
+    copy: "Copy",
+    sendWhatsApp: "Send WhatsApp",
+    confirmAction: "Confirm Action",
+    clearTitle: "Clear all items?",
+    clearDesc: "This will remove all selected items for every staff member.",
+    clearWarning: "💡 This cannot be undone. All staff will see the empty order.",
+    cancel: "Cancel",
+    sendOrder: "Send Order",
+    whatsTitle: "Send via WhatsApp?",
+    whatsPreview: "Preview of the message:",
+    whatsInfo: "💬 WhatsApp will open — choose the group and tap send.",
+    openWhatsApp: "Open WhatsApp",
+    menu: "Menu",
+    searchItems: "Search Items",
+    searchDesc: "Find quickly",
+    history: "Order History",
+    staffProfile: "Staff Profile",
+    comingSoon: "Coming soon",
+    about: "About",
+    removeAll: "Remove all items",
+    logout: "Logout",
+    language: "🌍 Language"
+  },
+  pt: {
+    synced: "Sincronizado",
+    searchPlaceholder: "Buscar item...",
+    clearAll: "Limpar tudo",
+    itemsSelected: "itens selecionados",
+    viewOrder: "Ver pedido",
+    orderSummary: "Resumo do Pedido",
+    close: "Fechar",
+    copy: "Copiar",
+    sendWhatsApp: "Enviar WhatsApp",
+    confirmAction: "Confirmar Ação",
+    clearTitle: "Limpar todos os itens?",
+    clearDesc: "Isso vai remover todos os itens selecionados de todos os staffs.",
+    clearWarning: "💡 Isso não pode ser desfeito. Todos os staffs verão o pedido vazio.",
+    cancel: "Cancelar",
+    sendOrder: "Enviar Pedido",
+    whatsTitle: "Enviar via WhatsApp?",
+    whatsPreview: "Prévia da mensagem:",
+    whatsInfo: "💬 O WhatsApp vai abrir — escolha o grupo e toque em enviar.",
+    openWhatsApp: "Abrir WhatsApp",
+    menu: "Menu",
+    searchItems: "Buscar Itens",
+    searchDesc: "Encontrar rapidamente",
+    history: "Histórico",
+    staffProfile: "Perfil do Staff",
+    comingSoon: "Em breve",
+    about: "Sobre",
+    removeAll: "Remover todos",
+    logout: "Sair",
+    language: "🌍 Idioma"
+  }
+};
+
+let idiomaAtual = localStorage.getItem("fabis_lang") || "en";
+
+function aplicarIdioma(lang) {
+  idiomaAtual = lang;
+  localStorage.setItem("fabis_lang", lang);
+  const t = TRANSLATIONS[lang];
+
+  /* Textos */
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const chave = el.getAttribute("data-i18n");
+    if (t[chave]) el.textContent = t[chave];
+  });
+
+  /* Placeholders */
+  document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
+    const chave = el.getAttribute("data-i18n-placeholder");
+    if (t[chave]) el.placeholder = t[chave];
+  });
+
+  /* Botões de idioma ativos */
+  document.getElementById("btnLangEN").classList.toggle("ativa", lang === "en");
+  document.getElementById("btnLangPT").classList.toggle("ativa", lang === "pt");
+}
+
+/* =========================================================
+   ITEMS LIST (ALWAYS ENGLISH — nunca muda com idioma)
    ========================================================= */
 const ITENS = [
   /* === VEGETABLES / FRUITS === */
@@ -659,13 +1052,13 @@ const ITENS = [
 
 /* ===== CATEGORIAS ===== */
 const CATEGORIAS = [
-  { id: "vegetais",   nome: "🥬 Vegetables/Fruits" },
-  { id: "carnes",     nome: "🥩 Meat" },
-  { id: "mercearia",  nome: "🧂 Grocery" },
-  { id: "paes",       nome: "🍞 Bread/Rice" },
-  { id: "bebidas",    nome: "🥤 Drinks" },
-  { id: "limpeza",    nome: "🧴 Cleaning" },
-  { id: "embalagem",  nome: "📦 Packaging" }
+  { id: "vegetais",   nomeEN: "🥬 Vegetables/Fruits", nomePT: "🥬 Vegetais/Frutas" },
+  { id: "carnes",     nomeEN: "🥩 Meat",              nomePT: "🥩 Carnes" },
+  { id: "mercearia",  nomeEN: "🧂 Grocery",           nomePT: "🧂 Mercearia" },
+  { id: "paes",       nomeEN: "🍞 Bread/Rice",        nomePT: "🍞 Pães/Arroz" },
+  { id: "bebidas",    nomeEN: "🥤 Drinks",            nomePT: "🥤 Bebidas" },
+  { id: "limpeza",    nomeEN: "🧴 Cleaning",          nomePT: "🧴 Limpeza" },
+  { id: "embalagem",  nomeEN: "📦 Packaging",         nomePT: "📦 Embalagem" }
 ];
 
 /* ===== MAPA ID → CATEGORIA ===== */
@@ -689,8 +1082,8 @@ let primeiraCarga = true;
 const syncEl = document.getElementById("syncStatus");
 let syncTimeout = null;
 
-function mostrarStatus(texto, tipo) {
-  syncEl.textContent = texto;
+function mostrarStatus(chaveTexto, tipo) {
+  syncEl.textContent = TRANSLATIONS[idiomaAtual][chaveTexto] || chaveTexto;
   syncEl.className = "sync-status " + tipo;
   clearTimeout(syncTimeout);
   syncTimeout = setTimeout(() => syncEl.classList.add("oculto"), 1500);
@@ -710,17 +1103,17 @@ onValue(pedidoRef, (snapshot) => {
   estado = novoEstado;
   render();
   if (primeiraCarga) primeiraCarga = false;
-  else mostrarStatus("🔄 Updated", "online");
+  else mostrarStatus("synced", "online");
 });
 
 async function guardarNaCloud() {
-  mostrarStatus("💾 Saving...", "saving");
+  mostrarStatus("synced", "saving");
   try {
     await set(pedidoRef, estado);
-    mostrarStatus("✅ Synced", "online");
+    mostrarStatus("synced", "online");
   } catch (e) {
     console.error("Error saving:", e);
-    mostrarStatus("⚠️ Error — try again", "offline");
+    mostrarStatus("synced", "offline");
   }
 }
 
@@ -734,9 +1127,10 @@ function renderTabs() {
   CATEGORIAS.forEach(cat => {
     const idsCat = Object.keys(CATEGORIA_POR_ID).filter(id => CATEGORIA_POR_ID[id] === cat.id);
     const selecionados = idsCat.reduce((s, id) => s + (estado[id] || 0), 0);
+    const nome = idiomaAtual === "pt" ? cat.nomePT : cat.nomeEN;
     const btn = document.createElement("button");
     btn.className = "tab" + (abaAtiva === cat.id ? " ativa" : "");
-    btn.innerHTML = cat.nome + (selecionados > 0 ? `<span class="badge">${selecionados}</span>` : "");
+    btn.innerHTML = nome + (selecionados > 0 ? `<span class="badge">${selecionados}</span>` : "");
     btn.onclick = () => {
       abaAtiva = cat.id; filtro = "";
       document.getElementById("busca").value = "";
@@ -764,7 +1158,7 @@ function render() {
   if (itensFiltrados.length === 0) {
     const v = document.createElement("div");
     v.className = "vazio";
-    v.textContent = "No items in this category.";
+    v.textContent = idiomaAtual === "pt" ? "Nenhum item nesta categoria." : "No items in this category.";
     listaEl.appendChild(v);
   } else {
     itensFiltrados.forEach(item => renderItem(item, listaEl));
@@ -832,7 +1226,7 @@ function atualizarTotal() {
 }
 
 /* =========================================================
-   GENERATE ORDER TEXT — ENGLISH ONLY
+   GENERATE ORDER TEXT — ENGLISH ONLY (nunca muda com idioma)
    ========================================================= */
 function gerarTextoPedido() {
   const linhas = [];
@@ -860,7 +1254,7 @@ document.getElementById("busca").addEventListener("input", (e) => {
     if (resultados.length === 0) {
       const v = document.createElement("div");
       v.className = "vazio";
-      v.textContent = "No items found.";
+      v.textContent = idiomaAtual === "pt" ? "Nenhum item encontrado." : "No items found.";
       listaEl.appendChild(v);
     } else {
       resultados.forEach(item => renderItem(item, listaEl));
@@ -887,19 +1281,19 @@ document.getElementById("btnCopiar").addEventListener("click", async () => {
   const texto = gerarTextoPedido();
   try {
     await navigator.clipboard.writeText(texto);
-    alert("Order copied!");
+    alert(idiomaAtual === "pt" ? "Pedido copiado!" : "Order copied!");
   } catch {
     const range = document.createRange();
     range.selectNode(textoPedido);
     window.getSelection().removeAllRanges();
     window.getSelection().addRange(range);
     document.execCommand("copy");
-    alert("Order copied!");
+    alert(idiomaAtual === "pt" ? "Pedido copiado!" : "Order copied!");
   }
 });
 
 /* =========================================================
-   MODAL: CONFIRM (Clear all)
+   MODAL: CONFIRM
    ========================================================= */
 const confirmBg = document.getElementById("confirmBg");
 const btnConfirmOk = document.getElementById("btnConfirmOk");
@@ -947,10 +1341,73 @@ btnWhatsOk.addEventListener("click", () => {
 
 whatsappBg.addEventListener("click", (e) => { if (e.target === whatsappBg) fecharWhatsApp(); });
 
-/* ===== Fechar com Escape ===== */
+/* =========================================================
+   SIDEBAR MENU
+   ========================================================= */
+const sidebarBg = document.getElementById("sidebarBg");
+
+function abrirSidebar() { sidebarBg.classList.add("aberto"); }
+function fecharSidebar() { sidebarBg.classList.remove("aberto"); }
+
+document.getElementById("menuBtn").addEventListener("click", abrirSidebar);
+document.getElementById("btnSidebarClose").addEventListener("click", fecharSidebar);
+sidebarBg.addEventListener("click", (e) => { if (e.target === sidebarBg) fecharSidebar(); });
+
+document.getElementById("menuSearch").addEventListener("click", () => {
+  fecharSidebar();
+  document.getElementById("busca").focus();
+});
+
+document.getElementById("menuClear").addEventListener("click", () => {
+  fecharSidebar();
+  abrirConfirm();
+});
+
+document.getElementById("menuHistory").addEventListener("click", () => {
+  fecharSidebar();
+  alert(idiomaAtual === "pt"
+    ? "📋 Histórico\n\nEm breve na versão 2.0!\n\nGuarda o histórico de todos os pedidos enviados."
+    : "📋 Order History\n\nComing soon in version 2.0!\n\nSave history of all sent orders.");
+});
+
+document.getElementById("menuStaff").addEventListener("click", () => {
+  fecharSidebar();
+  alert(idiomaAtual === "pt"
+    ? "👤 Perfil do Staff\n\nEm breve!\n\nCada staff terá o seu nome no pedido."
+    : "👤 Staff Profile\n\nComing soon!\n\nEach staff will have their name on the order.");
+});
+
+document.getElementById("menuLogout").addEventListener("click", () => {
+  fecharSidebar();
+  alert(idiomaAtual === "pt"
+    ? "🚪 Sair\n\nEm breve!\n\nLogin por e-mail/password para cada staff."
+    : "🚪 Logout\n\nComing soon!\n\nLogin by email/password for each staff.");
+});
+
+document.getElementById("menuAbout").addEventListener("click", () => {
+  fecharSidebar();
+  alert("ℹ️ Fabi's Grill — Order App\n\nVersion: 1.0\nLocation: Temple Bar, Dublin\nSync: Firebase Realtime\n\n© 2026 Fabi's Grill");
+});
+
+/* =========================================================
+   LANGUAGE SWITCH
+   ========================================================= */
+document.getElementById("btnLangEN").addEventListener("click", () => {
+  aplicarIdioma("en");
+  render();
+});
+document.getElementById("btnLangPT").addEventListener("click", () => {
+  aplicarIdioma("pt");
+  render();
+});
+
+/* =========================================================
+   FECHAR MODAIS COM ESCAPE
+   ========================================================= */
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
-    if (whatsappBg.classList.contains("aberto")) fecharWhatsApp();
+    if (sidebarBg.classList.contains("aberto")) fecharSidebar();
+    else if (whatsappBg.classList.contains("aberto")) fecharWhatsApp();
     else if (confirmBg.classList.contains("aberto")) fecharConfirm();
     else if (modalBg.classList.contains("aberto")) modalBg.classList.remove("aberto");
   }
@@ -972,6 +1429,12 @@ document.addEventListener('wheel', (e) => { if (e.ctrlKey) e.preventDefault(); }
 document.addEventListener('keydown', (e) => {
   if ((e.ctrlKey || e.metaKey) && (e.key === '+' || e.key === '-' || e.key === '0' || e.key === '=')) e.preventDefault();
 });
+
+/* =========================================================
+   INIT
+   ========================================================= */
+aplicarIdioma(idiomaAtual);
+render();
 </script>
 </body>
 </html>
