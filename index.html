@@ -144,7 +144,6 @@
     will-change: opacity, transform;
   }
 
-  /* ===== TRANSIÇÃO SUAVE ENTRE ABAS ===== */
   main.transitioning {
     opacity: 0;
     transform: translateY(8px);
@@ -1202,6 +1201,13 @@ const listaEl = document.getElementById("lista");
 const totalEl = document.getElementById("totalItens");
 const btnVer = document.getElementById("btnVerPedido");
 
+/* Atualiza o botão "View order" e o contador */
+function atualizarTotal() {
+  const total = Object.values(estado).reduce((a, b) => a + b, 0);
+  totalEl.textContent = total;
+  btnVer.disabled = total === 0;
+}
+
 /* Renderiza SÓ a lista */
 function renderList(animar = false) {
   if (animar) {
@@ -1226,6 +1232,9 @@ function renderList(animar = false) {
       itensFiltrados.forEach(item => renderItem(item, frag));
       listaEl.appendChild(frag);
     }
+
+    /* ⚠️ ATUALIZA O TOTAL SEMPRE */
+    atualizarTotal();
 
     if (animar) {
       requestAnimationFrame(() => {
@@ -1362,12 +1371,6 @@ function alterarQtd(id, delta) {
   renderList();
 }
 
-function atualizarTotal() {
-  const total = Object.values(estado).reduce((a, b) => a + b, 0);
-  totalEl.textContent = total;
-  btnVer.disabled = total === 0;
-}
-
 /* =========================================================
    GENERATE ORDER TEXT — ENGLISH ONLY
    ========================================================= */
@@ -1404,6 +1407,7 @@ document.getElementById("busca").addEventListener("input", (e) => {
       resultados.forEach(item => renderItem(item, frag));
       listaEl.appendChild(frag);
     }
+    atualizarTotal();
     return;
   }
   renderList();
