@@ -583,9 +583,16 @@
     border-radius: 10px;
     background: linear-gradient(135deg, var(--dourado), var(--marrom));
     display: flex; align-items: center; justify-content: center;
-    font-size: 1.1rem;
-    flex-shrink: 0; color: var(--creme);
+    flex-shrink: 0;
     box-shadow: 0 2px 6px rgba(200,135,58,.3);
+    overflow: hidden;
+    padding: 6px;
+  }
+  .sidebar-item .icone img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
   }
   .sidebar-item .texto { flex: 1; }
   .sidebar-item .texto .titulo {
@@ -604,9 +611,17 @@
     padding: 12px 20px; align-items: center;
   }
   .lang-switch .label {
-    font-size: .78rem; font-weight: 700;
-    color: #8a7d68; text-transform: uppercase;
-    letter-spacing: 1px; margin-right: 4px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .lang-switch .label img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
   }
   .lang-btn {
     flex: 1;
@@ -666,7 +681,7 @@
     margin-bottom: 20px;
   }
 
-  /* ===== DEV PHOTO (foto do developer) ===== */
+  /* ===== DEV PHOTO ===== */
   .about-content .dev-photo {
     width: 110px; height: 110px;
     border-radius: 50%;
@@ -709,42 +724,6 @@
     margin-top: 2px;
   }
 
-  .about-content .info-block {
-    background: #fff;
-    border: 2px solid var(--creme-escuro);
-    border-radius: 14px;
-    padding: 16px;
-    margin-bottom: 12px;
-    text-align: left;
-    display: flex; align-items: center; gap: 14px;
-  }
-  .about-content .info-block .info-icon {
-    width: 44px; height: 44px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, var(--dourado), var(--marrom));
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.3rem;
-    color: var(--creme);
-    flex-shrink: 0;
-    box-shadow: 0 3px 8px rgba(200,135,58,.3);
-  }
-  .about-content .info-block .info-text { flex: 1; min-width: 0; }
-  .about-content .info-block .info-label {
-    font-size: .7rem; font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: #a89b88; margin-bottom: 3px;
-  }
-  .about-content .info-block .info-value {
-    font-size: .95rem; font-weight: 800;
-    color: var(--preto); line-height: 1.3;
-  }
-  .about-content .info-block .info-value small {
-    display: block;
-    font-size: .75rem; color: #8a7d68;
-    font-weight: 600; margin-top: 2px;
-    font-style: italic;
-  }
   .about-content .version-badge {
     display: inline-block;
     background: linear-gradient(135deg, var(--dourado), var(--marrom));
@@ -911,7 +890,7 @@
     </div>
     <div class="sidebar-body">
       <button class="sidebar-item" id="menuSearch">
-        <div class="icone">🔍</div>
+        <div class="icone"><img src="icons/icon-search.png" alt="Search"></div>
         <div class="texto">
           <div class="titulo" data-i18n="searchItems">Search Items</div>
           <div class="desc" data-i18n="searchDesc">Find quickly</div>
@@ -919,7 +898,7 @@
       </button>
 
       <button class="sidebar-item" id="menuHistory">
-        <div class="icone">📋</div>
+        <div class="icone"><img src="icons/icon-analytics.png" alt="Analytics"></div>
         <div class="texto">
           <div class="titulo" data-i18n="history">Order History</div>
           <div class="desc" data-i18n="comingSoon">Coming soon</div>
@@ -927,7 +906,7 @@
       </button>
 
       <button class="sidebar-item" id="menuStaff">
-        <div class="icone">👤</div>
+        <div class="icone"><img src="icons/icon-staff.png" alt="Staff"></div>
         <div class="texto">
           <div class="titulo" data-i18n="staffProfile">Staff Profile</div>
           <div class="desc" data-i18n="comingSoon">Coming soon</div>
@@ -937,7 +916,7 @@
       <div class="sidebar-divider"></div>
 
       <div class="lang-switch">
-        <span class="label" data-i18n="language">🌍</span>
+        <span class="label"><img src="icons/icon-language.png" alt="Language"></span>
         <button class="lang-btn" id="btnLangEN">EN</button>
         <button class="lang-btn" id="btnLangPT">PT</button>
       </div>
@@ -945,7 +924,7 @@
       <div class="sidebar-divider"></div>
 
       <button class="sidebar-item" id="menuAbout">
-        <div class="icone">ℹ️</div>
+        <div class="icone"><img src="icons/icon-about.png" alt="About"></div>
         <div class="texto">
           <div class="titulo" data-i18n="about">About</div>
           <div class="desc">Version 1.0</div>
@@ -953,7 +932,7 @@
       </button>
 
       <button class="sidebar-item" id="menuClear">
-        <div class="icone">🗑️</div>
+        <div class="icone"><img src="icons/icon-clear.png" alt="Clear"></div>
         <div class="texto">
           <div class="titulo" data-i18n="clearAll">Clear All</div>
           <div class="desc" data-i18n="removeAll">Remove all items</div>
@@ -963,7 +942,7 @@
       <div class="sidebar-divider"></div>
 
       <button class="sidebar-item" id="menuLogout">
-        <div class="icone">🚪</div>
+        <div class="icone"><img src="icons/icon-logout.png" alt="Logout"></div>
         <div class="texto">
           <div class="titulo" data-i18n="logout">Logout</div>
           <div class="desc" data-i18n="comingSoon">Coming soon</div>
@@ -1481,8 +1460,8 @@ document.getElementById("menuHistory").addEventListener("click", () => {
   fecharSidebar();
   setTimeout(() => {
     alert(idiomaAtual === "pt"
-      ? "📋 Histórico\n\nEm breve na versão 2.0!\n\nGuarda o histórico de todos os pedidos enviados."
-      : "📋 Order History\n\nComing soon in version 2.0!\n\nSave history of all sent orders.");
+      ? "📊 Análises\n\nEm breve na versão 2.0!\n\nRelatórios mensais de tudo que foi pedido."
+      : "📊 Analytics\n\nComing soon in version 2.0!\n\nMonthly reports of everything ordered.");
   }, 250);
 });
 
