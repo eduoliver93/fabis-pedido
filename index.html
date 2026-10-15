@@ -1094,6 +1094,8 @@ const ITENS = [
   { id: "bread_crumbs",  nome: "bread crumbs",                pt: "Farinha de rosca" },
   { id: "vinegar",       nome: "vinegar",                     pt: "Vinagre" },
   { id: "sea_salt",      nome: "sea salt",                    pt: "Sal marinho" },
+  { id: "smoked_paprika",nome: "bag of smoked paprika",       pt: "Paprica defumada",       tag: "BAG" },
+  { id: "black_pepper",  nome: "bag of black pepper powder",  pt: "Pimenta do reino",       tag: "BAG" },
   { id: "puck",          nome: "puck spread",                 pt: "Puck (manteiga)" },
   { id: "mayo_10kg",     nome: "mayo 10kg",                   pt: "Maionese 10kg" },
   { id: "mayo_sachets",  nome: "mayonnaise sachets",          pt: "Maionese sachês" },
@@ -1140,7 +1142,7 @@ const CATEGORIAS = [
 const CATEGORIA_POR_ID = {};
 ["iceberg","cabbage","carrots","tomatoes","mushrooms","spring_onion","green_lime","parsley","coriander","sweet_corn","passion_fruit","pineapple","orange"].forEach(id => CATEGORIA_POR_ID[id] = "vegetais");
 ["striploin","pork_belly","eggs"].forEach(id => CATEGORIA_POR_ID[id] = "carnes");
-["olive_oil","fresh_cream","cheese_unit","peeled_garlic","tofu","peeled_tomato","cream_flour","french_fries","bread_crumbs","vinegar","sea_salt","puck","mayo_10kg","mayo_sachets","ketchup","ketchup_sachets"].forEach(id => CATEGORIA_POR_ID[id] = "mercearia");
+["olive_oil","fresh_cream","cheese_unit","peeled_garlic","tofu","peeled_tomato","cream_flour","french_fries","bread_crumbs","vinegar","sea_salt","smoked_paprika","black_pepper","puck","mayo_10kg","mayo_sachets","ketchup","ketchup_sachets"].forEach(id => CATEGORIA_POR_ID[id] = "mercearia");
 ["tilda_rice","potatoes"].forEach(id => CATEGORIA_POR_ID[id] = "paes");
 ["coke_zero_330","coke_zero_500","coke_cola_330","coke_cola_500","sparkling","still_water"].forEach(id => CATEGORIA_POR_ID[id] = "bebidas");
 ["blue_paper","gloves","toilet_roll","napkins","washing_up","spray_wipe","yellow_sponge","iron_sponge"].forEach(id => CATEGORIA_POR_ID[id] = "limpeza");
@@ -1201,14 +1203,12 @@ const listaEl = document.getElementById("lista");
 const totalEl = document.getElementById("totalItens");
 const btnVer = document.getElementById("btnVerPedido");
 
-/* Atualiza o botão "View order" e o contador */
 function atualizarTotal() {
   const total = Object.values(estado).reduce((a, b) => a + b, 0);
   totalEl.textContent = total;
   btnVer.disabled = total === 0;
 }
 
-/* Renderiza SÓ a lista */
 function renderList(animar = false) {
   if (animar) {
     listaEl.classList.add("transitioning");
@@ -1233,7 +1233,6 @@ function renderList(animar = false) {
       listaEl.appendChild(frag);
     }
 
-    /* ⚠️ ATUALIZA O TOTAL SEMPRE */
     atualizarTotal();
 
     if (animar) {
@@ -1251,7 +1250,6 @@ function renderList(animar = false) {
   }
 }
 
-/* Renderiza SÓ os badges das abas */
 function renderTabsOnly() {
   const tabButtons = tabsEl.querySelectorAll(".tab");
   CATEGORIAS.forEach((cat, idx) => {
@@ -1280,7 +1278,6 @@ function renderTabsOnly() {
   });
 }
 
-/* Renderiza as ABAS do zero (só na primeira vez ou mudança de idioma) */
 function renderTabs() {
   tabsEl.innerHTML = "";
   CATEGORIAS.forEach(cat => {
@@ -1303,7 +1300,6 @@ function renderTabs() {
   });
 }
 
-/* Render completo */
 function render(animar = false) {
   renderTabs();
   renderList(animar);
