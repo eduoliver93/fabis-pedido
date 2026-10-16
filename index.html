@@ -324,21 +324,22 @@
   .supplier-buttons {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
+    gap: 10px;
   }
   .supplier-btn {
-    padding: 12px 10px;
-    border-radius: 12px;
+    padding: 14px 10px;
+    border-radius: 14px;
     border: 2px solid var(--creme-escuro);
     background: #fff;
     cursor: pointer;
     transition: all .2s;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 8px;
     font-family: inherit;
-    font-size: .85rem;
+    font-size: .92rem;
     font-weight: 800;
     color: var(--marrom-escuro);
   }
@@ -352,13 +353,13 @@
     transform: translateY(0);
   }
   .supplier-btn img {
-    width: 28px;
-    height: 28px;
+    width: 48px;
+    height: 48px;
     object-fit: contain;
     border-radius: 50%;
     flex-shrink: 0;
     background: #fff;
-    padding: 2px;
+    padding: 3px;
   }
   .supplier-btn.whatsapp-btn {
     background: linear-gradient(135deg, #25D366, #128C7E);
@@ -796,7 +797,6 @@
   <button id="btnVerPedido" disabled data-i18n="viewOrder">View order</button>
 </footer>
 
-<!-- ===== MODAL RESUMO + SUPPLIERS ===== -->
 <div class="modal-bg" id="modalBg">
   <div class="modal">
     <header>
@@ -1391,7 +1391,7 @@ function alterarQtd(id, delta) {
 }
 
 /* =========================================================
-   GENERATE ORDER TEXT — para fornecedor específico
+   GENERATE ORDER TEXT
    ========================================================= */
 function gerarTextoPedidoFornecedor(fornecedorKey) {
   const config = FORNECEDORES[fornecedorKey] || FORNECEDORES[FORNECEDOR_DEFAULT];
@@ -1407,7 +1407,6 @@ function gerarTextoPedidoFornecedor(fornecedorKey) {
   return linhas.join("\n");
 }
 
-/* Default: Ercan (usado no preview) */
 function gerarTextoPedido() {
   return gerarTextoPedidoFornecedor(FORNECEDOR_DEFAULT);
 }
@@ -1445,7 +1444,7 @@ const modalBg = document.getElementById("modalBg");
 const textoPedido = document.getElementById("textoPedido");
 
 document.getElementById("btnVerPedido").addEventListener("click", () => {
-  textoPedido.textContent = gerarTextoPedido(); /* Ercan default */
+  textoPedido.textContent = gerarTextoPedido();
   modalBg.classList.add("aberto");
 });
 document.getElementById("btnFechar").addEventListener("click", () => modalBg.classList.remove("aberto"));
@@ -1672,6 +1671,51 @@ document.addEventListener('wheel', (e) => { if (e.ctrlKey) e.preventDefault(); }
 document.addEventListener('keydown', (e) => {
   if ((e.ctrlKey || e.metaKey) && (e.key === '+' || e.key === '-' || e.key === '0' || e.key === '=')) e.preventDefault();
 });
+
+/* =========================================================
+   AUTO-CLEAR DIÁRIO ÀS 6:00 DA MANHÃ
+   ========================================================= */
+const AUTO_CLEAR_HOUR = 6; /* 6h da manhã */
+const AUTO_CLEAR_KEY = "fabis_last_auto_clear"; /* Guarda o último dia que limpou */
+
+async function verificarAutoClear() {
+  const agora = new Date();
+  const hoje = agora.toISOString().slice(0, 10); /* "2026-10-13" */
+  const horaAtual = agora.getHours();
+
+  /* Se ainda não passou das 6h → não faz nada */
+  if (horaAtual < AUTO_CLEAR_HOUR) return;
+
+  /* Se já limpou hoje → não faz nada */
+  const ultimaLimpeza = localStorage.getItem(AUTO_CLEAR_KEY);
+  if (ultimaLimpeza === hoje) return;
+
+  /* Marca como limpo ANTES de limpar (evita duplo disparo) */
+  localStorage.setItem(AUTO_CLEAR_KEY, hoje);
+
+  console.log("🌅 Auto-clear das 6h — limpando pedido...");
+
+  /* Limpa o estado local e o Firebase */
+  estado = {};
+  try {
+    await set(pedidoRef, null);
+    console.log("✅ Pedido limpo automaticamente às", agora.toLocaleTimeString());
+  } catch (e) {
+    console.error("❌ Erro no auto-clear:", e);
+    /* Se der erro, remove a flag para tentar de novo na próxima verificação */
+    localStorage.removeItem(AUTO_CLEAR_KEY);
+  }
+
+  /* Atualiza a UI */
+  renderTabsOnly();
+  renderList();
+}
+
+/* Executa ao abrir o app */
+verificarAutoClear();
+
+/* E verifica a cada 1 minuto (caso o app fique aberto durante a noite) */
+setInterval(verificarAutoClear, 60 * 1000);
 
 /* =========================================================
    INIT
