@@ -305,8 +305,76 @@
     background: linear-gradient(135deg, var(--dourado), var(--marrom));
     color: var(--creme); text-shadow: 1px 1px 0 rgba(0,0,0,.3);
   }
-  .modal .acoes .whatsapp { background: #25D366; color: #fff; }
-  .modal .acoes .whatsapp:hover { background: #1ebe5b; }
+
+  /* ===== SUPPLIER BUTTONS ===== */
+  .supplier-section {
+    padding: 14px 18px 18px;
+    background: var(--creme);
+    border-top: 2px solid var(--creme-escuro);
+  }
+  .supplier-label {
+    font-size: .72rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: var(--marrom-escuro);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    text-align: center;
+  }
+  .supplier-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+  .supplier-btn {
+    padding: 12px 10px;
+    border-radius: 12px;
+    border: 2px solid var(--creme-escuro);
+    background: #fff;
+    cursor: pointer;
+    transition: all .2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: inherit;
+    font-size: .85rem;
+    font-weight: 800;
+    color: var(--marrom-escuro);
+  }
+  .supplier-btn:hover {
+    border-color: var(--verde);
+    background: #f0fdf4;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(22,163,74,.2);
+  }
+  .supplier-btn:active {
+    transform: translateY(0);
+  }
+  .supplier-btn img {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background: #fff;
+    padding: 2px;
+  }
+  .supplier-btn.whatsapp-btn {
+    background: linear-gradient(135deg, #25D366, #128C7E);
+    color: #fff;
+    border-color: #128C7E;
+    text-shadow: 1px 1px 0 rgba(0,0,0,.2);
+  }
+  .supplier-btn.whatsapp-btn:hover {
+    background: linear-gradient(135deg, #1ebe5b, #0e6b52);
+    border-color: #0e6b52;
+    box-shadow: 0 4px 12px rgba(37,211,102,.4);
+  }
+  .supplier-btn.whatsapp-btn img {
+    background: #fff;
+    padding: 3px;
+  }
 
   .confirm-bg {
     position: fixed; inset: 0;
@@ -433,60 +501,6 @@
     background: linear-gradient(135deg, #dc2626, #b91c1c);
     transform: translateY(-1px);
     box-shadow: 0 5px 15px rgba(220,38,38,.5);
-  }
-
-  .confirm-box.whatsapp-modal { max-width: 460px; }
-  .confirm-box.whatsapp-modal .top {
-    background: linear-gradient(135deg, #128C7E 0%, #075E54 100%);
-    border-bottom-color: #25D366;
-  }
-  .confirm-box.whatsapp-modal .top::before { background: radial-gradient(circle, #25D366 0%, transparent 70%); }
-  .confirm-box.whatsapp-modal .top .sub { color: #25D366; }
-  .confirm-box.whatsapp-modal .icon-warn {
-    background: linear-gradient(135deg, #d1fae5, #a7f3d0);
-    border-color: #25D366;
-    animation: none;
-    font-size: 1.8rem;
-  }
-  .whatsapp-preview {
-    margin: 14px 0 4px;
-    background: #fff;
-    border: 2px solid var(--creme-escuro);
-    border-radius: 10px;
-    padding: 12px;
-    text-align: left;
-    max-height: 180px;
-    overflow-y: auto;
-  }
-  .whatsapp-preview pre {
-    margin: 0;
-    font-family: 'Segoe UI', system-ui, sans-serif;
-    font-size: .82rem;
-    line-height: 1.5;
-    white-space: pre-wrap;
-    color: #4a4a4a;
-    border: none;
-    padding: 0;
-    background: transparent;
-  }
-  .whatsapp-info {
-    font-size: .78rem;
-    color: #6b6355;
-    margin-top: 10px;
-    padding: 8px 12px;
-    background: #d1fae5;
-    border-left: 4px solid #25D366;
-    border-radius: 8px;
-    text-align: left;
-    font-weight: 600;
-  }
-  .confirm-box.whatsapp-modal .acoes .confirmar {
-    background: linear-gradient(135deg, #25D366, #128C7E);
-    box-shadow: 0 3px 10px rgba(37,211,102,.4);
-  }
-  .confirm-box.whatsapp-modal .acoes .confirmar:hover {
-    background: linear-gradient(135deg, #1ebe5b, #0e6b52);
-    box-shadow: 0 5px 15px rgba(37,211,102,.5);
   }
 
   .sidebar-bg {
@@ -782,6 +796,7 @@
   <button id="btnVerPedido" disabled data-i18n="viewOrder">View order</button>
 </footer>
 
+<!-- ===== MODAL RESUMO + SUPPLIERS ===== -->
 <div class="modal-bg" id="modalBg">
   <div class="modal">
     <header>
@@ -794,7 +809,28 @@
     <div class="acoes">
       <button class="fechar" id="btnFechar" data-i18n="close">Close</button>
       <button class="copiar" id="btnCopiar" data-i18n="copy">Copy</button>
-      <button class="whatsapp" id="btnWhatsApp">📲 <span data-i18n="sendWhatsApp">Send WhatsApp</span></button>
+    </div>
+
+    <div class="supplier-section">
+      <div class="supplier-label" data-i18n="sendTo">📲 Send order to:</div>
+      <div class="supplier-buttons">
+        <button class="supplier-btn whatsapp-btn" data-supplier="ercan">
+          <img src="logo-fabis.png" alt="Ercan">
+          Ercan
+        </button>
+        <button class="supplier-btn whatsapp-btn" data-supplier="sysco">
+          <img src="icons/sysco.png" alt="Sysco">
+          Sysco
+        </button>
+        <button class="supplier-btn whatsapp-btn" data-supplier="musgrave">
+          <img src="icons/musgrave.png" alt="Musgrave">
+          Musgrave
+        </button>
+        <button class="supplier-btn whatsapp-btn" data-supplier="freshpoint">
+          <img src="icons/freshpoint.png" alt="Freshpoint">
+          Freshpoint
+        </button>
+      </div>
     </div>
   </div>
 </div>
@@ -816,30 +852,6 @@
     <div class="acoes">
       <button class="cancelar" id="btnConfirmCancel" data-i18n="cancel">Cancel</button>
       <button class="confirmar" id="btnConfirmOk" data-i18n="clearAll">Clear all</button>
-    </div>
-  </div>
-</div>
-
-<div class="confirm-bg" id="whatsappBg">
-  <div class="confirm-box whatsapp-modal">
-    <div class="top">
-      <img src="logo-fabis.png" alt="Fabi's Grill">
-      <div class="sub" data-i18n="sendOrder">Send Order</div>
-    </div>
-    <div class="body">
-      <div class="icon-warn">📲</div>
-      <h2 data-i18n="whatsTitle">Send via WhatsApp?</h2>
-      <p data-i18n="whatsPreview">Preview of the message:</p>
-      <div class="whatsapp-preview">
-        <pre id="whatsappPreview"></pre>
-      </div>
-      <div class="whatsapp-info" data-i18n="whatsInfo">
-        💬 WhatsApp will open — choose the group and tap send.
-      </div>
-    </div>
-    <div class="acoes">
-      <button class="cancelar" id="btnWhatsCancel" data-i18n="cancel">Cancel</button>
-      <button class="confirmar" id="btnWhatsOk" data-i18n="openWhatsApp">Open WhatsApp</button>
     </div>
   </div>
 </div>
@@ -976,6 +988,30 @@ const db = getDatabase(app);
 const pedidoRef = ref(db, "pedido_atual");
 
 /* =========================================================
+   SUPPLIERS
+   ========================================================= */
+const FORNECEDORES = {
+  ercan: {
+    nome: "Ercan",
+    saudacao: "Hello Ercan, could you send it to Fabis Grill temple bar, "
+  },
+  sysco: {
+    nome: "Sysco",
+    saudacao: "Hello Sysco, could you send it to Fabis Grill temple bar, "
+  },
+  musgrave: {
+    nome: "Musgrave",
+    saudacao: "Hello Musgrave, could you send it to Fabis Grill temple bar, "
+  },
+  freshpoint: {
+    nome: "Freshpoint",
+    saudacao: "Hello Freshpoint, could you send it to Fabis Grill temple bar, "
+  }
+};
+
+const FORNECEDOR_DEFAULT = "ercan";
+
+/* =========================================================
    TRANSLATIONS
    ========================================================= */
 const TRANSLATIONS = {
@@ -988,17 +1024,12 @@ const TRANSLATIONS = {
     orderSummary: "Order Summary",
     close: "Close",
     copy: "Copy",
-    sendWhatsApp: "Send WhatsApp",
+    sendTo: "📲 Send order to:",
     confirmAction: "Confirm Action",
     clearTitle: "Clear all items?",
     clearDesc: "This will remove all selected items for every staff member.",
     clearWarning: "💡 This cannot be undone. All staff will see the empty order.",
     cancel: "Cancel",
-    sendOrder: "Send Order",
-    whatsTitle: "Send via WhatsApp?",
-    whatsPreview: "Preview of the message:",
-    whatsInfo: "💬 WhatsApp will open — choose the group and tap send.",
-    openWhatsApp: "Open WhatsApp",
     menu: "Menu",
     searchItems: "Search Items",
     searchDesc: "Find quickly",
@@ -1019,17 +1050,12 @@ const TRANSLATIONS = {
     orderSummary: "Resumo do Pedido",
     close: "Fechar",
     copy: "Copiar",
-    sendWhatsApp: "Enviar WhatsApp",
+    sendTo: "📲 Enviar pedido para:",
     confirmAction: "Confirmar Ação",
     clearTitle: "Limpar todos os itens?",
     clearDesc: "Isso vai remover todos os itens selecionados de todos os staffs.",
     clearWarning: "💡 Isso não pode ser desfeito. Todos os staffs verão o pedido vazio.",
     cancel: "Cancelar",
-    sendOrder: "Enviar Pedido",
-    whatsTitle: "Enviar via WhatsApp?",
-    whatsPreview: "Prévia da mensagem:",
-    whatsInfo: "💬 O WhatsApp vai abrir — escolha o grupo e toque em enviar.",
-    openWhatsApp: "Abrir WhatsApp",
     menu: "Menu",
     searchItems: "Buscar Itens",
     searchDesc: "Encontrar rapidamente",
@@ -1196,7 +1222,7 @@ async function guardarNaCloud() {
 }
 
 /* =========================================================
-   RENDER — OTIMIZADO
+   RENDER
    ========================================================= */
 const tabsEl = document.getElementById("tabs");
 const listaEl = document.getElementById("lista");
@@ -1305,9 +1331,6 @@ function render(animar = false) {
   renderList(animar);
 }
 
-/* =========================================================
-   RENDER ITEM
-   ========================================================= */
 function renderItem(item, container) {
   const qtd = estado[item.id] || 0;
   const div = document.createElement("div");
@@ -1368,11 +1391,12 @@ function alterarQtd(id, delta) {
 }
 
 /* =========================================================
-   GENERATE ORDER TEXT — ENGLISH ONLY
+   GENERATE ORDER TEXT — para fornecedor específico
    ========================================================= */
-function gerarTextoPedido() {
+function gerarTextoPedidoFornecedor(fornecedorKey) {
+  const config = FORNECEDORES[fornecedorKey] || FORNECEDORES[FORNECEDOR_DEFAULT];
   const linhas = [];
-  linhas.push("Hello Ercan, could you send it to Fabis Grill temple bar, ");
+  linhas.push(config.saudacao);
   linhas.push("");
   ITENS.forEach(item => {
     const qtd = estado[item.id] || 0;
@@ -1381,6 +1405,11 @@ function gerarTextoPedido() {
   linhas.push("");
   linhas.push("Thank you! 🙏");
   return linhas.join("\n");
+}
+
+/* Default: Ercan (usado no preview) */
+function gerarTextoPedido() {
+  return gerarTextoPedidoFornecedor(FORNECEDOR_DEFAULT);
 }
 
 /* =========================================================
@@ -1416,7 +1445,7 @@ const modalBg = document.getElementById("modalBg");
 const textoPedido = document.getElementById("textoPedido");
 
 document.getElementById("btnVerPedido").addEventListener("click", () => {
-  textoPedido.textContent = gerarTextoPedido();
+  textoPedido.textContent = gerarTextoPedido(); /* Ercan default */
   modalBg.classList.add("aberto");
 });
 document.getElementById("btnFechar").addEventListener("click", () => modalBg.classList.remove("aberto"));
@@ -1435,6 +1464,22 @@ document.getElementById("btnCopiar").addEventListener("click", async () => {
     document.execCommand("copy");
     alert(idiomaAtual === "pt" ? "Pedido copiado!" : "Order copied!");
   }
+});
+
+/* =========================================================
+   SUPPLIER BUTTONS
+   ========================================================= */
+document.querySelectorAll(".supplier-btn[data-supplier]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const fornecedor = btn.dataset.supplier;
+    const texto = gerarTextoPedidoFornecedor(fornecedor);
+    const textoCodificado = encodeURIComponent(texto);
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    const url = isMobile
+      ? `whatsapp://send?text=${textoCodificado}`
+      : `https://wa.me/?text=${textoCodificado}`;
+    window.open(url, "_blank");
+  });
 });
 
 /* =========================================================
@@ -1457,34 +1502,6 @@ btnConfirmOk.addEventListener("click", async () => {
   renderList();
 });
 confirmBg.addEventListener("click", (e) => { if (e.target === confirmBg) fecharConfirm(); });
-
-/* =========================================================
-   MODAL: WHATSAPP
-   ========================================================= */
-const whatsappBg = document.getElementById("whatsappBg");
-const whatsappPreview = document.getElementById("whatsappPreview");
-const btnWhatsOk = document.getElementById("btnWhatsOk");
-const btnWhatsCancel = document.getElementById("btnWhatsCancel");
-
-function abrirWhatsApp() {
-  whatsappPreview.textContent = gerarTextoPedido();
-  whatsappBg.classList.add("aberto");
-}
-function fecharWhatsApp() { whatsappBg.classList.remove("aberto"); }
-
-document.getElementById("btnWhatsApp").addEventListener("click", abrirWhatsApp);
-btnWhatsCancel.addEventListener("click", fecharWhatsApp);
-
-btnWhatsOk.addEventListener("click", () => {
-  fecharWhatsApp();
-  modalBg.classList.remove("aberto");
-  const texto = gerarTextoPedido();
-  const textoCodificado = encodeURIComponent(texto);
-  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-  const url = isMobile ? `whatsapp://send?text=${textoCodificado}` : `https://wa.me/?text=${textoCodificado}`;
-  window.open(url, "_blank");
-});
-whatsappBg.addEventListener("click", (e) => { if (e.target === whatsappBg) fecharWhatsApp(); });
 
 /* =========================================================
    MODAL: ABOUT
@@ -1634,7 +1651,6 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
     if (aboutBg.classList.contains("aberto")) fecharAbout();
     else if (sidebarBg.classList.contains("aberto")) fecharSidebar();
-    else if (whatsappBg.classList.contains("aberto")) fecharWhatsApp();
     else if (confirmBg.classList.contains("aberto")) fecharConfirm();
     else if (modalBg.classList.contains("aberto")) modalBg.classList.remove("aberto");
   }
