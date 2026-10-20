@@ -464,6 +464,12 @@
     margin: 0 0 6px; font-size: .92rem;
     color: #6b6355; line-height: 1.5;
   }
+  .confirm-box .confirm-count {
+    font-weight: 800;
+    color: var(--vermelho);
+    font-size: 1rem;
+    margin: 10px 0 0;
+  }
   .confirm-box .aviso {
     margin: 12px 0 0; padding: 10px 14px;
     background: #fef3c7; border-left: 4px solid var(--dourado);
@@ -502,6 +508,14 @@
     background: linear-gradient(135deg, #dc2626, #b91c1c);
     transform: translateY(-1px);
     box-shadow: 0 5px 15px rgba(220,38,38,.5);
+  }
+  .confirm-box .acoes .confirmar:disabled {
+    background: #9ca3af;
+    cursor: not-allowed;
+    opacity: .6;
+    box-shadow: none;
+    transform: none;
+    text-shadow: none;
   }
 
   .sidebar-bg {
@@ -845,6 +859,7 @@
       <div class="icon-warn">⚠️</div>
       <h2 data-i18n="clearTitle">Clear all items?</h2>
       <p data-i18n="clearDesc">This will remove all selected items for every staff member.</p>
+      <p class="confirm-count" id="confirmCount"></p>
       <div class="aviso" data-i18n="clearWarning">
         💡 This cannot be undone. All staff will see the empty order.
       </div>
@@ -1482,17 +1497,53 @@ document.querySelectorAll(".supplier-btn[data-supplier]").forEach(btn => {
 });
 
 /* =========================================================
-   MODAL: CONFIRM
+   MODAL: CONFIRM (CLEAR ALL)
    ========================================================= */
 const confirmBg = document.getElementById("confirmBg");
 const btnConfirmOk = document.getElementById("btnConfirmOk");
 const btnConfirmCancel = document.getElementById("btnConfirmCancel");
+const confirmCountEl = document.getElementById("confirmCount");
 
-function abrirConfirm() { confirmBg.classList.add("aberto"); }
-function fecharConfirm() { confirmBg.classList.remove("aberto"); }
+function abrirConfirm() {
+  /* Calcula quantos itens serão removidos */
+  const totalItens = Object.values(estado).reduce((a, b) => a + b, 0);
 
+  /* Mostra a contagem no pop-up */
+  if (confirmCountEl) {
+    if (idiomaAtual === "pt") {
+      confirmCountEl.textContent = totalItens === 1
+        ? `🛒 ${totalItens} item será removido`
+        : `🛒 ${totalItens} itens serão removidos`;
+    } else {
+      confirmCountEl.textContent = totalItens === 1
+        ? `🛒 ${totalItens} item will be removed`
+        : `🛒 ${totalItens} items will be removed`;
+    }
+  }
+
+  /* Desabilita o botão de confirmar se não há nada para apagar */
+  btnConfirmOk.disabled = totalItens === 0;
+
+  confirmBg.classList.add("aberto");
+}
+
+function fecharConfirm() {
+  confirmBg.classList.remove("aberto");
+}
+
+/* Botão "Clear all" da toolbar */
 document.getElementById("btnLimpar").addEventListener("click", abrirConfirm);
+
+/* Botão "Clear All" do menu lateral */
+document.getElementById("menuClear").addEventListener("click", () => {
+  fecharSidebar();
+  setTimeout(abrirConfirm, 250);
+});
+
+/* Botão "Cancel" do pop-up */
 btnConfirmCancel.addEventListener("click", fecharConfirm);
+
+/* Botão "Clear all" (confirmação) */
 btnConfirmOk.addEventListener("click", async () => {
   fecharConfirm();
   estado = {};
@@ -1500,6 +1551,8 @@ btnConfirmOk.addEventListener("click", async () => {
   renderTabsOnly();
   renderList();
 });
+
+/* Fechar clicando fora */
 confirmBg.addEventListener("click", (e) => { if (e.target === confirmBg) fecharConfirm(); });
 
 /* =========================================================
@@ -1528,11 +1581,6 @@ sidebarBg.addEventListener("click", (e) => { if (e.target === sidebarBg) fecharS
 document.getElementById("menuSearch").addEventListener("click", () => {
   fecharSidebar();
   setTimeout(() => document.getElementById("busca").focus(), 350);
-});
-
-document.getElementById("menuClear").addEventListener("click", () => {
-  fecharSidebar();
-  setTimeout(abrirConfirm, 250);
 });
 
 document.getElementById("menuAbout").addEventListener("click", () => {
@@ -1675,46 +1723,37 @@ document.addEventListener('keydown', (e) => {
 /* =========================================================
    AUTO-CLEAR DIÁRIO ÀS 6:00 DA MANHÃ
    ========================================================= */
-const AUTO_CLEAR_HOUR = 6; /* 6h da manhã */
-const AUTO_CLEAR_KEY = "fabis_last_auto_clear"; /* Guarda o último dia que limpou */
+const AUTO_CLEAR_HOUR = 6;
+const AUTO_CLEAR_KEY = "fabis_last_auto_clear";
 
 async function verificarAutoClear() {
   const agora = new Date();
-  const hoje = agora.toISOString().slice(0, 10); /* "2026-10-13" */
+  const hoje = agora.toISOString().slice(0, 10);
   const horaAtual = agora.getHours();
 
-  /* Se ainda não passou das 6h → não faz nada */
   if (horaAtual < AUTO_CLEAR_HOUR) return;
 
-  /* Se já limpou hoje → não faz nada */
   const ultimaLimpeza = localStorage.getItem(AUTO_CLEAR_KEY);
   if (ultimaLimpeza === hoje) return;
 
-  /* Marca como limpo ANTES de limpar (evita duplo disparo) */
   localStorage.setItem(AUTO_CLEAR_KEY, hoje);
 
   console.log("🌅 Auto-clear das 6h — limpando pedido...");
 
-  /* Limpa o estado local e o Firebase */
   estado = {};
   try {
     await set(pedidoRef, null);
     console.log("✅ Pedido limpo automaticamente às", agora.toLocaleTimeString());
   } catch (e) {
     console.error("❌ Erro no auto-clear:", e);
-    /* Se der erro, remove a flag para tentar de novo na próxima verificação */
     localStorage.removeItem(AUTO_CLEAR_KEY);
   }
 
-  /* Atualiza a UI */
   renderTabsOnly();
   renderList();
 }
 
-/* Executa ao abrir o app */
 verificarAutoClear();
-
-/* E verifica a cada 1 minuto (caso o app fique aberto durante a noite) */
 setInterval(verificarAutoClear, 60 * 1000);
 
 /* =========================================================
