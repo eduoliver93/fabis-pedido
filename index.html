@@ -306,7 +306,6 @@
     color: var(--creme); text-shadow: 1px 1px 0 rgba(0,0,0,.3);
   }
 
-  /* ===== SUPPLIER BUTTONS ===== */
   .supplier-section {
     padding: 14px 18px 18px;
     background: var(--creme);
@@ -985,7 +984,7 @@
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
-import { getDatabase, ref, onValue, set }
+import { getDatabase, ref, onValue, set, get, child }
   from "https://www.gstatic.com/firebasejs/13.0.0/firebase-database.js";
 
 const firebaseConfig = {
@@ -1001,6 +1000,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const pedidoRef = ref(db, "pedido_atual");
+const metaRef = ref(db, "meta"); /* NOVO: guarda última limpeza sincronizada */
 
 /* =========================================================
    SUPPLIERS
@@ -1505,10 +1505,8 @@ const btnConfirmCancel = document.getElementById("btnConfirmCancel");
 const confirmCountEl = document.getElementById("confirmCount");
 
 function abrirConfirm() {
-  /* Calcula quantos itens serão removidos */
   const totalItens = Object.values(estado).reduce((a, b) => a + b, 0);
 
-  /* Mostra a contagem no pop-up */
   if (confirmCountEl) {
     if (idiomaAtual === "pt") {
       confirmCountEl.textContent = totalItens === 1
@@ -1521,9 +1519,7 @@ function abrirConfirm() {
     }
   }
 
-  /* Desabilita o botão de confirmar se não há nada para apagar */
   btnConfirmOk.disabled = totalItens === 0;
-
   confirmBg.classList.add("aberto");
 }
 
@@ -1531,19 +1527,12 @@ function fecharConfirm() {
   confirmBg.classList.remove("aberto");
 }
 
-/* Botão "Clear all" da toolbar */
 document.getElementById("btnLimpar").addEventListener("click", abrirConfirm);
-
-/* Botão "Clear All" do menu lateral */
 document.getElementById("menuClear").addEventListener("click", () => {
   fecharSidebar();
   setTimeout(abrirConfirm, 250);
 });
-
-/* Botão "Cancel" do pop-up */
 btnConfirmCancel.addEventListener("click", fecharConfirm);
-
-/* Botão "Clear all" (confirmação) */
 btnConfirmOk.addEventListener("click", async () => {
   fecharConfirm();
   estado = {};
@@ -1551,8 +1540,6 @@ btnConfirmOk.addEventListener("click", async () => {
   renderTabsOnly();
   renderList();
 });
-
-/* Fechar clicando fora */
 confirmBg.addEventListener("click", (e) => { if (e.target === confirmBg) fecharConfirm(); });
 
 /* =========================================================
@@ -1721,39 +1708,54 @@ document.addEventListener('keydown', (e) => {
 });
 
 /* =========================================================
-   AUTO-CLEAR DIÁRIO ÀS 6:00 DA MANHÃ
+   AUTO-CLEAR DIÁRIO ÀS 6:00 DA MANHÃ (CORRIGIDO)
    ========================================================= */
 const AUTO_CLEAR_HOUR = 6;
-const AUTO_CLEAR_KEY = "fabis_last_auto_clear";
 
 async function verificarAutoClear() {
   const agora = new Date();
-  const hoje = agora.toISOString().slice(0, 10);
   const horaAtual = agora.getHours();
 
   if (horaAtual < AUTO_CLEAR_HOUR) return;
 
-  const ultimaLimpeza = localStorage.getItem(AUTO_CLEAR_KEY);
-  if (ultimaLimpeza === hoje) return;
+  /* Monta a data local no formato YYYY-MM-DD */
+  const ano = agora.getFullYear();
+  const mes = String(agora.getMonth() + 1).padStart(2, "0");
+  const dia = String(agora.getDate()).padStart(2, "0");
+  const hojeLocal = `${ano}-${mes}-${dia}`;
 
-  localStorage.setItem(AUTO_CLEAR_KEY, hoje);
-
-  console.log("🌅 Auto-clear das 6h — limpando pedido...");
-
-  estado = {};
   try {
+    /* Lê do Firebase qual foi o último dia em que limpou */
+    const snapshot = await get(child(ref(db), "meta/ultimo_auto_clear"));
+    const ultimoDiaLimpo = snapshot.exists() ? snapshot.val() : null;
+
+    /* Se já limpou hoje (segundo o Firebase), não faz nada */
+    if (ultimoDiaLimpo === hojeLocal) return;
+
+    /* Marca no Firebase que está limpando hoje (sincroniza entre todos) */
+    await set(ref(db, "meta/ultimo_auto_clear"), hojeLocal);
+
+    console.log("🌅 Auto-clear das 6h — limpando pedido...");
+
+    /* Limpa o pedido */
+    estado = {};
     await set(pedidoRef, null);
+
     console.log("✅ Pedido limpo automaticamente às", agora.toLocaleTimeString());
+
+    /* Atualiza a UI */
+    renderTabsOnly();
+    renderList();
+
   } catch (e) {
     console.error("❌ Erro no auto-clear:", e);
-    localStorage.removeItem(AUTO_CLEAR_KEY);
   }
-
-  renderTabsOnly();
-  renderList();
 }
 
+/* Executa ao abrir */
 verificarAutoClear();
+
+/* Verifica a cada 1 minuto */
 setInterval(verificarAutoClear, 60 * 1000);
 
 /* =========================================================
