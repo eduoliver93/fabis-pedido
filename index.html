@@ -26,24 +26,43 @@
     min-height: 100vh; display: flex; flex-direction: column;
   }
   
-  /* ===== LOGIN SCREEN ===== */
+  /* ===== LOGIN SCREEN COM FUNDO ===== */
   #login-screen {
     display: none; 
     position: fixed; inset: 0; 
-    background: var(--creme); 
     z-index: 999; 
     align-items: center; 
     justify-content: center; 
     padding: 20px; 
     flex-direction: column;
+    
+    /* FUNDO DA IMAGEM */
+    background-image: url('bg-login.jpg'); 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
   }
+  
+  /* Camada escura por cima da imagem para dar contraste */
+  #login-screen::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(26, 26, 26, 0.6); /* Escurece a foto em 60% */
+    backdrop-filter: blur(4px); /* Desfoque leve na foto */
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 1;
+  }
+
   .login-box {
     background: #fff; padding: 30px 24px; 
     border-radius: 20px; border: 3px solid var(--dourado); 
     max-width: 400px; width: 100%; 
     text-align: center; 
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.4);
     animation: popIn .35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    z-index: 2; /* Fica por cima do fundo escuro */
   }
   .login-box img {
     max-height: 80px; margin-bottom: 20px;
@@ -1902,7 +1921,6 @@ function iniciarApp() {
   const staffName = localStorage.getItem("fabis_staff_name");
   const sessaoAtiva = sessionStorage.getItem("fabis_session_active");
 
-  // Se existe uma sessão ativa NESTA ABA, entra direto (ex: ao atualizar a página)
   if (sessaoAtiva === "true") {
     loginScreen.style.display = "none";
     appPrincipal.style.display = "flex";
@@ -1914,7 +1932,6 @@ function iniciarApp() {
       welcomeText.textContent = `${welcomeMsg}, ${staffName}!`;
     }
   } else {
-    // Se não tem sessão ativa, mostra o login (mas já preenche o nome se ele já tiver entrado antes)
     loginScreen.style.display = "flex";
     appPrincipal.style.display = "none";
     
@@ -1933,10 +1950,7 @@ btnEnter.addEventListener("click", () => {
     return;
   }
   
-  // 1. Salva o nome permanentemente (lembra do nome)
   localStorage.setItem("fabis_staff_name", name);
-  
-  // 2. Cria a sessão ativa para esta aba
   sessionStorage.setItem("fabis_session_active", "true");
   
   iniciarApp();
