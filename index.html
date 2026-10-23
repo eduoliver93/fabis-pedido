@@ -457,7 +457,6 @@
   }
   .confirm-bg.aberto { display: flex; }
 
-  /* ===== NOVO DESIGN DO CONFIRM MODAL ===== */
   .confirm-box {
     background: var(--creme);
     border-radius: 24px;
@@ -512,7 +511,6 @@
     background: #fff;
   }
 
-  /* O novo ícone de aviso elegante */
   .confirm-box .icon-warn {
     width: 72px; height: 72px;
     border-radius: 50%;
@@ -1731,7 +1729,8 @@ document.getElementById("menuLogout").addEventListener("click", () => {
       : "Do you want to logout and change user?";
       
     if (confirm(msg)) {
-      localStorage.removeItem("fabis_staff_name");
+      // Remove APENAS a sessão ativa. O nome fica salvo para ser preenchido de novo.
+      sessionStorage.removeItem("fabis_session_active");
       location.reload();
     }
   }, 250);
@@ -1891,7 +1890,7 @@ verificarAutoClear();
 setInterval(verificarAutoClear, 60 * 1000);
 
 /* =========================================================
-   SISTEMA DE LOGIN (STAFF)
+   SISTEMA DE LOGIN (STAFF) - COM SESSÃO
    ========================================================= */
 const loginScreen = document.getElementById("login-screen");
 const appPrincipal = document.getElementById("app-principal");
@@ -1901,30 +1900,32 @@ const welcomeText = document.getElementById("welcome-text");
 
 function iniciarApp() {
   const staffName = localStorage.getItem("fabis_staff_name");
+  const sessaoAtiva = sessionStorage.getItem("fabis_session_active");
 
-  if (staffName) {
+  // Se existe uma sessão ativa NESTA ABA, entra direto (ex: ao atualizar a página)
+  if (sessaoAtiva === "true") {
     loginScreen.style.display = "none";
     appPrincipal.style.display = "flex";
     
-    // Pequeno delay para a animação CSS de opacidade funcionar
-    setTimeout(() => {
-      appPrincipal.classList.add("visivel");
-    }, 50);
+    setTimeout(() => { appPrincipal.classList.add("visivel"); }, 50);
 
-    // Atualiza a mensagem de boas vindas
-    if (idiomaAtual === "pt") {
-      welcomeText.textContent = `Bem-vindo, ${staffName}!`;
-    } else {
-      welcomeText.textContent = `Welcome, ${staffName}!`;
+    if (staffName) {
+      const welcomeMsg = idiomaAtual === "pt" ? "Bem-vindo" : "Welcome";
+      welcomeText.textContent = `${welcomeMsg}, ${staffName}!`;
     }
   } else {
+    // Se não tem sessão ativa, mostra o login (mas já preenche o nome se ele já tiver entrado antes)
     loginScreen.style.display = "flex";
     appPrincipal.style.display = "none";
+    
+    if (staffName) {
+      inputStaffName.value = staffName;
+    }
+    
     setTimeout(() => inputStaffName.focus(), 100);
   }
 }
 
-// Evento de clicar no botão Entrar
 btnEnter.addEventListener("click", () => {
   const name = inputStaffName.value.trim();
   if (name.length < 2) {
@@ -1932,14 +1933,15 @@ btnEnter.addEventListener("click", () => {
     return;
   }
   
-  // Salva o nome no telemóvel
+  // 1. Salva o nome permanentemente (lembra do nome)
   localStorage.setItem("fabis_staff_name", name);
   
-  // Inicia o app
+  // 2. Cria a sessão ativa para esta aba
+  sessionStorage.setItem("fabis_session_active", "true");
+  
   iniciarApp();
 });
 
-// Permite apertar "Enter" no teclado em vez de clicar no botão
 inputStaffName.addEventListener("keypress", (e) => {
   if (e.key === "Enter") {
     btnEnter.click();
@@ -1951,7 +1953,7 @@ inputStaffName.addEventListener("keypress", (e) => {
    ========================================================= */
 aplicarIdioma(idiomaAtual);
 render();
-iniciarApp(); // Verifica se o staff já está logado
+iniciarApp();
 </script>
 </body>
 </html>
