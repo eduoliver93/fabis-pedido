@@ -541,7 +541,8 @@
     display: flex;
     flex-direction: column;
     transform: translateX(-100%);
-    transition: transform .42s cubic-bezier(0.22, 1, 0.36, 1);
+    /* ANIMAÇÃO MAIS LEVE E RÁPIDA */
+    transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
     will-change: transform;
     touch-action: pan-y;
   }
@@ -1000,7 +1001,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const pedidoRef = ref(db, "pedido_atual");
-const metaRef = ref(db, "meta"); /* NOVO: guarda última limpeza sincronizada */
+const metaRef = ref(db, "meta");
 
 /* =========================================================
    SUPPLIERS
@@ -1609,7 +1610,7 @@ document.getElementById("btnLangEN").addEventListener("click", () => { aplicarId
 document.getElementById("btnLangPT").addEventListener("click", () => { aplicarIdioma("pt"); render(); });
 
 /* =========================================================
-   SIDEBAR SWIPE GESTURE
+   SIDEBAR SWIPE GESTURE (MAIS LEVE E FLUIDO)
    ========================================================= */
 let touchStartX = 0;
 let touchStartY = 0;
@@ -1617,7 +1618,7 @@ let touchCurrentX = 0;
 let isSwiping = false;
 let swipeDirection = null;
 const SWIPE_THRESHOLD = 60;
-const VELOCITY_THRESHOLD = 0.5;
+const VELOCITY_THRESHOLD = 0.3; // Mais sensível para fechar rápido
 
 sidebarBg.addEventListener("touchstart", (e) => {
   if (!sidebarBg.classList.contains("aberto")) return;
@@ -1627,7 +1628,8 @@ sidebarBg.addEventListener("touchstart", (e) => {
   touchCurrentX = touchStartX;
   isSwiping = true;
   swipeDirection = null;
-  sidebarEl.style.transition = "none";
+  // Remove animação para seguir o dedo 1:1
+  sidebarEl.style.transition = "none"; 
 }, { passive: true });
 
 sidebarBg.addEventListener("touchmove", (e) => {
@@ -1635,32 +1637,42 @@ sidebarBg.addEventListener("touchmove", (e) => {
   const touch = e.touches[0];
   const deltaX = touch.clientX - touchStartX;
   const deltaY = touch.clientY - touchStartY;
-  if (!swipeDirection && (Math.abs(deltaX) > 8 || Math.abs(deltaY) > 8)) {
+
+  // Deteta direção com threshold menor (5px)
+  if (!swipeDirection && (Math.abs(deltaX) > 5 || Math.abs(deltaY) > 5)) {
     swipeDirection = Math.abs(deltaX) > Math.abs(deltaY) ? "horizontal" : "vertical";
   }
-  if (swipeDirection === "horizontal" && deltaX < 0) {
-    sidebarEl.style.transform = `translateX(${deltaX}px)`;
-    touchCurrentX = touch.clientX;
-    e.preventDefault();
+
+  if (swipeDirection === "horizontal") {
+    if (deltaX < 0) {
+      sidebarEl.style.transform = `translateX(${deltaX}px)`;
+      touchCurrentX = touch.clientX;
+      if (e.cancelable) e.preventDefault();
+    }
   }
 }, { passive: false });
 
 sidebarBg.addEventListener("touchend", () => {
   if (!isSwiping) return;
   const deltaX = touchCurrentX - touchStartX;
-  const velocity = Math.abs(deltaX) / 300;
+  const velocity = Math.abs(deltaX) / 200; // Cálculo de velocidade mais rápido
+
+  // Devolve a animação CSS
   sidebarEl.style.transition = "";
   sidebarEl.style.transform = "";
+
   if (swipeDirection === "horizontal" && deltaX < 0) {
+    // Fecha se passar 60px OU se o "tapa" for rápido
     if (Math.abs(deltaX) > SWIPE_THRESHOLD || velocity > VELOCITY_THRESHOLD) {
       fecharSidebar();
     }
   }
+
   isSwiping = false;
   swipeDirection = null;
-  touchStartX = 0; touchStartY = 0; touchCurrentX = 0;
 }, { passive: true });
 
+// Swipe a partir da borda esquerda para abrir (mais sensível)
 let edgeTouchStartX = 0;
 document.addEventListener("touchstart", (e) => {
   if (sidebarBg.classList.contains("aberto")) return;
@@ -1673,7 +1685,8 @@ document.addEventListener("touchend", (e) => {
   if (edgeTouchStartX > 0 && !sidebarBg.classList.contains("aberto")) {
     const touch = e.changedTouches[0];
     const deltaX = touch.clientX - edgeTouchStartX;
-    if (deltaX > 80) abrirSidebar();
+    // Arrastar apenas 50px já abre o menu
+    if (deltaX > 50) abrirSidebar();
   }
   edgeTouchStartX = 0;
 }, { passive: true });
@@ -1718,32 +1731,26 @@ async function verificarAutoClear() {
 
   if (horaAtual < AUTO_CLEAR_HOUR) return;
 
-  /* Monta a data local no formato YYYY-MM-DD */
   const ano = agora.getFullYear();
   const mes = String(agora.getMonth() + 1).padStart(2, "0");
   const dia = String(agora.getDate()).padStart(2, "0");
   const hojeLocal = `${ano}-${mes}-${dia}`;
 
   try {
-    /* Lê do Firebase qual foi o último dia em que limpou */
     const snapshot = await get(child(ref(db), "meta/ultimo_auto_clear"));
     const ultimoDiaLimpo = snapshot.exists() ? snapshot.val() : null;
 
-    /* Se já limpou hoje (segundo o Firebase), não faz nada */
     if (ultimoDiaLimpo === hojeLocal) return;
 
-    /* Marca no Firebase que está limpando hoje (sincroniza entre todos) */
     await set(ref(db, "meta/ultimo_auto_clear"), hojeLocal);
 
     console.log("🌅 Auto-clear das 6h — limpando pedido...");
 
-    /* Limpa o pedido */
     estado = {};
     await set(pedidoRef, null);
 
     console.log("✅ Pedido limpo automaticamente às", agora.toLocaleTimeString());
 
-    /* Atualiza a UI */
     renderTabsOnly();
     renderList();
 
@@ -1752,10 +1759,7 @@ async function verificarAutoClear() {
   }
 }
 
-/* Executa ao abrir */
 verificarAutoClear();
-
-/* Verifica a cada 1 minuto */
 setInterval(verificarAutoClear, 60 * 1000);
 
 /* =========================================================
