@@ -389,22 +389,24 @@
   }
   .confirm-bg.aberto { display: flex; }
 
+  /* ===== NOVO DESIGN DO CONFIRM MODAL ===== */
   .confirm-box {
     background: var(--creme);
-    border-radius: 20px;
-    max-width: 420px;
+    border-radius: 24px;
+    max-width: 400px;
     width: 100%;
     overflow: hidden;
-    box-shadow: 0 20px 60px rgba(0,0,0,.6);
-    border: 3px solid var(--dourado);
-    animation: popIn .35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 25px 70px rgba(0,0,0,.5);
+    border: 1px solid rgba(255,255,255,.2);
+    animation: popIn .4s cubic-bezier(0.34, 1.56, 0.64, 1);
     text-align: center;
+    position: relative;
   }
 
   .confirm-box .top {
-    background: linear-gradient(135deg, var(--preto) 0%, var(--marrom-escuro) 100%);
-    padding: 20px;
-    border-bottom: 3px solid var(--dourado);
+    background: linear-gradient(135deg, #2a1a0f 0%, #1a1a1a 100%);
+    padding: 24px 20px 20px;
+    border-bottom: 1px solid rgba(200,135,58,.3);
     position: relative;
     overflow: hidden;
   }
@@ -412,109 +414,133 @@
     content: '';
     position: absolute;
     top: -50px; right: -50px;
-    width: 140px; height: 140px;
+    width: 150px; height: 150px;
     background: radial-gradient(circle, var(--dourado) 0%, transparent 70%);
-    opacity: .3;
+    opacity: .15;
     border-radius: 50%;
     pointer-events: none;
   }
   .confirm-box .top img {
-    max-height: 48px;
+    max-height: 40px;
     display: block;
-    margin: 0 auto 8px;
+    margin: 0 auto 10px;
     filter: drop-shadow(0 2px 8px rgba(0,0,0,.5));
     position: relative;
     z-index: 1;
   }
   .confirm-box .top .sub {
-    font-size: .7rem;
-    font-weight: 700;
+    font-size: .65rem;
+    font-weight: 800;
     letter-spacing: 3px;
     color: var(--dourado);
     text-transform: uppercase;
     position: relative;
     z-index: 1;
+    opacity: .9;
   }
 
-  .confirm-box .body { padding: 24px 22px 16px; }
+  .confirm-box .body {
+    padding: 28px 24px 20px;
+    background: #fff;
+  }
 
+  /* O novo ícone de aviso elegante */
   .confirm-box .icon-warn {
-    width: 64px; height: 64px;
+    width: 72px; height: 72px;
     border-radius: 50%;
     background: linear-gradient(135deg, #fee2e2, #fecaca);
-    border: 3px solid #dc2626;
+    border: 4px solid #fff;
+    box-shadow: 0 8px 24px rgba(220,38,38,.25), inset 0 0 0 2px #dc2626;
     display: flex; align-items: center; justify-content: center;
-    font-size: 2rem;
-    margin: 0 auto 16px;
-    animation: warningPulse 1.8s ease-in-out infinite;
+    font-size: 2.2rem;
+    margin: 0 auto 20px;
+    position: relative;
   }
-
-  @keyframes warningPulse {
-    0%, 100% { transform: scale(1);   box-shadow: 0 0 0 0 rgba(220,38,38,.5); }
-    50%      { transform: scale(1.05); box-shadow: 0 0 0 12px rgba(220,38,38,0); }
+  .confirm-box .icon-warn::after {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: 1px dashed rgba(220,38,38,.3);
+    animation: spin 12s linear infinite;
   }
+  @keyframes spin { 100% { transform: rotate(360deg); } }
 
   .confirm-box h2 {
-    margin: 0 0 8px;
-    font-size: 1.25rem; font-weight: 800;
-    color: var(--preto); letter-spacing: -.3px;
+    margin: 0 0 10px;
+    font-size: 1.3rem; font-weight: 800;
+    color: #1a1a1a; letter-spacing: -.5px;
   }
   .confirm-box p {
-    margin: 0 0 6px; font-size: .92rem;
+    margin: 0 0 8px; font-size: .9rem;
     color: #6b6355; line-height: 1.5;
   }
+  
   .confirm-box .confirm-count {
     font-weight: 800;
-    color: var(--vermelho);
-    font-size: 1rem;
-    margin: 10px 0 0;
+    color: #dc2626;
+    font-size: .95rem;
+    margin: 14px 0;
+    background: #fef2f2;
+    padding: 8px 12px;
+    border-radius: 8px;
+    display: inline-block;
   }
+
   .confirm-box .aviso {
-    margin: 12px 0 0; padding: 10px 14px;
-    background: #fef3c7; border-left: 4px solid var(--dourado);
-    border-radius: 8px; font-size: .82rem; color: #78350f;
-    font-weight: 600; text-align: left;
+    margin: 16px 0 0;
+    padding: 12px 14px;
+    background: #fffbeb;
+    border-left: 3px solid var(--dourado);
+    border-radius: 0 8px 8px 0;
+    font-size: .82rem;
+    color: #92400e;
+    font-weight: 600;
+    text-align: left;
+    line-height: 1.4;
   }
+
   .confirm-box .acoes {
-    padding: 8px 22px 22px;
-    display: flex; gap: 10px;
+    padding: 16px 24px 24px;
+    display: flex; gap: 12px;
+    background: #fff;
   }
   .confirm-box .acoes button {
     flex: 1;
-    padding: 14px 18px;
-    border-radius: 12px;
+    padding: 15px 18px;
+    border-radius: 14px;
     border: none;
     font-size: .95rem;
     font-weight: 800;
     cursor: pointer;
-    transition: all .15s;
+    transition: all .2s;
     letter-spacing: .3px;
   }
   .confirm-box .acoes .cancelar {
-    background: var(--creme-escuro);
-    color: var(--marrom-escuro);
+    background: #f3f4f6;
+    color: #4b5563;
+    border: 1px solid #e5e7eb;
   }
   .confirm-box .acoes .cancelar:hover {
-    background: #ddd0ba; transform: translateY(-1px);
+    background: #e5e7eb;
+    color: #1f2937;
   }
   .confirm-box .acoes .confirmar {
-    background: linear-gradient(135deg, #ef4444, #dc2626);
+    background: linear-gradient(135deg, #ef4444, #b91c1c);
     color: #fff;
-    text-shadow: 1px 1px 0 rgba(0,0,0,.3);
-    box-shadow: 0 3px 10px rgba(220,38,38,.4);
+    box-shadow: 0 4px 12px rgba(220,38,38,.3);
   }
   .confirm-box .acoes .confirmar:hover {
-    background: linear-gradient(135deg, #dc2626, #b91c1c);
-    transform: translateY(-1px);
-    box-shadow: 0 5px 15px rgba(220,38,38,.5);
+    background: linear-gradient(135deg, #dc2626, #991b1b);
+    box-shadow: 0 6px 16px rgba(220,38,38,.4);
+    transform: translateY(-2px);
   }
   .confirm-box .acoes .confirmar:disabled {
-    background: #9ca3af;
+    background: #e5e7eb;
+    color: #9ca3af;
     cursor: not-allowed;
-    opacity: .6;
     box-shadow: none;
     transform: none;
-    text-shadow: none;
   }
 
   .sidebar-bg {
@@ -541,7 +567,6 @@
     display: flex;
     flex-direction: column;
     transform: translateX(-100%);
-    /* ANIMAÇÃO MAIS LEVE E RÁPIDA */
     transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
     will-change: transform;
     touch-action: pan-y;
@@ -849,6 +874,7 @@
   </div>
 </div>
 
+<!-- ===== NOVO DESIGN DO CONFIRM MODAL ===== -->
 <div class="confirm-bg" id="confirmBg">
   <div class="confirm-box">
     <div class="top">
@@ -1618,7 +1644,7 @@ let touchCurrentX = 0;
 let isSwiping = false;
 let swipeDirection = null;
 const SWIPE_THRESHOLD = 60;
-const VELOCITY_THRESHOLD = 0.3; // Mais sensível para fechar rápido
+const VELOCITY_THRESHOLD = 0.3;
 
 sidebarBg.addEventListener("touchstart", (e) => {
   if (!sidebarBg.classList.contains("aberto")) return;
@@ -1628,7 +1654,6 @@ sidebarBg.addEventListener("touchstart", (e) => {
   touchCurrentX = touchStartX;
   isSwiping = true;
   swipeDirection = null;
-  // Remove animação para seguir o dedo 1:1
   sidebarEl.style.transition = "none"; 
 }, { passive: true });
 
@@ -1638,7 +1663,6 @@ sidebarBg.addEventListener("touchmove", (e) => {
   const deltaX = touch.clientX - touchStartX;
   const deltaY = touch.clientY - touchStartY;
 
-  // Deteta direção com threshold menor (5px)
   if (!swipeDirection && (Math.abs(deltaX) > 5 || Math.abs(deltaY) > 5)) {
     swipeDirection = Math.abs(deltaX) > Math.abs(deltaY) ? "horizontal" : "vertical";
   }
@@ -1655,14 +1679,12 @@ sidebarBg.addEventListener("touchmove", (e) => {
 sidebarBg.addEventListener("touchend", () => {
   if (!isSwiping) return;
   const deltaX = touchCurrentX - touchStartX;
-  const velocity = Math.abs(deltaX) / 200; // Cálculo de velocidade mais rápido
+  const velocity = Math.abs(deltaX) / 200;
 
-  // Devolve a animação CSS
   sidebarEl.style.transition = "";
   sidebarEl.style.transform = "";
 
   if (swipeDirection === "horizontal" && deltaX < 0) {
-    // Fecha se passar 60px OU se o "tapa" for rápido
     if (Math.abs(deltaX) > SWIPE_THRESHOLD || velocity > VELOCITY_THRESHOLD) {
       fecharSidebar();
     }
@@ -1672,7 +1694,6 @@ sidebarBg.addEventListener("touchend", () => {
   swipeDirection = null;
 }, { passive: true });
 
-// Swipe a partir da borda esquerda para abrir (mais sensível)
 let edgeTouchStartX = 0;
 document.addEventListener("touchstart", (e) => {
   if (sidebarBg.classList.contains("aberto")) return;
@@ -1685,7 +1706,6 @@ document.addEventListener("touchend", (e) => {
   if (edgeTouchStartX > 0 && !sidebarBg.classList.contains("aberto")) {
     const touch = e.changedTouches[0];
     const deltaX = touch.clientX - edgeTouchStartX;
-    // Arrastar apenas 50px já abre o menu
     if (deltaX > 50) abrirSidebar();
   }
   edgeTouchStartX = 0;
@@ -1721,7 +1741,7 @@ document.addEventListener('keydown', (e) => {
 });
 
 /* =========================================================
-   AUTO-CLEAR DIÁRIO ÀS 6:00 DA MANHÃ (CORRIGIDO)
+   AUTO-CLEAR DIÁRIO ÀS 6:00 DA MANHÃ
    ========================================================= */
 const AUTO_CLEAR_HOUR = 6;
 
