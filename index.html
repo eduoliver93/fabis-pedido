@@ -25,6 +25,63 @@
     background: var(--creme); color: var(--preto);
     min-height: 100vh; display: flex; flex-direction: column;
   }
+  
+  /* ===== LOGIN SCREEN ===== */
+  #login-screen {
+    display: none; 
+    position: fixed; inset: 0; 
+    background: var(--creme); 
+    z-index: 999; 
+    align-items: center; 
+    justify-content: center; 
+    padding: 20px; 
+    flex-direction: column;
+  }
+  .login-box {
+    background: #fff; padding: 30px 24px; 
+    border-radius: 20px; border: 3px solid var(--dourado); 
+    max-width: 400px; width: 100%; 
+    text-align: center; 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    animation: popIn .35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .login-box img {
+    max-height: 80px; margin-bottom: 20px;
+  }
+  .login-box h2 {
+    font-size: 1.4rem; margin-bottom: 20px; color: var(--preto);
+  }
+  .login-box input {
+    width: 100%; padding: 15px; 
+    border: 2px solid var(--creme-escuro); border-radius: 12px; 
+    font-size: 1.1rem; margin-bottom: 15px; 
+    outline: none; text-align: center; font-weight: 700; color: var(--preto);
+    font-family: inherit;
+    transition: border-color 0.2s;
+  }
+  .login-box input:focus { border-color: var(--dourado); }
+  .login-box button {
+    width: 100%; padding: 15px; 
+    background: linear-gradient(135deg, var(--dourado), var(--marrom)); 
+    color: #fff; border: none; border-radius: 12px; 
+    font-size: 1.1rem; font-weight: 800; cursor: pointer; 
+    text-shadow: 1px 1px 0 rgba(0,0,0,.3);
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  .login-box button:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(200,135,58,.4); }
+
+  /* ===== APP PRINCIPAL (animação) ===== */
+  #app-principal {
+    display: none; flex-direction: column; height: 100%;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+  #app-principal.visivel {
+    opacity: 1;
+  }
+
+  /* ===== HEADER E SAUDAÇÃO ===== */
   header {
     background: linear-gradient(135deg, var(--preto) 0%, var(--marrom-escuro) 100%);
     padding: 14px 20px; box-shadow: 0 3px 12px rgba(0,0,0,.35);
@@ -45,6 +102,17 @@
   }
   @media (max-width: 480px) { header .logo-fabis { max-height: 56px; } }
 
+  .welcome-bar {
+    text-align: center; 
+    padding: 12px 16px 6px; 
+    font-size: 1.1rem; 
+    font-weight: 800; 
+    color: var(--marrom-escuro);
+    background: var(--creme);
+  }
+  .welcome-bar span { color: var(--dourado); }
+
+  /* ===== MENU BUTTON ===== */
   .menu-btn {
     position: absolute;
     top: 50%; left: 16px;
@@ -806,207 +874,223 @@
 </head>
 <body>
 
-<div class="sync-status oculto" id="syncStatus" data-i18n="synced">Synced</div>
-
-<header>
-  <button class="menu-btn" id="menuBtn" aria-label="Menu">
-    <div class="hamburger">
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
-  </button>
-  <img src="logo-fabis.png" alt="Fabi's Grill Temple Bar" class="logo-fabis">
-</header>
-
-<div class="tabs" id="tabs"></div>
-
-<div class="toolbar">
-  <input type="search" id="busca" placeholder="Search item..." data-i18n-placeholder="searchPlaceholder">
-  <button id="btnLimpar" class="danger" data-i18n="clearAll">Clear all</button>
+<!-- ===== LOGIN SCREEN ===== -->
+<div id="login-screen">
+  <div class="login-box">
+    <img src="logo-fabis.png" alt="Fabi's Grill">
+    <h2>Staff Login</h2>
+    <input type="text" id="input-staff-name" placeholder="Enter your name">
+    <button id="btn-enter">START</button>
+  </div>
 </div>
 
-<main id="lista"></main>
+<!-- ===== APP PRINCIPAL ===== -->
+<div id="app-principal">
+  <div class="sync-status oculto" id="syncStatus" data-i18n="synced">Synced</div>
 
-<footer>
-  <div class="resumo">
-    <strong id="totalItens">0</strong> <span data-i18n="itemsSelected">items selected</span>
+  <header>
+    <button class="menu-btn" id="menuBtn" aria-label="Menu">
+      <div class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </button>
+    <img src="logo-fabis.png" alt="Fabi's Grill Temple Bar" class="logo-fabis">
+  </header>
+
+  <div class="welcome-bar">
+    👋 <span id="welcome-text">Welcome!</span>
   </div>
-  <button id="btnVerPedido" disabled data-i18n="viewOrder">View order</button>
-</footer>
 
-<div class="modal-bg" id="modalBg">
-  <div class="modal">
-    <header>
-      <img src="logo-fabis.png" alt="Fabi's Grill" class="logo-fabis">
-      <p class="subtitulo" data-i18n="orderSummary">Order Summary</p>
-    </header>
-    <div class="conteudo">
-      <pre id="textoPedido"></pre>
-    </div>
-    <div class="acoes">
-      <button class="fechar" id="btnFechar" data-i18n="close">Close</button>
-      <button class="copiar" id="btnCopiar" data-i18n="copy">Copy</button>
-    </div>
+  <div class="tabs" id="tabs"></div>
 
-    <div class="supplier-section">
-      <div class="supplier-label" data-i18n="sendTo">📲 Send order to:</div>
-      <div class="supplier-buttons">
-        <button class="supplier-btn whatsapp-btn" data-supplier="ercan">
-          <img src="logo-fabis.png" alt="Ercan">
-          Ercan
-        </button>
-        <button class="supplier-btn whatsapp-btn" data-supplier="sysco">
-          <img src="icons/sysco.png" alt="Sysco">
-          Sysco
-        </button>
-        <button class="supplier-btn whatsapp-btn" data-supplier="musgrave">
-          <img src="icons/musgrave.png" alt="Musgrave">
-          Musgrave
-        </button>
-        <button class="supplier-btn whatsapp-btn" data-supplier="freshpoint">
-          <img src="icons/freshpoint.png" alt="Freshpoint">
-          Freshpoint
+  <div class="toolbar">
+    <input type="search" id="busca" placeholder="Search item..." data-i18n-placeholder="searchPlaceholder">
+    <button id="btnLimpar" class="danger" data-i18n="clearAll">Clear all</button>
+  </div>
+
+  <main id="lista"></main>
+
+  <footer>
+    <div class="resumo">
+      <strong id="totalItens">0</strong> <span data-i18n="itemsSelected">items selected</span>
+    </div>
+    <button id="btnVerPedido" disabled data-i18n="viewOrder">View order</button>
+  </footer>
+
+  <div class="modal-bg" id="modalBg">
+    <div class="modal">
+      <header>
+        <img src="logo-fabis.png" alt="Fabi's Grill" class="logo-fabis">
+        <p class="subtitulo" data-i18n="orderSummary">Order Summary</p>
+      </header>
+      <div class="conteudo">
+        <pre id="textoPedido"></pre>
+      </div>
+      <div class="acoes">
+        <button class="fechar" id="btnFechar" data-i18n="close">Close</button>
+        <button class="copiar" id="btnCopiar" data-i18n="copy">Copy</button>
+      </div>
+
+      <div class="supplier-section">
+        <div class="supplier-label" data-i18n="sendTo">📲 Send order to:</div>
+        <div class="supplier-buttons">
+          <button class="supplier-btn whatsapp-btn" data-supplier="ercan">
+            <img src="logo-fabis.png" alt="Ercan">
+            Ercan
+          </button>
+          <button class="supplier-btn whatsapp-btn" data-supplier="sysco">
+            <img src="icons/sysco.png" alt="Sysco">
+            Sysco
+          </button>
+          <button class="supplier-btn whatsapp-btn" data-supplier="musgrave">
+            <img src="icons/musgrave.png" alt="Musgrave">
+            Musgrave
+          </button>
+          <button class="supplier-btn whatsapp-btn" data-supplier="freshpoint">
+            <img src="icons/freshpoint.png" alt="Freshpoint">
+            Freshpoint
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="confirm-bg" id="confirmBg">
+    <div class="confirm-box">
+      <div class="top">
+        <img src="logo-fabis.png" alt="Fabi's Grill">
+        <div class="sub" data-i18n="confirmAction">Confirm Action</div>
+      </div>
+      <div class="body">
+        <div class="icon-warn">⚠️</div>
+        <h2 data-i18n="clearTitle">Clear all items?</h2>
+        <p data-i18n="clearDesc">This will remove all selected items for every staff member.</p>
+        <p class="confirm-count" id="confirmCount"></p>
+        <div class="aviso" data-i18n="clearWarning">
+          💡 This cannot be undone. All staff will see the empty order.
+        </div>
+      </div>
+      <div class="acoes">
+        <button class="cancelar" id="btnConfirmCancel" data-i18n="cancel">Cancel</button>
+        <button class="confirmar" id="btnConfirmOk" data-i18n="clearAll">Clear all</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="confirm-bg" id="aboutBg">
+    <div class="confirm-box about-modal">
+      <div class="top">
+        <img src="logo-fabis.png" alt="Fabi's Grill">
+        <div class="sub" data-i18n="about">About</div>
+      </div>
+      <div class="body">
+        <div class="about-content">
+          <div class="icon-about">🔥</div>
+          <h2>Fabi<span class="apostrofo">'</span>s Grill</h2>
+          <div class="local">Temple Bar · Dublin</div>
+
+          <div class="dev-photo">
+            <img src="eduardo.jpg" alt="Eduardo Oliveira">
+          </div>
+
+          <div class="dev-name">
+            <div class="dev-label">Developed by</div>
+            <div class="dev-value">EOTECH <small>Eduardo Oliveira</small></div>
+          </div>
+
+          <div class="version-badge">VERSION 1.0</div>
+
+          <div class="footer-note">
+            © 2026 Fabi's Grill · All rights reserved<br>
+            Made with 🔥 in Dublin
+          </div>
+        </div>
+      </div>
+      <div class="acoes">
+        <button class="confirmar" id="btnAboutOk" style="background: linear-gradient(135deg, var(--dourado), var(--marrom)); box-shadow: 0 3px 10px rgba(200,135,58,.4);">
+          <span data-i18n="close">Close</span>
         </button>
       </div>
     </div>
   </div>
-</div>
 
-<!-- ===== NOVO DESIGN DO CONFIRM MODAL ===== -->
-<div class="confirm-bg" id="confirmBg">
-  <div class="confirm-box">
-    <div class="top">
-      <img src="logo-fabis.png" alt="Fabi's Grill">
-      <div class="sub" data-i18n="confirmAction">Confirm Action</div>
-    </div>
-    <div class="body">
-      <div class="icon-warn">⚠️</div>
-      <h2 data-i18n="clearTitle">Clear all items?</h2>
-      <p data-i18n="clearDesc">This will remove all selected items for every staff member.</p>
-      <p class="confirm-count" id="confirmCount"></p>
-      <div class="aviso" data-i18n="clearWarning">
-        💡 This cannot be undone. All staff will see the empty order.
+  <div class="sidebar-bg" id="sidebarBg">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <button class="fechar" id="btnSidebarClose">×</button>
+        <img src="logo-fabis.png" alt="Fabi's Grill">
+        <div class="sub" data-i18n="menu">Menu</div>
       </div>
-    </div>
-    <div class="acoes">
-      <button class="cancelar" id="btnConfirmCancel" data-i18n="cancel">Cancel</button>
-      <button class="confirmar" id="btnConfirmOk" data-i18n="clearAll">Clear all</button>
-    </div>
+      <div class="sidebar-body">
+        <button class="sidebar-item" id="menuSearch">
+          <div class="icone"><img src="icons/icon-search.png" alt="Search"></div>
+          <div class="texto">
+            <div class="titulo" data-i18n="searchItems">Search Items</div>
+            <div class="desc" data-i18n="searchDesc">Find quickly</div>
+          </div>
+        </button>
+
+        <button class="sidebar-item" id="menuHistory">
+          <div class="icone"><img src="icons/icon-analytics.png" alt="Analytics"></div>
+          <div class="texto">
+            <div class="titulo" data-i18n="history">Order History</div>
+            <div class="desc" data-i18n="comingSoon">Coming soon</div>
+          </div>
+        </button>
+
+        <button class="sidebar-item" id="menuStaff">
+          <div class="icone"><img src="icons/icon-staff.png" alt="Staff"></div>
+          <div class="texto">
+            <div class="titulo" data-i18n="staffProfile">Staff Profile</div>
+            <div class="desc" data-i18n="comingSoon">Coming soon</div>
+          </div>
+        </button>
+
+        <div class="sidebar-divider"></div>
+
+        <div class="lang-switch">
+          <span class="label"><img src="icons/icon-language.png" alt="Language"></span>
+          <button class="lang-btn" id="btnLangEN">EN</button>
+          <button class="lang-btn" id="btnLangPT">PT</button>
+        </div>
+
+        <div class="sidebar-divider"></div>
+
+        <button class="sidebar-item" id="menuAbout">
+          <div class="icone"><img src="icons/icon-about.png" alt="About"></div>
+          <div class="texto">
+            <div class="titulo" data-i18n="about">About</div>
+            <div class="desc">Version 1.0</div>
+          </div>
+        </button>
+
+        <button class="sidebar-item" id="menuClear">
+          <div class="icone"><img src="icons/icon-clear.png" alt="Clear"></div>
+          <div class="texto">
+            <div class="titulo" data-i18n="clearAll">Clear All</div>
+            <div class="desc" data-i18n="removeAll">Remove all items</div>
+          </div>
+        </button>
+
+        <div class="sidebar-divider"></div>
+
+        <button class="sidebar-item" id="menuLogout">
+          <div class="icone"><img src="icons/icon-logout.png" alt="Logout"></div>
+          <div class="texto">
+            <div class="titulo" data-i18n="logout">Logout</div>
+            <div class="desc" data-i18n="changeUser">Change user</div>
+          </div>
+        </button>
+      </div>
+      <div class="sidebar-footer">
+        <strong>Fabi's Grill</strong><br>
+        Temple Bar · Dublin
+      </div>
+    </aside>
   </div>
-</div>
-
-<div class="confirm-bg" id="aboutBg">
-  <div class="confirm-box about-modal">
-    <div class="top">
-      <img src="logo-fabis.png" alt="Fabi's Grill">
-      <div class="sub" data-i18n="about">About</div>
-    </div>
-    <div class="body">
-      <div class="about-content">
-        <div class="icon-about">🔥</div>
-        <h2>Fabi<span class="apostrofo">'</span>s Grill</h2>
-        <div class="local">Temple Bar · Dublin</div>
-
-        <div class="dev-photo">
-          <img src="eduardo.jpg" alt="Eduardo Oliveira">
-        </div>
-
-        <div class="dev-name">
-          <div class="dev-label">Developed by</div>
-          <div class="dev-value">EOTECH <small>Eduardo Oliveira</small></div>
-        </div>
-
-        <div class="version-badge">VERSION 1.0</div>
-
-        <div class="footer-note">
-          © 2026 Fabi's Grill · All rights reserved<br>
-          Made with 🔥 in Dublin
-        </div>
-      </div>
-    </div>
-    <div class="acoes">
-      <button class="confirmar" id="btnAboutOk" style="background: linear-gradient(135deg, var(--dourado), var(--marrom)); box-shadow: 0 3px 10px rgba(200,135,58,.4);">
-        <span data-i18n="close">Close</span>
-      </button>
-    </div>
-  </div>
-</div>
-
-<div class="sidebar-bg" id="sidebarBg">
-  <aside class="sidebar">
-    <div class="sidebar-header">
-      <button class="fechar" id="btnSidebarClose">×</button>
-      <img src="logo-fabis.png" alt="Fabi's Grill">
-      <div class="sub" data-i18n="menu">Menu</div>
-    </div>
-    <div class="sidebar-body">
-      <button class="sidebar-item" id="menuSearch">
-        <div class="icone"><img src="icons/icon-search.png" alt="Search"></div>
-        <div class="texto">
-          <div class="titulo" data-i18n="searchItems">Search Items</div>
-          <div class="desc" data-i18n="searchDesc">Find quickly</div>
-        </div>
-      </button>
-
-      <button class="sidebar-item" id="menuHistory">
-        <div class="icone"><img src="icons/icon-analytics.png" alt="Analytics"></div>
-        <div class="texto">
-          <div class="titulo" data-i18n="history">Order History</div>
-          <div class="desc" data-i18n="comingSoon">Coming soon</div>
-        </div>
-      </button>
-
-      <button class="sidebar-item" id="menuStaff">
-        <div class="icone"><img src="icons/icon-staff.png" alt="Staff"></div>
-        <div class="texto">
-          <div class="titulo" data-i18n="staffProfile">Staff Profile</div>
-          <div class="desc" data-i18n="comingSoon">Coming soon</div>
-        </div>
-      </button>
-
-      <div class="sidebar-divider"></div>
-
-      <div class="lang-switch">
-        <span class="label"><img src="icons/icon-language.png" alt="Language"></span>
-        <button class="lang-btn" id="btnLangEN">EN</button>
-        <button class="lang-btn" id="btnLangPT">PT</button>
-      </div>
-
-      <div class="sidebar-divider"></div>
-
-      <button class="sidebar-item" id="menuAbout">
-        <div class="icone"><img src="icons/icon-about.png" alt="About"></div>
-        <div class="texto">
-          <div class="titulo" data-i18n="about">About</div>
-          <div class="desc">Version 1.0</div>
-        </div>
-      </button>
-
-      <button class="sidebar-item" id="menuClear">
-        <div class="icone"><img src="icons/icon-clear.png" alt="Clear"></div>
-        <div class="texto">
-          <div class="titulo" data-i18n="clearAll">Clear All</div>
-          <div class="desc" data-i18n="removeAll">Remove all items</div>
-        </div>
-      </button>
-
-      <div class="sidebar-divider"></div>
-
-      <button class="sidebar-item" id="menuLogout">
-        <div class="icone"><img src="icons/icon-logout.png" alt="Logout"></div>
-        <div class="texto">
-          <div class="titulo" data-i18n="logout">Logout</div>
-          <div class="desc" data-i18n="comingSoon">Coming soon</div>
-        </div>
-      </button>
-    </div>
-    <div class="sidebar-footer">
-      <strong>Fabi's Grill</strong><br>
-      Temple Bar · Dublin
-    </div>
-  </aside>
 </div>
 
 <script type="module">
@@ -1081,7 +1165,10 @@ const TRANSLATIONS = {
     about: "About",
     removeAll: "Remove all items",
     logout: "Logout",
-    language: "🌍 Language"
+    changeUser: "Change user",
+    language: "🌍 Language",
+    welcome: "Welcome",
+    enterName: "Enter your name"
   },
   pt: {
     synced: "Sincronizado",
@@ -1107,7 +1194,10 @@ const TRANSLATIONS = {
     about: "Sobre",
     removeAll: "Remover todos",
     logout: "Sair",
-    language: "🌍 Idioma"
+    changeUser: "Trocar usuário",
+    language: "🌍 Idioma",
+    welcome: "Bem-vindo",
+    enterName: "Digite seu nome"
   }
 };
 
@@ -1127,6 +1217,16 @@ function aplicarIdioma(lang) {
   });
   document.getElementById("btnLangEN").classList.toggle("ativa", lang === "en");
   document.getElementById("btnLangPT").classList.toggle("ativa", lang === "pt");
+  
+  // Atualiza mensagem de boas vindas se o app já estiver aberto
+  const staffName = localStorage.getItem("fabis_staff_name");
+  if (staffName) {
+    document.getElementById("welcome-text").textContent = `${t.welcome}, ${staffName}!`;
+  }
+
+  // Atualiza placeholder do login
+  const inputLogin = document.getElementById("input-staff-name");
+  if (inputLogin) inputLogin.placeholder = t.enterName;
 }
 
 /* =========================================================
@@ -1620,12 +1720,20 @@ document.getElementById("menuStaff").addEventListener("click", () => {
   }, 250);
 });
 
+/* =========================================================
+   LOGOUT (TROCAR DE STAFF)
+   ========================================================= */
 document.getElementById("menuLogout").addEventListener("click", () => {
   fecharSidebar();
   setTimeout(() => {
-    alert(idiomaAtual === "pt"
-      ? "🚪 Sair\n\nEm breve!\n\nLogin por e-mail/password para cada staff."
-      : "🚪 Logout\n\nComing soon!\n\nLogin by email/password for each staff.");
+    const msg = idiomaAtual === "pt" 
+      ? "Deseja sair e trocar de usuário?" 
+      : "Do you want to logout and change user?";
+      
+    if (confirm(msg)) {
+      localStorage.removeItem("fabis_staff_name");
+      location.reload();
+    }
   }, 250);
 });
 
@@ -1636,7 +1744,7 @@ document.getElementById("btnLangEN").addEventListener("click", () => { aplicarId
 document.getElementById("btnLangPT").addEventListener("click", () => { aplicarIdioma("pt"); render(); });
 
 /* =========================================================
-   SIDEBAR SWIPE GESTURE (MAIS LEVE E FLUIDO)
+   SIDEBAR SWIPE GESTURE
    ========================================================= */
 let touchStartX = 0;
 let touchStartY = 0;
@@ -1741,7 +1849,7 @@ document.addEventListener('keydown', (e) => {
 });
 
 /* =========================================================
-   AUTO-CLEAR DIÁRIO ÀS 6:00 DA MANHÃ
+   AUTO-CLEAR DIÁRIO ÀS 6:00 DA MANHÃ (CORRIGIDO)
    ========================================================= */
 const AUTO_CLEAR_HOUR = 6;
 
@@ -1783,10 +1891,67 @@ verificarAutoClear();
 setInterval(verificarAutoClear, 60 * 1000);
 
 /* =========================================================
+   SISTEMA DE LOGIN (STAFF)
+   ========================================================= */
+const loginScreen = document.getElementById("login-screen");
+const appPrincipal = document.getElementById("app-principal");
+const inputStaffName = document.getElementById("input-staff-name");
+const btnEnter = document.getElementById("btn-enter");
+const welcomeText = document.getElementById("welcome-text");
+
+function iniciarApp() {
+  const staffName = localStorage.getItem("fabis_staff_name");
+
+  if (staffName) {
+    loginScreen.style.display = "none";
+    appPrincipal.style.display = "flex";
+    
+    // Pequeno delay para a animação CSS de opacidade funcionar
+    setTimeout(() => {
+      appPrincipal.classList.add("visivel");
+    }, 50);
+
+    // Atualiza a mensagem de boas vindas
+    if (idiomaAtual === "pt") {
+      welcomeText.textContent = `Bem-vindo, ${staffName}!`;
+    } else {
+      welcomeText.textContent = `Welcome, ${staffName}!`;
+    }
+  } else {
+    loginScreen.style.display = "flex";
+    appPrincipal.style.display = "none";
+    setTimeout(() => inputStaffName.focus(), 100);
+  }
+}
+
+// Evento de clicar no botão Entrar
+btnEnter.addEventListener("click", () => {
+  const name = inputStaffName.value.trim();
+  if (name.length < 2) {
+    alert(idiomaAtual === "pt" ? "Por favor, digite seu nome." : "Please enter your name.");
+    return;
+  }
+  
+  // Salva o nome no telemóvel
+  localStorage.setItem("fabis_staff_name", name);
+  
+  // Inicia o app
+  iniciarApp();
+});
+
+// Permite apertar "Enter" no teclado em vez de clicar no botão
+inputStaffName.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") {
+    btnEnter.click();
+  }
+});
+
+/* =========================================================
    INIT
    ========================================================= */
 aplicarIdioma(idiomaAtual);
 render();
+iniciarApp(); // Verifica se o staff já está logado
 </script>
 </body>
 </html>
