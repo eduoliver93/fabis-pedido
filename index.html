@@ -27,33 +27,39 @@
     min-height: 100vh; display: flex; flex-direction: column;
   }
   
-  /* ===== TOAST NOTIFICATION ===== */
+  /* ===== TOAST NOTIFICATION CENTRALIZADO ===== */
   #toast {
     position: fixed;
-    top: -100px;
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate(-50%, -50%) scale(0.8);
     background: linear-gradient(135deg, var(--preto) 0%, var(--marrom-escuro) 100%);
     color: var(--creme);
-    padding: 14px 24px;
-    border-radius: 14px;
+    padding: 16px 28px;
+    border-radius: 16px;
     border: 2px solid var(--dourado);
-    box-shadow: 0 10px 30px rgba(0,0,0,.5);
-    font-size: .95rem;
+    box-shadow: 0 15px 40px rgba(0,0,0,.6);
+    font-size: 1.05rem;
     font-weight: 700;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     z-index: 9999;
-    transition: top 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     pointer-events: none;
   }
-  #toast.visivel { top: 20px; }
+  #toast.visivel { 
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1);
+  }
   #toast .toast-icon {
-    width: 24px; height: 24px; border-radius: 50%;
+    width: 28px; height: 28px; border-radius: 50%;
     background: var(--verde); color: #fff;
     display: flex; align-items: center; justify-content: center;
-    font-size: 1rem;
+    font-size: 1.1rem;
   }
   #toast.erro .toast-icon { background: var(--vermelho); }
 
@@ -1188,7 +1194,7 @@ function mostrarStatus(chaveTexto, tipo) {
 }
 
 /* =========================================================
-   TOAST FUNCTION
+   TOAST FUNCTION (RÁPIDA E CENTRALIZADA)
    ========================================================= */
 let toastTimeout = null;
 function mostrarToast(mensagem, tipo = "sucesso") {
@@ -1203,7 +1209,7 @@ function mostrarToast(mensagem, tipo = "sucesso") {
   clearTimeout(toastTimeout);
   toastTimeout = setTimeout(() => {
     toast.classList.remove("visivel");
-  }, 2500);
+  }, 1500); /* 1.5 segundos */
 }
 
 /* =========================================================
@@ -1511,11 +1517,16 @@ document.getElementById("btnCopiar").addEventListener("click", async () => {
 });
 
 async function executarCopia(texto) {
+  // 1. Mostra o Toast IMEDIATAMENTE (sem esperar a área de transferência)
+  mostrarToast(TRANSLATIONS[idiomaAtual].orderCopied, "sucesso");
+  
+  // 2. Fecha o modal do resumo imediatamente para dar sensação de velocidade
+  modalBg.classList.remove("aberto");
+
+  // 3. Faz a cópia em segundo plano
   try {
     await navigator.clipboard.writeText(texto);
     await salvarComoUltimoPedido();
-    mostrarToast(TRANSLATIONS[idiomaAtual].orderCopied, "sucesso");
-    modalBg.classList.remove("aberto");
   } catch {
     const range = document.createRange();
     range.selectNode(document.getElementById("textoPedido"));
@@ -1523,8 +1534,6 @@ async function executarCopia(texto) {
     window.getSelection().addRange(range);
     document.execCommand("copy");
     await salvarComoUltimoPedido();
-    mostrarToast(TRANSLATIONS[idiomaAtual].orderCopied, "sucesso");
-    modalBg.classList.remove("aberto");
   }
 }
 
