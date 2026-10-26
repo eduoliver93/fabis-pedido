@@ -283,7 +283,7 @@
   footer button:hover { background: linear-gradient(135deg, #d9993f, #a06a35); transform: translateY(-1px); }
   footer button:disabled { background: #4a4a4a; border-color: #666; color: #999; cursor: not-allowed; text-shadow: none; transform: none; }
 
-  /* ===== MODAIS ===== */
+  /* ===== MODAL DE RESUMO DO PEDIDO (MANTIDO PARA LEITURA DO TEXTO) ===== */
   .modal-bg {
     position: fixed; inset: 0;
     background: rgba(26,26,26,.75);
@@ -393,6 +393,7 @@
   }
   .supplier-btn.whatsapp-btn img { background: #fff; padding: 3px; }
 
+  /* ===== POP-UPS PREMIUM UNIFICADOS ===== */
   .confirm-bg {
     position: fixed; inset: 0;
     background: rgba(26,26,26,.7);
@@ -494,6 +495,10 @@
     background: linear-gradient(135deg, #dc2626, #991b1b);
     box-shadow: 0 6px 16px rgba(220,38,38,.4); transform: translateY(-2px);
   }
+  .confirm-box .acoes .confirmar:disabled {
+    background: #e5e7eb; color: #9ca3af; cursor: not-allowed;
+    box-shadow: none; transform: none;
+  }
 
   /* ===== REPEAT WARNING MODAL (ALERTA LARANJA) ===== */
   .confirm-box.repeat-modal .top {
@@ -532,6 +537,66 @@
   }
   .repeat-items-list li:last-child { margin-bottom: 0; }
 
+  /* ===== ABOUT MODAL ===== */
+  .about-content { text-align: center; padding: 8px 0; }
+  .about-content .icon-about {
+    width: 72px; height: 72px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--dourado), var(--marrom));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2.2rem; margin: 0 auto 18px;
+    box-shadow: 0 6px 20px rgba(200,135,58,.4); color: var(--creme);
+    border: 3px solid var(--creme-escuro);
+  }
+  .about-content h2 {
+    margin: 0 0 6px; font-size: 1.5rem; font-weight: 900;
+    color: var(--preto); font-family: Georgia, serif; font-style: italic; letter-spacing: -.5px;
+  }
+  .about-content h2 .apostrofo { color: var(--dourado); }
+  .about-content .local {
+    font-size: .78rem; font-weight: 700; letter-spacing: 3px;
+    color: var(--dourado); text-transform: uppercase; margin-bottom: 20px;
+  }
+  .about-content .dev-photo {
+    width: 110px; height: 110px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--dourado), var(--marrom));
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 14px; padding: 4px;
+    box-shadow: 0 6px 20px rgba(200,135,58,.4);
+    border: 3px solid var(--creme-escuro);
+  }
+  .about-content .dev-photo img {
+    width: 100%; height: 100%; border-radius: 50%;
+    object-fit: cover; display: block; border: 2px solid var(--creme);
+  }
+  .about-content .dev-name { text-align: center; margin-bottom: 18px; }
+  .about-content .dev-name .dev-label {
+    font-size: .68rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 2px; color: var(--dourado); margin-bottom: 4px;
+  }
+  .about-content .dev-name .dev-value {
+    font-size: 1.05rem; font-weight: 800; color: var(--preto); line-height: 1.3;
+  }
+  .about-content .dev-name .dev-value small {
+    display: block; font-size: .78rem; color: #8a7d68;
+    font-weight: 600; font-style: italic; margin-top: 2px;
+  }
+  .about-content .version-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--dourado), var(--marrom));
+    color: var(--creme); font-size: .78rem; font-weight: 800;
+    padding: 6px 16px; border-radius: 999px; letter-spacing: 1.5px;
+    text-shadow: 1px 1px 0 rgba(0,0,0,.3);
+    box-shadow: 0 3px 10px rgba(200,135,58,.4); margin-top: 8px;
+  }
+  .about-content .footer-note {
+    margin-top: 16px; font-size: .72rem; color: #a89b88;
+    font-style: italic; line-height: 1.5;
+  }
+  .confirm-box.about-modal { max-width: 440px; }
+  .confirm-box.about-modal .icon-warn { display: none; }
+  .confirm-box.about-modal .top { padding: 20px; }
+
+  /* ===== SIDEBAR ===== */
   .sidebar-bg {
     position: fixed; inset: 0;
     background: rgba(26,26,26,.6);
@@ -625,63 +690,6 @@
     font-size: .72rem; color: #a89b88; text-align: center; background: var(--creme-escuro);
   }
   .sidebar-footer strong { color: var(--marrom-escuro); }
-
-  .about-content { text-align: center; padding: 8px 0; }
-  .about-content .icon-about {
-    width: 72px; height: 72px; border-radius: 50%;
-    background: linear-gradient(135deg, var(--dourado), var(--marrom));
-    display: flex; align-items: center; justify-content: center;
-    font-size: 2.2rem; margin: 0 auto 18px;
-    box-shadow: 0 6px 20px rgba(200,135,58,.4); color: var(--creme);
-    border: 3px solid var(--creme-escuro);
-  }
-  .about-content h2 {
-    margin: 0 0 6px; font-size: 1.5rem; font-weight: 900;
-    color: var(--preto); font-family: Georgia, serif; font-style: italic; letter-spacing: -.5px;
-  }
-  .about-content h2 .apostrofo { color: var(--dourado); }
-  .about-content .local {
-    font-size: .78rem; font-weight: 700; letter-spacing: 3px;
-    color: var(--dourado); text-transform: uppercase; margin-bottom: 20px;
-  }
-  .about-content .dev-photo {
-    width: 110px; height: 110px; border-radius: 50%;
-    background: linear-gradient(135deg, var(--dourado), var(--marrom));
-    display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 14px; padding: 4px;
-    box-shadow: 0 6px 20px rgba(200,135,58,.4);
-    border: 3px solid var(--creme-escuro);
-  }
-  .about-content .dev-photo img {
-    width: 100%; height: 100%; border-radius: 50%;
-    object-fit: cover; display: block; border: 2px solid var(--creme);
-  }
-  .about-content .dev-name { text-align: center; margin-bottom: 18px; }
-  .about-content .dev-name .dev-label {
-    font-size: .68rem; font-weight: 700; text-transform: uppercase;
-    letter-spacing: 2px; color: var(--dourado); margin-bottom: 4px;
-  }
-  .about-content .dev-name .dev-value {
-    font-size: 1.05rem; font-weight: 800; color: var(--preto); line-height: 1.3;
-  }
-  .about-content .dev-name .dev-value small {
-    display: block; font-size: .78rem; color: #8a7d68;
-    font-weight: 600; font-style: italic; margin-top: 2px;
-  }
-  .about-content .version-badge {
-    display: inline-block;
-    background: linear-gradient(135deg, var(--dourado), var(--marrom));
-    color: var(--creme); font-size: .78rem; font-weight: 800;
-    padding: 6px 16px; border-radius: 999px; letter-spacing: 1.5px;
-    text-shadow: 1px 1px 0 rgba(0,0,0,.3);
-    box-shadow: 0 3px 10px rgba(200,135,58,.4); margin-top: 8px;
-  }
-  .about-content .footer-note {
-    margin-top: 16px; font-size: .72rem; color: #a89b88;
-    font-style: italic; line-height: 1.5;
-  }
-  .confirm-box.about-modal { max-width: 440px; }
-  .confirm-box.about-modal .icon-warn { display: none; }
 </style>
 </head>
 <body>
@@ -1153,7 +1161,6 @@ async function guardarNaCloud() {
   }
 }
 
-// Função que salva o estado atual como o "último pedido"
 async function salvarComoUltimoPedido() {
   try {
     const itensParaSalvar = {};
@@ -1359,7 +1366,7 @@ document.getElementById("busca").addEventListener("input", (e) => {
 });
 
 let fornecedorPendente = null;
-let isCopyAction = false; // Flag para saber se a ação pendente é o Copy
+let isCopyAction = false;
 
 document.querySelectorAll(".supplier-btn[data-supplier]").forEach(btn => {
   btn.addEventListener("click", () => {
@@ -1375,7 +1382,7 @@ document.querySelectorAll(".supplier-btn[data-supplier]").forEach(btn => {
 
     if (itensRepetidos.length > 0) {
       fornecedorPendente = fornecedor;
-      isCopyAction = false; // É uma ação de envio
+      isCopyAction = false;
       
       const listaEl = document.getElementById("repeatItemsList");
       listaEl.innerHTML = "";
@@ -1393,11 +1400,9 @@ document.querySelectorAll(".supplier-btn[data-supplier]").forEach(btn => {
   });
 });
 
-// Lógica do botão COPIAR
 document.getElementById("btnCopiar").addEventListener("click", async () => {
   const texto = gerarTextoPedidoFornecedor(FORNECEDOR_DEFAULT);
   
-  // Verifica itens repetidos antes de copiar
   const itensRepetidos = [];
   Object.keys(estado).forEach(idAtual => {
     if (estado[idAtual] > 0 && ultimoPedidoSincronizado[idAtual] > 0) {
@@ -1407,9 +1412,8 @@ document.getElementById("btnCopiar").addEventListener("click", async () => {
   });
 
   if (itensRepetidos.length > 0) {
-    // Guarda a intenção de copiar
     isCopyAction = true; 
-    fornecedorPendente = FORNECEDOR_DEFAULT; // Para o texto base
+    fornecedorPendente = FORNECEDOR_DEFAULT;
 
     const listaEl = document.getElementById("repeatItemsList");
     listaEl.innerHTML = "";
@@ -1429,7 +1433,6 @@ document.getElementById("btnCopiar").addEventListener("click", async () => {
 async function executarCopia(texto) {
   try {
     await navigator.clipboard.writeText(texto);
-    // Salva o pedido como último pedido
     await salvarComoUltimoPedido();
     alert(idiomaAtual === "pt" ? "Pedido copiado!" : "Order copied!");
     modalBg.classList.remove("aberto");
@@ -1445,17 +1448,14 @@ async function executarCopia(texto) {
   }
 }
 
-// Função que realmente abre o WhatsApp e salva na memória
 function enviarParaWhatsApp(fornecedorKey) {
   const texto = gerarTextoPedidoFornecedor(fornecedorKey);
   const textoCodificado = encodeURIComponent(texto);
   const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
   const url = isMobile ? `whatsapp://send?text=${textoCodificado}` : `https://wa.me/?text=${textoCodificado}`;
   
-  // Salva o pedido atual como "último pedido" na nuvem
   salvarComoUltimoPedido();
   
-  // Abre o WhatsApp
   window.open(url, "_blank");
   modalBg.classList.remove("aberto");
 }
@@ -1480,18 +1480,16 @@ modalBg.addEventListener("click", (e) => { if (e.target === modalBg) modalBg.cla
 const repeatBg = document.getElementById("repeatBg");
 document.getElementById("btnRepeatCancel").addEventListener("click", () => {
   repeatBg.classList.remove("aberto");
-  setTimeout(() => modalBg.classList.add("aberto"), 200); // Volta para o resumo
+  setTimeout(() => modalBg.classList.add("aberto"), 200);
 });
 document.getElementById("btnRepeatOk").addEventListener("click", () => {
   repeatBg.classList.remove("aberto");
   
-  // Se a ação pendente for Copiar
   if (isCopyAction) {
     const texto = gerarTextoPedidoFornecedor(FORNECEDOR_DEFAULT);
     executarCopia(texto);
     isCopyAction = false;
   } 
-  // Se for Enviar para WhatsApp
   else if (fornecedorPendente) {
     enviarParaWhatsApp(fornecedorPendente);
   }
