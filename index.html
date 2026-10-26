@@ -862,6 +862,25 @@
     </div>
   </div>
 
+  <!-- MODAL: LOGOUT -->
+  <div class="confirm-bg" id="logoutBg">
+    <div class="confirm-box">
+      <div class="top">
+        <img src="logo-fabis.png" alt="Fabi's Grill">
+        <div class="sub" data-i18n="logout">Logout</div>
+      </div>
+      <div class="body">
+        <div class="icon-warn">🚪</div>
+        <h2 data-i18n="logoutTitle">Log out?</h2>
+        <p data-i18n="logoutDesc">Are you sure you want to log out and change user?</p>
+      </div>
+      <div class="acoes">
+        <button class="cancelar" id="btnLogoutCancel" data-i18n="cancel">Cancel</button>
+        <button class="confirmar" id="btnLogoutOk" data-i18n="logout">Logout</button>
+      </div>
+    </div>
+  </div>
+
   <!-- MODAL: ABOUT -->
   <div class="confirm-bg" id="aboutBg">
     <div class="confirm-box about-modal">
@@ -1024,7 +1043,9 @@ const TRANSLATIONS = {
     attention: "Attention", repeatTitle: "Repeat Items?",
     repeatDesc: "The following items were already ordered in your last order:",
     repeatWarning: "Are you sure you want to order them again?", review: "Review", confirmSend: "Yes, Send",
-    orderCopied: "Order copied!", nameRequired: "Please enter your name."
+    orderCopied: "Order copied!", nameRequired: "Please enter your name.",
+    logoutTitle: "Log out?", logoutDesc: "Are you sure you want to log out and change user?",
+    historyAlert: "📊 Analytics coming soon!", staffAlert: "👤 Staff Profile coming soon!"
   },
   pt: {
     synced: "Sincronizado", searchPlaceholder: "Buscar item...", clearAll: "Limpar tudo",
@@ -1038,7 +1059,9 @@ const TRANSLATIONS = {
     attention: "Atenção", repeatTitle: "Itens Repetidos?",
     repeatDesc: "Os seguintes itens já foram pedidos no seu último pedido:",
     repeatWarning: "Tem certeza que deseja pedir novamente?", review: "Revisar", confirmSend: "Sim, Enviar",
-    orderCopied: "Pedido copiado!", nameRequired: "Por favor, digite seu nome."
+    orderCopied: "Pedido copiado!", nameRequired: "Por favor, digite seu nome.",
+    logoutTitle: "Sair?", logoutDesc: "Tem certeza que deseja sair e trocar de usuário?",
+    historyAlert: "📊 Análises em breve!", staffAlert: "👤 Perfil do Staff em breve!"
   }
 };
 
@@ -1491,7 +1514,7 @@ async function executarCopia(texto) {
   try {
     await navigator.clipboard.writeText(texto);
     await salvarComoUltimoPedido();
-    mostrarToast(TRANSLATIONS[idiomaAtual].orderCopied, "sucesso"); // Toast aqui
+    mostrarToast(TRANSLATIONS[idiomaAtual].orderCopied, "sucesso");
     modalBg.classList.remove("aberto");
   } catch {
     const range = document.createRange();
@@ -1500,7 +1523,7 @@ async function executarCopia(texto) {
     window.getSelection().addRange(range);
     document.execCommand("copy");
     await salvarComoUltimoPedido();
-    mostrarToast(TRANSLATIONS[idiomaAtual].orderCopied, "sucesso"); // Toast aqui
+    mostrarToast(TRANSLATIONS[idiomaAtual].orderCopied, "sucesso");
     modalBg.classList.remove("aberto");
   }
 }
@@ -1584,6 +1607,17 @@ btnConfirmOk.addEventListener("click", async () => {
 confirmBg.addEventListener("click", (e) => { if (e.target === confirmBg) fecharConfirm(); });
 
 /* =========================================================
+   MODAL: LOGOUT
+   ========================================================= */
+const logoutBg = document.getElementById("logoutBg");
+document.getElementById("btnLogoutCancel").addEventListener("click", () => logoutBg.classList.remove("aberto"));
+document.getElementById("btnLogoutOk").addEventListener("click", () => {
+  sessionStorage.removeItem("fabis_session_active"); 
+  location.reload();
+});
+logoutBg.addEventListener("click", (e) => { if (e.target === logoutBg) logoutBg.classList.remove("aberto"); });
+
+/* =========================================================
    MODAL: ABOUT
    ========================================================= */
 const aboutBg = document.getElementById("aboutBg");
@@ -1607,15 +1641,25 @@ sidebarBg.addEventListener("click", (e) => { if (e.target === sidebarBg) fecharS
 
 document.getElementById("menuSearch").addEventListener("click", () => { fecharSidebar(); setTimeout(() => document.getElementById("busca").focus(), 350); });
 document.getElementById("menuAbout").addEventListener("click", () => { fecharSidebar(); setTimeout(abrirAbout, 250); });
-document.getElementById("menuHistory").addEventListener("click", () => { fecharSidebar(); setTimeout(() => alert(idiomaAtual === "pt" ? "📊 Em breve!" : "📊 Coming soon!"), 250); });
-document.getElementById("menuStaff").addEventListener("click", () => { fecharSidebar(); setTimeout(() => alert(idiomaAtual === "pt" ? "👤 Em breve!" : "👤 Coming soon!"), 250); });
+
+document.getElementById("menuHistory").addEventListener("click", () => {
+  fecharSidebar();
+  setTimeout(() => {
+    mostrarToast(TRANSLATIONS[idiomaAtual].historyAlert, "erro");
+  }, 250);
+});
+
+document.getElementById("menuStaff").addEventListener("click", () => {
+  fecharSidebar();
+  setTimeout(() => {
+    mostrarToast(TRANSLATIONS[idiomaAtual].staffAlert, "erro");
+  }, 250);
+});
 
 document.getElementById("menuLogout").addEventListener("click", () => {
   fecharSidebar();
   setTimeout(() => {
-    if (confirm(idiomaAtual === "pt" ? "Deseja sair e trocar de usuário?" : "Do you want to logout and change user?")) {
-      sessionStorage.removeItem("fabis_session_active"); location.reload();
-    }
+    logoutBg.classList.add("aberto");
   }, 250);
 });
 
@@ -1686,6 +1730,7 @@ document.addEventListener("keydown", (e) => {
     else if (sidebarBg.classList.contains("aberto")) fecharSidebar();
     else if (confirmBg.classList.contains("aberto")) fecharConfirm();
     else if (repeatBg.classList.contains("aberto")) repeatBg.classList.remove("aberto");
+    else if (logoutBg.classList.contains("aberto")) logoutBg.classList.remove("aberto");
     else if (modalBg.classList.contains("aberto")) modalBg.classList.remove("aberto");
   }
 });
@@ -1765,7 +1810,7 @@ function iniciarApp() {
 btnEnter.addEventListener("click", () => {
   const name = inputStaffName.value.trim();
   if (name.length < 2) {
-    mostrarToast(TRANSLATIONS[idiomaAtual].nameRequired, "erro"); // Toast aqui
+    mostrarToast(TRANSLATIONS[idiomaAtual].nameRequired, "erro");
     return;
   }
   localStorage.setItem("fabis_staff_name", name);
