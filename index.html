@@ -269,7 +269,7 @@
   .confirm-box {
     background: var(--creme); border-radius: 24px; max-width: 400px; width: 100%;
     overflow: hidden; box-shadow: 0 25px 70px rgba(0,0,0,.5);
-    animation: popIn .4s cubic-bezier(0.34, 1.56, 0.64, 1); text-align: center;
+    animation: popIn .4s cubic-bezier(0.34, 1.56, 0.64, 1); text-align: center; position: relative;
   }
   .confirm-box .top {
     background: linear-gradient(135deg, #2a1a0f 0%, #1a1a1a 100%);
@@ -298,7 +298,7 @@
   /* ===== ESTOQUE MODAL ===== */
   .estoque-list {
     background: #fff; border-radius: 12px; border: 2px solid var(--creme-escuro);
-    max-height: 300px; overflow-y: auto; text-align: left;
+    max-height: 300px; overflow-y: auto; text-align: left; margin-top: 10px;
   }
   .estoque-item {
     display: flex; justify-content: space-between; padding: 12px 14px;
@@ -309,7 +309,66 @@
     font-weight: 800; color: var(--verde-escuro); background: var(--verde-claro);
     padding: 2px 8px; border-radius: 6px;
   }
-  .estoque-info { font-size: .8rem; color: #6b6355; margin-bottom: 16px; text-align: center; }
+  .estoque-info { font-size: .85rem; color: #6b6355; margin-bottom: 16px; text-align: center; }
+
+  /* ===== ABOUT MODAL ===== */
+  .about-content { text-align: center; padding: 8px 0; }
+  .about-content .icon-about {
+    width: 72px; height: 72px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--dourado), var(--marrom));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2.2rem; margin: 0 auto 18px;
+    box-shadow: 0 6px 20px rgba(200,135,58,.4); color: var(--creme);
+    border: 3px solid var(--creme-escuro);
+  }
+  .about-content h2 {
+    margin: 0 0 6px; font-size: 1.5rem; font-weight: 900;
+    color: var(--preto); font-family: Georgia, serif; font-style: italic; letter-spacing: -.5px;
+  }
+  .about-content h2 .apostrofo { color: var(--dourado); }
+  .about-content .local {
+    font-size: .78rem; font-weight: 700; letter-spacing: 3px;
+    color: var(--dourado); text-transform: uppercase; margin-bottom: 20px;
+  }
+  .about-content .dev-photo {
+    width: 110px; height: 110px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--dourado), var(--marrom));
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 14px; padding: 4px;
+    box-shadow: 0 6px 20px rgba(200,135,58,.4);
+    border: 3px solid var(--creme-escuro);
+  }
+  .about-content .dev-photo img {
+    width: 100%; height: 100%; border-radius: 50%;
+    object-fit: cover; display: block; border: 2px solid var(--creme);
+  }
+  .about-content .dev-name { text-align: center; margin-bottom: 18px; }
+  .about-content .dev-name .dev-label {
+    font-size: .68rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 2px; color: var(--dourado); margin-bottom: 4px;
+  }
+  .about-content .dev-name .dev-value {
+    font-size: 1.05rem; font-weight: 800; color: var(--preto); line-height: 1.3;
+  }
+  .about-content .dev-name .dev-value small {
+    display: block; font-size: .78rem; color: #8a7d68;
+    font-weight: 600; font-style: italic; margin-top: 2px;
+  }
+  .about-content .version-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--dourado), var(--marrom));
+    color: var(--creme); font-size: .78rem; font-weight: 800;
+    padding: 6px 16px; border-radius: 999px; letter-spacing: 1.5px;
+    text-shadow: 1px 1px 0 rgba(0,0,0,.3);
+    box-shadow: 0 3px 10px rgba(200,135,58,.4); margin-top: 8px;
+  }
+  .about-content .footer-note {
+    margin-top: 16px; font-size: .72rem; color: #a89b88;
+    font-style: italic; line-height: 1.5;
+  }
+  .confirm-box.about-modal { max-width: 440px; }
+  .confirm-box.about-modal .icon-warn { display: none; }
+  .confirm-box.about-modal .top { padding: 20px; }
 
   /* ===== SIDEBAR ===== */
   .sidebar-bg {
@@ -345,13 +404,17 @@
   .sidebar-item .icone {
     width: 36px; height: 36px; border-radius: 10px;
     background: linear-gradient(135deg, var(--dourado), var(--marrom));
-    display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    box-shadow: 0 2px 6px rgba(200,135,58,.3); overflow: hidden; padding: 6px;
   }
+  .sidebar-item .icone img { width: 100%; height: 100%; object-fit: contain; display: block; }
   .sidebar-item .texto { flex: 1; }
   .sidebar-item .texto .titulo { font-weight: 700; font-size: .95rem; color: var(--preto); }
   .sidebar-item .texto .desc { font-size: .72rem; color: #8a7d68; }
   .sidebar-divider { height: 1px; background: var(--creme-escuro); margin: 8px 20px; }
-  .lang-switch { display: flex; gap: 8px; padding: 12px 20px; }
+  .lang-switch { display: flex; gap: 8px; padding: 12px 20px; align-items: center; }
+  .lang-switch .label { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .lang-switch .label img { width: 100%; height: 100%; object-fit: contain; }
   .lang-btn {
     flex: 1; padding: 10px 12px; border-radius: 10px; border: 2px solid var(--creme-escuro);
     background: #fff; font-weight: 800; cursor: pointer; color: var(--marrom-escuro);
@@ -494,20 +557,41 @@
     </div>
   </div>
 
-  <!-- MODAL ABOUT -->
+  <!-- MODAL ABOUT (RESTAURADO) -->
   <div class="confirm-bg" id="aboutBg">
     <div class="confirm-box about-modal">
-      <div class="top"><img src="logo-fabis.png"><div class="sub" data-i18n="about">About</div></div>
+      <div class="top">
+        <img src="logo-fabis.png" alt="Fabi's Grill">
+        <div class="sub" data-i18n="about">About</div>
+      </div>
       <div class="body">
         <div class="about-content">
           <div class="icon-about">🔥</div>
-          <h2>Fabi's Grill</h2>
+          <h2>Fabi<span class="apostrofo">'</span>s Grill</h2>
           <div class="local">Temple Bar · Dublin</div>
-          <div class="dev-photo"><img src="eduardo.jpg"></div>
+
+          <div class="dev-photo">
+            <img src="eduardo.jpg" alt="Eduardo Oliveira">
+          </div>
+
+          <div class="dev-name">
+            <div class="dev-label">Developed by</div>
+            <div class="dev-value">EOTECH <small>Eduardo Oliveira</small></div>
+          </div>
+
           <div class="version-badge">VERSION 1.0</div>
+
+          <div class="footer-note">
+            © 2026 Fabi's Grill · All rights reserved<br>
+            Made with 🔥 in Dublin
+          </div>
         </div>
       </div>
-      <div class="acoes"><button class="confirmar" id="btnAboutOk" data-i18n="close" style="background: var(--dourado); color: var(--creme);">Close</button></div>
+      <div class="acoes">
+        <button class="confirmar" id="btnAboutOk" style="background: linear-gradient(135deg, var(--dourado), var(--marrom)); box-shadow: 0 3px 10px rgba(200,135,58,.4);">
+          <span data-i18n="close">Close</span>
+        </button>
+      </div>
     </div>
   </div>
 
@@ -519,22 +603,48 @@
         <div class="sub" data-i18n="menu">Menu</div>
       </div>
       <div class="sidebar-body">
-        <button class="sidebar-item" id="menuSearch"><div class="icone">🔍</div><div class="texto"><div class="titulo" data-i18n="searchItems">Search Items</div></div></button>
+        <button class="sidebar-item" id="menuSearch">
+          <div class="icone"><img src="icons/icon-search.png" alt="Search"></div>
+          <div class="texto"><div class="titulo" data-i18n="searchItems">Search Items</div></div>
+        </button>
         
         <!-- NOVO BOTÃO ESTOQUE -->
-        <button class="sidebar-item" id="menuStock"><div class="icone">📦</div><div class="texto"><div class="titulo" data-i18n="stock">Estoque</div><div class="desc" data-i18n="stockDesc">Last Order Status</div></div></button>
+        <button class="sidebar-item" id="menuStock">
+          <div class="icone" style="background: linear-gradient(135deg, var(--verde), var(--verde-escuro));"><span style="font-size: 1.2rem;">📦</span></div>
+          <div class="texto"><div class="titulo" data-i18n="stock">Estoque</div><div class="desc" data-i18n="stockDesc">Last Order Status</div></div>
+        </button>
         
-        <button class="sidebar-item" id="menuStaff"><div class="icone">👤</div><div class="texto"><div class="titulo" data-i18n="staffProfile">Staff Profile</div><div class="desc" data-i18n="comingSoon">Coming soon</div></div></button>
+        <button class="sidebar-item" id="menuStaff">
+          <div class="icone"><img src="icons/icon-staff.png" alt="Staff"></div>
+          <div class="texto"><div class="titulo" data-i18n="staffProfile">Staff Profile</div><div class="desc" data-i18n="comingSoon">Coming soon</div></div>
+        </button>
+        
         <div class="sidebar-divider"></div>
+        
         <div class="lang-switch">
+          <span class="label"><img src="icons/icon-language.png" alt="Language"></span>
           <button class="lang-btn" id="btnLangEN">EN</button>
           <button class="lang-btn" id="btnLangPT">PT</button>
         </div>
+        
         <div class="sidebar-divider"></div>
-        <button class="sidebar-item" id="menuAbout"><div class="icone">ℹ️</div><div class="texto"><div class="titulo" data-i18n="about">About</div></div></button>
-        <button class="sidebar-item" id="menuClear"><div class="icone">🗑️</div><div class="texto"><div class="titulo" data-i18n="clearAll">Clear All</div></div></button>
+        
+        <button class="sidebar-item" id="menuAbout">
+          <div class="icone"><img src="icons/icon-about.png" alt="About"></div>
+          <div class="texto"><div class="titulo" data-i18n="about">About</div></div>
+        </button>
+        
+        <button class="sidebar-item" id="menuClear">
+          <div class="icone"><img src="icons/icon-clear.png" alt="Clear"></div>
+          <div class="texto"><div class="titulo" data-i18n="clearAll">Clear All</div></div>
+        </button>
+        
         <div class="sidebar-divider"></div>
-        <button class="sidebar-item" id="menuLogout"><div class="icone">🚪</div><div class="texto"><div class="titulo" data-i18n="logout">Logout</div></div></button>
+        
+        <button class="sidebar-item" id="menuLogout">
+          <div class="icone"><img src="icons/icon-logout.png" alt="Logout"></div>
+          <div class="texto"><div class="titulo" data-i18n="logout">Logout</div></div>
+        </button>
       </div>
       <div class="sidebar-footer"><strong>Fabi's Grill</strong><br>Temple Bar · Dublin</div>
     </aside>
@@ -560,7 +670,7 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const pedidoRef = ref(db, "pedido_atual");
 const ultimoPedidoRef = ref(db, "ultimo_pedido");
-const estoqueHistoricoRef = ref(db, "estoque_historico"); // NOVO
+const estoqueHistoricoRef = ref(db, "estoque_historico");
 
 const FORNECEDORES = {
   ercan: { nome: "Ercan", saudacao: "Hello Ercan, could you send it to Fabis Grill temple bar, " },
@@ -773,7 +883,6 @@ async function salvarComoUltimoPedido() {
   }
 }
 
-// NOVA FUNÇÃO: Salva o histórico de estoque com data e nome
 async function salvarHistoricoEstoque() {
   const staffName = localStorage.getItem("fabis_staff_name") || "Unknown";
   const agora = new Date();
@@ -1005,7 +1114,7 @@ async function executarCopia(texto) {
   try {
     await navigator.clipboard.writeText(texto);
     await salvarComoUltimoPedido();
-    await salvarHistoricoEstoque(); // NOVO
+    await salvarHistoricoEstoque();
   } catch {
     const range = document.createRange();
     range.selectNode(document.getElementById("textoPedido"));
@@ -1013,7 +1122,7 @@ async function executarCopia(texto) {
     window.getSelection().addRange(range);
     document.execCommand("copy");
     await salvarComoUltimoPedido();
-    await salvarHistoricoEstoque(); // NOVO
+    await salvarHistoricoEstoque();
   }
 }
 
@@ -1024,7 +1133,7 @@ function enviarParaWhatsApp(fornecedorKey) {
   const url = isMobile ? `whatsapp://send?text=${textoCodificado}` : `https://wa.me/?text=${textoCodificado}`;
   
   salvarComoUltimoPedido();
-  salvarHistoricoEstoque(); // NOVO
+  salvarHistoricoEstoque();
   
   window.open(url, "_blank");
   modalBg.classList.remove("aberto");
@@ -1054,7 +1163,7 @@ document.getElementById("btnRepeatOk").addEventListener("click", () => {
 });
 repeatBg.addEventListener("click", (e) => { if (e.target === repeatBg) repeatBg.classList.remove("aberto"); });
 
-/* ===== MODAL ESTOQUE (NOVO) ===== */
+/* ===== MODAL ESTOQUE ===== */
 const estoqueBg = document.getElementById("estoqueBg");
 const estoqueList = document.getElementById("estoqueList");
 const estoqueInfo = document.getElementById("estoqueInfo");
