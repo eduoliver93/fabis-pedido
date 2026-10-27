@@ -112,6 +112,22 @@
   }
   @media (max-width: 480px) { header .logo-fabis { max-height: 56px; } }
 
+  /* ===== NOVO AVATAR DO STAFF NO HEADER ===== */
+  .header-avatar {
+    position: absolute; top: 50%; right: 16px;
+    transform: translateY(-50%);
+    width: 44px; height: 44px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--dourado), var(--marrom));
+    border: 2px solid var(--creme);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem; font-weight: 800; color: var(--creme);
+    cursor: pointer; z-index: 5; overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,.3);
+  }
+  .header-avatar img {
+    width: 100%; height: 100%; object-fit: cover; display: none;
+  }
+
   .welcome-bar {
     text-align: center; padding: 12px 16px 6px; 
     font-size: 1.1rem; font-weight: 800; 
@@ -467,6 +483,12 @@
       <div class="hamburger"><span></span><span></span><span></span><span></span></div>
     </button>
     <img src="logo-fabis.png" alt="Fabi's Grill" class="logo-fabis">
+    
+    <!-- NOVO: Avatar no canto superior direito -->
+    <div class="header-avatar" id="headerAvatar" title="View Profile">
+      <img id="headerAvatarImg" src="">
+      <span id="headerAvatarInitials"></span>
+    </div>
   </header>
 
   <div class="welcome-bar">👋 <span id="welcome-text">Welcome!</span></div>
@@ -890,7 +912,11 @@ function mostrarToast(mensagem, tipo = "sucesso") {
 /* ===== FIREBASE LISTENERS ===== */
 onValue(ultimoPedidoRef, (snapshot) => { ultimoPedidoSincronizado = snapshot.val() || {}; });
 onValue(estoqueHistoricoRef, (snapshot) => { estoqueHistorico = snapshot.val() || null; });
-onValue(perfisRef, (snapshot) => { perfis = snapshot.val() || {}; renderPerfil(); });
+onValue(perfisRef, (snapshot) => { 
+  perfis = snapshot.val() || {}; 
+  renderPerfil(); 
+  renderHeaderAvatar(); // Atualiza a foto do header
+});
 
 onValue(pedidoRef, (snapshot) => {
   const dados = snapshot.val();
@@ -1242,13 +1268,17 @@ document.getElementById("btnEstoqueLimpar").addEventListener("click", async () =
 
 estoqueBg.addEventListener("click", (e) => { if (e.target === estoqueBg) estoqueBg.classList.remove("aberto"); });
 
-/* ===== MODAL PERFIL ===== */
+/* ===== PERFIL E AVATAR DO HEADER ===== */
 const profileBg = document.getElementById("profileBg");
 const profileName = document.getElementById("profileName");
 const profileImg = document.getElementById("profileImg");
 const profileInitials = document.getElementById("profileInitials");
 const fileInput = document.getElementById("fileInput");
 const btnChangePhoto = document.getElementById("btnChangePhoto");
+
+const headerAvatar = document.getElementById("headerAvatar");
+const headerAvatarImg = document.getElementById("headerAvatarImg");
+const headerAvatarInitials = document.getElementById("headerAvatarInitials");
 
 function renderPerfil() {
   const staffName = localStorage.getItem("fabis_staff_name") || "";
@@ -1268,12 +1298,34 @@ function renderPerfil() {
   }
 }
 
+function renderHeaderAvatar() {
+  const staffName = localStorage.getItem("fabis_staff_name") || "";
+  if (!staffName) return;
+
+  const perfil = perfis[staffName];
+
+  if (perfil && perfil.foto) {
+    headerAvatarImg.src = perfil.foto;
+    headerAvatarImg.style.display = "block";
+    headerAvatarInitials.style.display = "none";
+  } else {
+    headerAvatarImg.style.display = "none";
+    headerAvatarInitials.style.display = "block";
+    headerAvatarInitials.textContent = staffName.charAt(0).toUpperCase();
+  }
+}
+
+// Abrir perfil ao clicar no avatar do header ou no menu
+function abrirPerfil() {
+  renderPerfil();
+  profileBg.classList.add("aberto");
+}
+
+headerAvatar.addEventListener("click", abrirPerfil);
+
 document.getElementById("menuStaff").addEventListener("click", () => {
   fecharSidebar();
-  setTimeout(() => {
-    renderPerfil();
-    profileBg.classList.add("aberto");
-  }, 250);
+  setTimeout(abrirPerfil, 250);
 });
 
 document.getElementById("btnProfileClose").addEventListener("click", () => profileBg.classList.remove("aberto"));
@@ -1433,6 +1485,7 @@ function iniciarApp() {
     if (staffName) {
       const welcomeMsg = idiomaAtual === "pt" ? "Bem-vindo" : "Welcome";
       welcomeText.textContent = `${welcomeMsg}, ${staffName}!`;
+      renderHeaderAvatar(); // Inicializa a foto do header
     }
   } else {
     loginScreen.style.display = "flex"; appPrincipal.style.display = "none";
