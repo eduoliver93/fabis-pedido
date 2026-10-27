@@ -112,6 +112,7 @@
   }
   @media (max-width: 480px) { header .logo-fabis { max-height: 56px; } }
 
+  /* ===== NOVO AVATAR DO STAFF NO HEADER ===== */
   .header-avatar {
     position: absolute; top: 50%; right: 16px;
     transform: translateY(-50%);
@@ -123,7 +124,9 @@
     cursor: pointer; z-index: 5; overflow: hidden;
     box-shadow: 0 2px 8px rgba(0,0,0,.3);
   }
-  .header-avatar img { width: 100%; height: 100%; object-fit: cover; display: none; }
+  .header-avatar img {
+    width: 100%; height: 100%; object-fit: cover; display: none;
+  }
 
   .welcome-bar {
     text-align: center; padding: 12px 16px 6px; 
@@ -272,7 +275,7 @@
   .supplier-btn img { width: 48px; height: 48px; border-radius: 50%; background: #fff; padding: 3px; }
   .supplier-btn.whatsapp-btn { background: linear-gradient(135deg, #25D366, #128C7E); color: #fff; border-color: #128C7E; }
 
-  /* ===== POP-UPS PREMIUM UNIFICADOS ===== */
+  /* ===== POP-UPS PREMIUM ===== */
   .confirm-bg {
     position: fixed; inset: 0; background: rgba(26,26,26,.7);
     backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center;
@@ -298,12 +301,6 @@
     display: flex; align-items: center; justify-content: center;
     font-size: 2.2rem; margin: 0 auto 20px;
   }
-  .confirm-box .icon-warn::after {
-    content: ''; position: absolute; inset: -6px;
-    border-radius: 50%; border: 1px dashed rgba(220,38,38,.3);
-    animation: spin 12s linear infinite;
-  }
-  @keyframes spin { 100% { transform: rotate(360deg); } }
   .confirm-box h2 { margin: 0 0 10px; font-size: 1.3rem; font-weight: 800; }
   .confirm-box p { margin: 0 0 8px; font-size: .9rem; color: #6b6355; }
   .confirm-box .acoes { padding: 16px 24px 24px; display: flex; gap: 12px; background: #fff; }
@@ -316,11 +313,11 @@
 
   /* ===== ESTOQUE MODAL ===== */
   .estoque-list {
-    background: #f8f9fa; border-radius: 12px; border: 2px solid var(--creme-escuro);
-    max-height: 200px; overflow-y: auto; text-align: left; margin-top: 10px;
+    background: #fff; border-radius: 12px; border: 2px solid var(--creme-escuro);
+    max-height: 300px; overflow-y: auto; text-align: left; margin-top: 10px;
   }
   .estoque-item {
-    display: flex; justify-content: space-between; padding: 10px 14px;
+    display: flex; justify-content: space-between; padding: 12px 14px;
     border-bottom: 1px solid var(--creme-escuro); font-size: .9rem;
   }
   .estoque-item:last-child { border-bottom: none; }
@@ -331,15 +328,15 @@
   .estoque-info { font-size: .85rem; color: #6b6355; margin-bottom: 16px; text-align: center; }
 
   /* ===== PERFIL STAFF MODAL ===== */
-  .profile-content { text-align: center; }
+  .profile-content { text-align: center; padding: 10px 0; }
   .profile-photo-wrap {
-    position: relative; width: 100px; height: 100px; margin: 0 auto 16px;
+    position: relative; width: 120px; height: 120px; margin: 0 auto 16px;
   }
   .profile-photo {
     width: 100%; height: 100%; border-radius: 50%;
     background: linear-gradient(135deg, var(--dourado), var(--marrom));
     display: flex; align-items: center; justify-content: center;
-    font-size: 2.5rem; font-weight: 800; color: var(--creme);
+    font-size: 3rem; font-weight: 800; color: var(--creme);
     border: 4px solid var(--creme-escuro); box-shadow: 0 8px 24px rgba(0,0,0,.15);
     object-fit: cover;
   }
@@ -487,6 +484,7 @@
     </button>
     <img src="logo-fabis.png" alt="Fabi's Grill" class="logo-fabis">
     
+    <!-- NOVO: Avatar no canto superior direito -->
     <div class="header-avatar" id="headerAvatar" title="View Profile">
       <img id="headerAvatarImg" src="">
       <span id="headerAvatarInitials"></span>
@@ -534,27 +532,31 @@
   </div>
 
   <!-- MODAL ESTOQUE -->
-  <div class="confirm-bg" id="estoqueBg">
-    <div class="confirm-box">
-      <div class="top"><img src="logo-fabis.png"><div class="sub" data-i18n="stock">Estoque</div></div>
-      <div class="body">
-        <div class="icon-warn" style="background: linear-gradient(135deg, var(--verde-claro), #bbf7d0); border-color: #fff; box-shadow: 0 8px 24px rgba(22,163,74,.25), inset 0 0 0 2px var(--verde);">📦</div>
-        <h2 data-i18n="stockTitle" style="font-size: 1.2rem; margin-bottom: 5px;">Stock / Estoque</h2>
-        <div class="estoque-info" id="estoqueInfo" style="margin-bottom: 10px;"></div>
+  <div class="modal-bg" id="estoqueBg">
+    <div class="modal">
+      <header>
+        <img src="logo-fabis.png" alt="Fabi's Grill" class="logo-fabis">
+        <p class="subtitulo" data-i18n="stockTitle">📦 Stock / Estoque</p>
+      </header>
+      <div class="conteudo">
+        <div class="estoque-info" id="estoqueInfo"></div>
         <ul class="estoque-list" id="estoqueList"></ul>
       </div>
-      <div class="acoes">
-        <button class="cancelar" id="btnEstoqueClose" data-i18n="close">Close</button>
-        <button class="confirmar" id="btnEstoqueLimpar" style="background: linear-gradient(135deg, var(--verde), var(--verde-escuro));" data-i18n="markReceived">Received</button>
+      <div class="acoes" style="justify-content: space-between;">
+        <button class="fechar" id="btnEstoqueClose" data-i18n="close" style="flex: 1;">Close</button>
+        <button class="confirmar" id="btnEstoqueLimpar" style="flex: 1; background: linear-gradient(135deg, var(--dourado), var(--marrom)); color: #fff;" data-i18n="markReceived">Mark as Received</button>
       </div>
     </div>
   </div>
 
   <!-- MODAL PERFIL STAFF -->
-  <div class="confirm-bg" id="profileBg">
-    <div class="confirm-box">
-      <div class="top"><img src="logo-fabis.png"><div class="sub" data-i18n="staffProfile">Staff Profile</div></div>
-      <div class="body">
+  <div class="modal-bg" id="profileBg">
+    <div class="modal">
+      <header>
+        <img src="logo-fabis.png" alt="Fabi's Grill" class="logo-fabis">
+        <p class="subtitulo" data-i18n="staffProfile">Staff Profile</p>
+      </header>
+      <div class="conteudo">
         <div class="profile-content">
           <div class="profile-photo-wrap">
             <img id="profileImg" class="profile-photo" style="display: none;">
@@ -569,7 +571,7 @@
         </div>
       </div>
       <div class="acoes">
-        <button class="cancelar" id="btnProfileClose" data-i18n="close" style="flex: 1;">Close</button>
+        <button class="fechar" id="btnProfileClose" data-i18n="close" style="flex: 1;">Close</button>
       </div>
     </div>
   </div>
@@ -913,7 +915,7 @@ onValue(estoqueHistoricoRef, (snapshot) => { estoqueHistorico = snapshot.val() |
 onValue(perfisRef, (snapshot) => { 
   perfis = snapshot.val() || {}; 
   renderPerfil(); 
-  renderHeaderAvatar();
+  renderHeaderAvatar(); // Atualiza a foto do header
 });
 
 onValue(pedidoRef, (snapshot) => {
@@ -1313,6 +1315,7 @@ function renderHeaderAvatar() {
   }
 }
 
+// Abrir perfil ao clicar no avatar do header ou no menu
 function abrirPerfil() {
   renderPerfil();
   profileBg.classList.add("aberto");
@@ -1482,7 +1485,7 @@ function iniciarApp() {
     if (staffName) {
       const welcomeMsg = idiomaAtual === "pt" ? "Bem-vindo" : "Welcome";
       welcomeText.textContent = `${welcomeMsg}, ${staffName}!`;
-      renderHeaderAvatar();
+      renderHeaderAvatar(); // Inicializa a foto do header
     }
   } else {
     loginScreen.style.display = "flex"; appPrincipal.style.display = "none";
