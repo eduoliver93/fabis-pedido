@@ -27,93 +27,60 @@
     min-height: 100vh; display: flex; flex-direction: column;
   }
   
-  /* ===== TOAST NOTIFICATION CENTRALIZADO ===== */
+  /* ===== TOAST NOTIFICATION ===== */
   #toast {
-    position: fixed;
-    top: 50%;
-    left: 50%;
+    position: fixed; top: 50%; left: 50%;
     transform: translate(-50%, -50%) scale(0.8);
     background: linear-gradient(135deg, var(--preto) 0%, var(--marrom-escuro) 100%);
-    color: var(--creme);
-    padding: 16px 28px;
-    border-radius: 16px;
-    border: 2px solid var(--dourado);
+    color: var(--creme); padding: 16px 28px;
+    border-radius: 16px; border: 2px solid var(--dourado);
     box-shadow: 0 15px 40px rgba(0,0,0,.6);
-    font-size: 1.05rem;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    z-index: 9999;
-    opacity: 0;
-    visibility: hidden;
+    font-size: 1.05rem; font-weight: 700;
+    display: flex; align-items: center; gap: 12px;
+    z-index: 9999; opacity: 0; visibility: hidden;
     transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     pointer-events: none;
   }
-  #toast.visivel { 
-    opacity: 1;
-    visibility: visible;
-    transform: translate(-50%, -50%) scale(1);
-  }
+  #toast.visivel { opacity: 1; visibility: visible; transform: translate(-50%, -50%) scale(1); }
   #toast .toast-icon {
     width: 28px; height: 28px; border-radius: 50%;
     background: var(--verde); color: #fff;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.1rem;
+    display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
   }
   #toast.erro .toast-icon { background: var(--vermelho); }
 
   /* ===== LOGIN SCREEN ===== */
   #login-screen {
-    display: none; 
-    position: fixed; inset: 0; 
-    z-index: 999; 
-    align-items: center; 
-    justify-content: center; 
-    padding: 20px; 
-    flex-direction: column;
-    background-image: url('bg-login.jpg'); 
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    display: none; position: fixed; inset: 0; z-index: 999;
+    align-items: center; justify-content: center; padding: 20px; flex-direction: column;
+    background-color: var(--marrom-escuro);
+    background-image: url('bg-login.jpg'); background-size: cover;
+    background-position: center; background-repeat: no-repeat;
   }
   #login-screen::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgba(26, 26, 26, 0.6);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    z-index: 1;
+    content: ''; position: absolute; inset: 0;
+    background: rgba(26, 26, 26, 0.6); backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px); z-index: 1;
   }
-
   .login-box {
-    background: #fff; padding: 30px 24px; 
-    border-radius: 20px; border: 3px solid var(--dourado); 
-    max-width: 400px; width: 100%; 
-    text-align: center; 
+    background: #fff; padding: 30px 24px; border-radius: 20px; border: 3px solid var(--dourado);
+    max-width: 400px; width: 100%; text-align: center;
     box-shadow: 0 15px 40px rgba(0,0,0,0.4);
     animation: popIn .35s cubic-bezier(0.34, 1.56, 0.64, 1);
-    position: relative;
-    z-index: 2;
+    position: relative; z-index: 2;
   }
   .login-box img { max-height: 80px; margin-bottom: 20px; }
   .login-box h2 { font-size: 1.4rem; margin-bottom: 20px; color: var(--preto); }
   .login-box input {
-    width: 100%; padding: 15px; 
-    border: 2px solid var(--creme-escuro); border-radius: 12px; 
-    font-size: 1.1rem; margin-bottom: 15px; 
-    outline: none; text-align: center; font-weight: 700; color: var(--preto);
-    font-family: inherit; transition: border-color 0.2s;
+    width: 100%; padding: 15px; border: 2px solid var(--creme-escuro); border-radius: 12px;
+    font-size: 1.1rem; margin-bottom: 15px; outline: none; text-align: center;
+    font-weight: 700; color: var(--preto); font-family: inherit; transition: border-color 0.2s;
   }
   .login-box input:focus { border-color: var(--dourado); }
   .login-box button {
-    width: 100%; padding: 15px; 
-    background: linear-gradient(135deg, var(--dourado), var(--marrom)); 
-    color: #fff; border: none; border-radius: 12px; 
-    font-size: 1.1rem; font-weight: 800; cursor: pointer; 
-    text-shadow: 1px 1px 0 rgba(0,0,0,.3);
-    transition: all 0.2s; font-family: inherit;
+    width: 100%; padding: 15px; background: linear-gradient(135deg, var(--dourado), var(--marrom));
+    color: #fff; border: none; border-radius: 12px; font-size: 1.1rem; font-weight: 800;
+    cursor: pointer; text-shadow: 1px 1px 0 rgba(0,0,0,.3); transition: all 0.2s; font-family: inherit;
   }
   .login-box button:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(200,135,58,.4); }
 
@@ -154,12 +121,9 @@
 
   .menu-btn {
     position: absolute; top: 50%; left: 16px;
-    transform: translateY(-50%);
-    width: 44px; height: 44px;
-    background: rgba(200,135,58,.15);
-    border: 2px solid var(--dourado);
-    border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
+    transform: translateY(-50%); width: 44px; height: 44px;
+    background: rgba(200,135,58,.15); border: 2px solid var(--dourado);
+    border-radius: 12px; display: flex; align-items: center; justify-content: center;
     cursor: pointer; transition: all .2s; z-index: 5; padding: 0;
   }
   .menu-btn:hover { background: var(--dourado); transform: translateY(-50%) scale(1.05); }
@@ -168,10 +132,8 @@
   .menu-btn .hamburger span { display: block; width: 20px; height: 2.5px; background: var(--dourado); border-radius: 2px; transition: background .2s; }
 
   .sync-status {
-    position: fixed; top: 16px; right: 16px;
-    font-size: .75rem; font-weight: 700;
-    padding: 6px 12px; border-radius: 999px;
-    box-shadow: 0 2px 10px rgba(0,0,0,.3);
+    position: fixed; top: 16px; right: 16px; font-size: .75rem; font-weight: 700;
+    padding: 6px 12px; border-radius: 999px; box-shadow: 0 2px 10px rgba(0,0,0,.3);
     z-index: 100; transition: opacity .3s; color: #fff;
   }
   .sync-status.online { background: var(--verde); }
@@ -180,563 +142,231 @@
   .sync-status.oculto { opacity: 0; }
 
   .tabs {
-    display: flex; gap: 6px; padding: 12px 14px;
-    background: var(--preto-suave); border-bottom: 3px solid var(--dourado);
-    overflow-x: auto; flex-shrink: 0; scrollbar-width: thin;
+    display: flex; gap: 6px; padding: 12px 14px; background: var(--preto-suave);
+    border-bottom: 3px solid var(--dourado); overflow-x: auto; flex-shrink: 0; scrollbar-width: thin;
   }
   .tabs::-webkit-scrollbar { height: 5px; }
   .tabs::-webkit-scrollbar-thumb { background: var(--marrom); border-radius: 3px; }
-
   .tab {
-    flex-shrink: 0; padding: 9px 16px; border-radius: 24px;
-    border: 2px solid var(--marrom); background: transparent;
-    color: var(--creme-escuro); font-size: .84rem; font-weight: 700;
+    flex-shrink: 0; padding: 9px 16px; border-radius: 24px; border: 2px solid var(--marrom);
+    background: transparent; color: var(--creme-escuro); font-size: .84rem; font-weight: 700;
     cursor: pointer; white-space: nowrap; transition: all .25s cubic-bezier(0.4, 0, 0.2, 1);
   }
   .tab:hover { background: rgba(200,135,58,.15); border-color: var(--dourado); }
   .tab.ativa {
     background: linear-gradient(135deg, var(--dourado), var(--marrom));
     color: var(--preto); border-color: var(--creme);
-    box-shadow: 0 2px 8px rgba(200,135,58,.5); font-weight: 800;
-    transform: scale(1.02);
+    box-shadow: 0 2px 8px rgba(200,135,58,.5); font-weight: 800; transform: scale(1.02);
   }
   .tab .badge {
     display: inline-block; background: var(--verde); color: #fff;
     font-size: .7rem; font-weight: 800; padding: 2px 8px;
-    border-radius: 999px; margin-left: 6px;
-    box-shadow: 0 0 0 2px rgba(255,255,255,.3);
-    animation: pulse 1.5s ease-in-out infinite;
+    border-radius: 999px; margin-left: 6px; box-shadow: 0 0 0 2px rgba(255,255,255,.3);
   }
-  .tab.ativa .badge { background: var(--verde); color: #fff; box-shadow: 0 0 0 2px var(--creme); }
-  @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.12)} }
 
   .toolbar {
     display: flex; flex-wrap: wrap; gap: 8px; padding: 12px 16px;
-    background: var(--creme); border-bottom: 2px solid var(--creme-escuro);
-    flex-shrink: 0;
+    background: var(--creme); border-bottom: 2px solid var(--creme-escuro); flex-shrink: 0;
   }
   .toolbar input[type="search"] {
-    flex: 1; min-width: 160px; padding: 10px 14px;
-    border: 2px solid var(--creme-escuro); border-radius: 10px;
-    font-size: .95rem; background: #fff; outline: none; color: var(--preto);
+    flex: 1; min-width: 160px; padding: 10px 14px; border: 2px solid var(--creme-escuro);
+    border-radius: 10px; font-size: .95rem; background: #fff; outline: none; color: var(--preto);
     -webkit-user-select: text; user-select: text;
   }
-  .toolbar input[type="search"]::placeholder { color: #a89b88; }
   .toolbar input[type="search"]:focus { border-color: var(--marrom); }
   .toolbar button {
-    padding: 10px 16px; border: none; border-radius: 10px;
-    font-size: .9rem; font-weight: 700; cursor: pointer;
-    background: var(--creme-escuro); color: var(--marrom-escuro);
-    transition: all .15s;
+    padding: 10px 16px; border: none; border-radius: 10px; font-size: .9rem;
+    font-weight: 700; cursor: pointer; background: var(--creme-escuro); color: var(--marrom-escuro);
   }
-  .toolbar button:hover { background: #ddd0ba; }
   .toolbar button.danger { background: var(--preto); color: var(--creme); }
-  .toolbar button.danger:hover { background: #333; transform: translateY(-1px); }
 
-  main {
-    flex: 1; padding: 14px 16px 30px; overflow-y: auto;
-    will-change: opacity, transform;
-  }
-
-  main.transitioning {
-    opacity: 0; transform: translateY(8px);
-    transition: opacity .12s ease, transform .12s ease;
-  }
-  main.entrando {
-    opacity: 1; transform: translateY(0);
-    transition: opacity .22s cubic-bezier(0.4, 0, 0.2, 1), transform .22s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
+  main { flex: 1; padding: 14px 16px 30px; overflow-y: auto; }
   .item {
-    display: flex; align-items: center; gap: 12px;
-    background: #fff; border: 2px solid var(--creme-escuro);
-    border-radius: 14px; padding: 12px 14px; margin-bottom: 10px;
-    transition: border-color .15s, background .15s, box-shadow .15s;
+    display: flex; align-items: center; gap: 12px; background: #fff;
+    border: 2px solid var(--creme-escuro); border-radius: 14px;
+    padding: 12px 14px; margin-bottom: 10px;
   }
-  .item.selecionado {
-    border-color: var(--verde);
-    background: linear-gradient(to right, #f0fdf4, #dcfce7);
-    box-shadow: 0 2px 10px rgba(22,163,74,.2);
-  }
+  .item.selecionado { border-color: var(--verde); background: linear-gradient(to right, #f0fdf4, #dcfce7); }
   .item .info { flex: 1; min-width: 0; }
   .item .nome { font-weight: 700; font-size: .96rem; color: var(--preto); }
-  .item.selecionado .nome { color: var(--verde-escuro); }
-  .item .pt { font-size: .72rem; color: #8a7d68; margin-top: 2px; font-style: italic; letter-spacing: .3px; }
-  .item.selecionado .pt { color: #5c8a6a; }
-  .item .tag-box {
-    display: inline-block; background: var(--dourado); color: var(--preto);
-    font-size: .66rem; font-weight: 800; padding: 1px 7px;
-    border-radius: 4px; margin-left: 6px; vertical-align: middle; letter-spacing: .5px;
-  }
+  .item .pt { font-size: .72rem; color: #8a7d68; margin-top: 2px; font-style: italic; }
   .check {
-    width: 28px; height: 28px; border-radius: 8px;
-    border: 2.5px solid var(--creme-escuro);
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; flex-shrink: 0; font-size: 1rem;
-    color: transparent; background: #fff; transition: all .15s;
+    width: 28px; height: 28px; border-radius: 8px; border: 2.5px solid var(--creme-escuro);
+    display: flex; align-items: center; justify-content: center; cursor: pointer;
+    color: transparent; background: #fff;
   }
-  .item.selecionado .check {
-    background: linear-gradient(135deg, #22c55e, #16a34a);
-    border-color: var(--verde-escuro); color: #fff;
-  }
-  .qty { display: flex; align-items: center; gap: 5px; flex-shrink: 0; }
-  .qty button {
-    width: 34px; height: 34px; border-radius: 9px;
-    border: 2px solid var(--creme-escuro); background: var(--creme);
-    font-size: 1.15rem; font-weight: 800; color: var(--marrom-escuro);
-    cursor: pointer; transition: all .15s;
-  }
-  .qty button:hover { background: var(--dourado); border-color: var(--marrom); color: var(--preto); }
-  .qty input {
-    width: 50px; text-align: center; padding: 7px 4px;
-    border: 2px solid var(--creme-escuro); border-radius: 9px;
-    font-size: 1rem; font-weight: 800; color: var(--marrom-escuro);
-    background: #fff; -webkit-user-select: text; user-select: text;
-  }
-  .qty input:focus { outline: none; border-color: var(--marrom); }
-  .item.selecionado .qty input { border-color: var(--verde); background: #f0fdf4; color: var(--verde-escuro); }
-  .item.selecionado .qty button { border-color: var(--verde); background: var(--verde-claro); color: var(--verde-escuro); }
-  .item.selecionado .qty button:hover { background: #22c55e; color: #fff; border-color: var(--verde-escuro); }
-
-  .vazio { text-align: center; color: #a89b88; padding: 50px 20px; font-size: .95rem; }
+  .item.selecionado .check { background: var(--verde); border-color: var(--verde-escuro); color: #fff; }
+  .qty { display: flex; align-items: center; gap: 5px; }
+  .qty button { width: 34px; height: 34px; border-radius: 9px; border: 2px solid var(--creme-escuro); background: var(--creme); font-weight: 800; cursor: pointer; }
+  .qty input { width: 50px; text-align: center; border: 2px solid var(--creme-escuro); border-radius: 9px; font-weight: 800; }
+  .item.selecionado .qty input { border-color: var(--verde); }
 
   footer {
     background: linear-gradient(135deg, var(--preto) 0%, var(--marrom-escuro) 100%);
-    color: var(--creme); padding: 14px 18px;
-    display: flex; align-items: center; gap: 14px;
-    box-shadow: 0 -3px 12px rgba(0,0,0,.3); flex-shrink: 0;
+    color: var(--creme); padding: 14px 18px; display: flex; align-items: center; gap: 14px;
     border-top: 3px solid var(--dourado);
   }
   footer .resumo { flex: 1; font-size: .9rem; }
-  footer .resumo strong { font-size: 1.2rem; color: var(--verde); font-weight: 900; }
+  footer .resumo strong { font-size: 1.2rem; color: var(--verde); }
   footer button {
     padding: 13px 22px; border: 2px solid var(--creme); border-radius: 12px;
-    font-size: 1rem; font-weight: 800; cursor: pointer;
-    background: linear-gradient(135deg, var(--dourado), var(--marrom));
-    color: var(--creme); text-shadow: 1px 1px 0 rgba(0,0,0,.3);
-    transition: all .2s;
+    font-size: 1rem; font-weight: 800; background: linear-gradient(135deg, var(--dourado), var(--marrom));
+    color: var(--creme); cursor: pointer;
   }
-  footer button:hover { background: linear-gradient(135deg, #d9993f, #a06a35); transform: translateY(-1px); }
-  footer button:disabled { background: #4a4a4a; border-color: #666; color: #999; cursor: not-allowed; text-shadow: none; transform: none; }
+  footer button:disabled { background: #4a4a4a; border-color: #666; color: #999; }
 
-  /* ===== MODAL DE RESUMO DO PEDIDO ===== */
+  /* ===== MODAIS ===== */
   .modal-bg {
-    position: fixed; inset: 0;
-    background: rgba(26,26,26,.75);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    display: none; align-items: center; justify-content: center;
+    position: fixed; inset: 0; background: rgba(26,26,26,.75);
+    backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center;
     padding: 16px; z-index: 50;
-    animation: fadeIn .2s ease;
   }
   .modal-bg.aberto { display: flex; }
-
-  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
   .modal {
-    background: var(--creme); border-radius: 18px;
-    max-width: 560px; width: 100%; max-height: 88vh;
-    display: flex; flex-direction: column; overflow: hidden;
-    box-shadow: 0 20px 60px rgba(0,0,0,.6); border: 3px solid var(--dourado);
-    animation: popIn .35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    background: var(--creme); border-radius: 18px; max-width: 560px; width: 100%; max-height: 88vh;
+    display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,.6);
+    border: 3px solid var(--dourado); animation: popIn .35s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
-
-  @keyframes popIn {
-    0%   { transform: scale(.85); opacity: 0; }
-    100% { transform: scale(1);   opacity: 1; }
-  }
-
+  @keyframes popIn { 0% { transform: scale(.85); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
   .modal header {
     background: linear-gradient(135deg, var(--preto) 0%, var(--marrom-escuro) 100%);
-    border-bottom: 3px solid var(--dourado);
-    display: flex; flex-direction: column; align-items: center;
-    justify-content: center; padding: 16px;
-    position: relative; overflow: hidden;
+    border-bottom: 3px solid var(--dourado); display: flex; flex-direction: column;
+    align-items: center; justify-content: center; padding: 16px;
   }
-  .modal header::before {
-    content: ''; position: absolute; top: -50px; right: -50px;
-    width: 140px; height: 140px;
-    background: radial-gradient(circle, var(--dourado) 0%, transparent 70%);
-    opacity: .3; border-radius: 50%; pointer-events: none;
-  }
-  .modal header .logo-fabis { max-height: 48px; position: relative; z-index: 1; }
-  .modal header .subtitulo {
-    margin: 8px 0 0; font-size: .72rem; font-weight: 700;
-    letter-spacing: 3px; color: var(--dourado); text-transform: uppercase;
-    position: relative; z-index: 1;
-  }
+  .modal header .logo-fabis { max-height: 48px; }
   .modal .conteudo { padding: 18px; overflow: auto; }
   .modal pre {
-    background: #fff; padding: 14px; border-radius: 10px;
-    white-space: pre-wrap; font-size: .93rem; line-height: 1.65;
-    font-family: 'Segoe UI', system-ui, sans-serif; margin: 0;
-    border: 2px solid var(--creme-escuro); color: var(--preto);
-    -webkit-user-select: text; user-select: text;
+    background: #fff; padding: 14px; border-radius: 10px; white-space: pre-wrap;
+    font-size: .93rem; line-height: 1.65; font-family: inherit; margin: 0;
+    border: 2px solid var(--creme-escuro);
   }
   .modal .acoes {
-    padding: 14px 18px; display: flex; gap: 8px;
-    justify-content: flex-end; border-top: 2px solid var(--creme-escuro);
-    flex-wrap: wrap; background: var(--creme);
+    padding: 14px 18px; display: flex; gap: 8px; justify-content: flex-end;
+    border-top: 2px solid var(--creme-escuro); background: var(--creme);
   }
-  .modal .acoes button {
-    padding: 11px 18px; border-radius: 10px; border: none;
-    font-size: .95rem; cursor: pointer; font-weight: 700;
-    transition: all .15s;
-  }
-  .modal .acoes button:hover { transform: translateY(-1px); }
+  .modal .acoes button { padding: 11px 18px; border-radius: 10px; border: none; font-weight: 700; cursor: pointer; }
   .modal .acoes .fechar { background: var(--creme-escuro); color: var(--marrom-escuro); }
-  .modal .acoes .fechar:hover { background: #ddd0ba; }
-  .modal .acoes .copiar {
-    background: linear-gradient(135deg, var(--dourado), var(--marrom));
-    color: var(--creme); text-shadow: 1px 1px 0 rgba(0,0,0,.3);
-  }
+  .modal .acoes .copiar { background: linear-gradient(135deg, var(--dourado), var(--marrom)); color: var(--creme); }
 
-  .supplier-section {
-    padding: 14px 18px 18px; background: var(--creme);
-    border-top: 2px solid var(--creme-escuro);
-  }
-  .supplier-label {
-    font-size: .72rem; font-weight: 800; letter-spacing: 2px;
-    color: var(--marrom-escuro); text-transform: uppercase;
-    margin-bottom: 12px; text-align: center;
-  }
-  .supplier-buttons {
-    display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
-  }
+  .supplier-section { padding: 14px 18px 18px; border-top: 2px solid var(--creme-escuro); }
+  .supplier-label { font-size: .72rem; font-weight: 800; letter-spacing: 2px; color: var(--marrom-escuro); text-align: center; margin-bottom: 12px; }
+  .supplier-buttons { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
   .supplier-btn {
-    padding: 14px 10px; border-radius: 14px;
-    border: 2px solid var(--creme-escuro); background: #fff;
-    cursor: pointer; transition: all .2s;
-    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
-    font-family: inherit; font-size: .92rem; font-weight: 800; color: var(--marrom-escuro);
+    padding: 14px 10px; border-radius: 14px; border: 2px solid var(--creme-escuro);
+    background: #fff; cursor: pointer; display: flex; flex-direction: column;
+    align-items: center; gap: 8px; font-weight: 800; color: var(--marrom-escuro);
   }
-  .supplier-btn:hover {
-    border-color: var(--verde); background: #f0fdf4;
-    transform: translateY(-2px); box-shadow: 0 4px 12px rgba(22,163,74,.2);
-  }
-  .supplier-btn:active { transform: translateY(0); }
-  .supplier-btn img {
-    width: 48px; height: 48px; object-fit: contain;
-    border-radius: 50%; flex-shrink: 0; background: #fff; padding: 3px;
-  }
-  .supplier-btn.whatsapp-btn {
-    background: linear-gradient(135deg, #25D366, #128C7E);
-    color: #fff; border-color: #128C7E; text-shadow: 1px 1px 0 rgba(0,0,0,.2);
-  }
-  .supplier-btn.whatsapp-btn:hover {
-    background: linear-gradient(135deg, #1ebe5b, #0e6b52);
-    border-color: #0e6b52; box-shadow: 0 4px 12px rgba(37,211,102,.4);
-  }
-  .supplier-btn.whatsapp-btn img { background: #fff; padding: 3px; }
+  .supplier-btn img { width: 48px; height: 48px; border-radius: 50%; background: #fff; padding: 3px; }
+  .supplier-btn.whatsapp-btn { background: linear-gradient(135deg, #25D366, #128C7E); color: #fff; border-color: #128C7E; }
 
-  /* ===== POP-UPS PREMIUM UNIFICADOS ===== */
+  /* ===== POP-UPS PREMIUM ===== */
   .confirm-bg {
-    position: fixed; inset: 0;
-    background: rgba(26,26,26,.7);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    display: none; align-items: center; justify-content: center;
-    padding: 16px; z-index: 200; animation: fadeIn .2s ease;
+    position: fixed; inset: 0; background: rgba(26,26,26,.7);
+    backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center;
+    padding: 16px; z-index: 200;
   }
   .confirm-bg.aberto { display: flex; }
-
   .confirm-box {
-    background: var(--creme); border-radius: 24px;
-    max-width: 400px; width: 100%; overflow: hidden;
-    box-shadow: 0 25px 70px rgba(0,0,0,.5);
-    border: 1px solid rgba(255,255,255,.2);
-    animation: popIn .4s cubic-bezier(0.34, 1.56, 0.64, 1);
-    text-align: center; position: relative;
+    background: var(--creme); border-radius: 24px; max-width: 400px; width: 100%;
+    overflow: hidden; box-shadow: 0 25px 70px rgba(0,0,0,.5);
+    animation: popIn .4s cubic-bezier(0.34, 1.56, 0.64, 1); text-align: center;
   }
-
   .confirm-box .top {
     background: linear-gradient(135deg, #2a1a0f 0%, #1a1a1a 100%);
-    padding: 24px 20px 20px;
-    border-bottom: 1px solid rgba(200,135,58,.3);
-    position: relative; overflow: hidden;
+    padding: 24px 20px 20px; border-bottom: 1px solid rgba(200,135,58,.3);
   }
-  .confirm-box .top::before {
-    content: ''; position: absolute; top: -50px; right: -50px;
-    width: 150px; height: 150px;
-    background: radial-gradient(circle, var(--dourado) 0%, transparent 70%);
-    opacity: .15; border-radius: 50%; pointer-events: none;
-  }
-  .confirm-box .top img {
-    max-height: 40px; display: block; margin: 0 auto 10px;
-    filter: drop-shadow(0 2px 8px rgba(0,0,0,.5));
-    position: relative; z-index: 1;
-  }
-  .confirm-box .top .sub {
-    font-size: .65rem; font-weight: 800; letter-spacing: 3px;
-    color: var(--dourado); text-transform: uppercase;
-    position: relative; z-index: 1; opacity: .9;
-  }
-
+  .confirm-box .top img { max-height: 40px; margin-bottom: 10px; }
+  .confirm-box .top .sub { font-size: .65rem; font-weight: 800; letter-spacing: 3px; color: var(--dourado); text-transform: uppercase; }
   .confirm-box .body { padding: 28px 24px 20px; background: #fff; }
-
   .confirm-box .icon-warn {
     width: 72px; height: 72px; border-radius: 50%;
-    background: linear-gradient(135deg, #fee2e2, #fecaca);
-    border: 4px solid #fff;
+    background: linear-gradient(135deg, #fee2e2, #fecaca); border: 4px solid #fff;
     box-shadow: 0 8px 24px rgba(220,38,38,.25), inset 0 0 0 2px #dc2626;
     display: flex; align-items: center; justify-content: center;
-    font-size: 2.2rem; margin: 0 auto 20px; position: relative;
+    font-size: 2.2rem; margin: 0 auto 20px;
   }
-  .confirm-box .icon-warn::after {
-    content: ''; position: absolute; inset: -6px;
-    border-radius: 50%; border: 1px dashed rgba(220,38,38,.3);
-    animation: spin 12s linear infinite;
-  }
-  @keyframes spin { 100% { transform: rotate(360deg); } }
-
-  .confirm-box h2 {
-    margin: 0 0 10px; font-size: 1.3rem; font-weight: 800;
-    color: #1a1a1a; letter-spacing: -.5px;
-  }
-  .confirm-box p {
-    margin: 0 0 8px; font-size: .9rem;
-    color: #6b6355; line-height: 1.5;
-  }
-  
-  .confirm-box .confirm-count {
-    font-weight: 800; color: #dc2626; font-size: .95rem;
-    margin: 14px 0; background: #fef2f2;
-    padding: 8px 12px; border-radius: 8px; display: inline-block;
-  }
-
-  .confirm-box .aviso {
-    margin: 16px 0 0; padding: 12px 14px;
-    background: #fffbeb; border-left: 3px solid var(--dourado);
-    border-radius: 0 8px 8px 0; font-size: .82rem;
-    color: #92400e; font-weight: 600; text-align: left; line-height: 1.4;
-  }
-
-  .confirm-box .acoes {
-    padding: 16px 24px 24px; display: flex; gap: 12px; background: #fff;
-  }
+  .confirm-box h2 { margin: 0 0 10px; font-size: 1.3rem; font-weight: 800; }
+  .confirm-box p { margin: 0 0 8px; font-size: .9rem; color: #6b6355; }
+  .confirm-box .acoes { padding: 16px 24px 24px; display: flex; gap: 12px; background: #fff; }
   .confirm-box .acoes button {
     flex: 1; padding: 15px 18px; border-radius: 14px; border: none;
     font-size: .95rem; font-weight: 800; cursor: pointer;
-    transition: all .2s; letter-spacing: .3px;
   }
-  .confirm-box .acoes .cancelar {
-    background: #f3f4f6; color: #4b5563; border: 1px solid #e5e7eb;
-  }
-  .confirm-box .acoes .cancelar:hover { background: #e5e7eb; color: #1f2937; }
-  .confirm-box .acoes .confirmar {
-    background: linear-gradient(135deg, #ef4444, #b91c1c);
-    color: #fff; box-shadow: 0 4px 12px rgba(220,38,38,.3);
-  }
-  .confirm-box .acoes .confirmar:hover {
-    background: linear-gradient(135deg, #dc2626, #991b1b);
-    box-shadow: 0 6px 16px rgba(220,38,38,.4); transform: translateY(-2px);
-  }
-  .confirm-box .acoes .confirmar:disabled {
-    background: #e5e7eb; color: #9ca3af; cursor: not-allowed;
-    box-shadow: none; transform: none;
-  }
+  .confirm-box .acoes .cancelar { background: #f3f4f6; color: #4b5563; border: 1px solid #e5e7eb; }
+  .confirm-box .acoes .confirmar { background: linear-gradient(135deg, #ef4444, #b91c1c); color: #fff; }
 
-  /* ===== REPEAT WARNING MODAL (ALERTA LARANJA) ===== */
-  .confirm-box.repeat-modal .top {
-    background: linear-gradient(135deg, #2a1a0f 0%, #1a1a1a 100%);
-    border-bottom: 1px solid rgba(234,88,12,.3);
+  /* ===== ESTOQUE MODAL ===== */
+  .estoque-list {
+    background: #fff; border-radius: 12px; border: 2px solid var(--creme-escuro);
+    max-height: 300px; overflow-y: auto; text-align: left;
   }
-  .confirm-box.repeat-modal .icon-warn {
-    background: linear-gradient(135deg, #ffedd5, #fed7aa);
-    box-shadow: 0 8px 24px rgba(234,88,12,.25), inset 0 0 0 2px #ea580c;
+  .estoque-item {
+    display: flex; justify-content: space-between; padding: 12px 14px;
+    border-bottom: 1px solid var(--creme-escuro); font-size: .9rem;
   }
-  .confirm-box.repeat-modal .icon-warn::after {
-    border: 1px dashed rgba(234,88,12,.3);
+  .estoque-item:last-child { border-bottom: none; }
+  .estoque-item .qtd {
+    font-weight: 800; color: var(--verde-escuro); background: var(--verde-claro);
+    padding: 2px 8px; border-radius: 6px;
   }
-  .confirm-box.repeat-modal .aviso {
-    background: #fff7ed;
-    border-left: 3px solid #ea580c;
-    color: #9a3412;
-    text-align: center;
-  }
-  .confirm-box.repeat-modal .acoes .confirmar {
-    background: linear-gradient(135deg, #f97316, #ea580c);
-    box-shadow: 0 4px 12px rgba(234,88,12,.3);
-  }
-  .confirm-box.repeat-modal .acoes .confirmar:hover {
-    background: linear-gradient(135deg, #ea580c, #c2410c);
-    box-shadow: 0 6px 16px rgba(234,88,12,.4);
-  }
-  .repeat-items-list {
-    background: #fff; border-radius: 8px; border: 1px solid #fed7aa;
-    padding: 10px; margin: 10px 0; max-height: 120px; overflow-y: auto;
-    text-align: left;
-  }
-  .repeat-items-list li {
-    font-size: 0.85rem; color: #9a3412; font-weight: 600;
-    margin-bottom: 4px; list-style-position: inside;
-  }
-  .repeat-items-list li:last-child { margin-bottom: 0; }
-
-  /* ===== ABOUT MODAL ===== */
-  .about-content { text-align: center; padding: 8px 0; }
-  .about-content .icon-about {
-    width: 72px; height: 72px; border-radius: 50%;
-    background: linear-gradient(135deg, var(--dourado), var(--marrom));
-    display: flex; align-items: center; justify-content: center;
-    font-size: 2.2rem; margin: 0 auto 18px;
-    box-shadow: 0 6px 20px rgba(200,135,58,.4); color: var(--creme);
-    border: 3px solid var(--creme-escuro);
-  }
-  .about-content h2 {
-    margin: 0 0 6px; font-size: 1.5rem; font-weight: 900;
-    color: var(--preto); font-family: Georgia, serif; font-style: italic; letter-spacing: -.5px;
-  }
-  .about-content h2 .apostrofo { color: var(--dourado); }
-  .about-content .local {
-    font-size: .78rem; font-weight: 700; letter-spacing: 3px;
-    color: var(--dourado); text-transform: uppercase; margin-bottom: 20px;
-  }
-  .about-content .dev-photo {
-    width: 110px; height: 110px; border-radius: 50%;
-    background: linear-gradient(135deg, var(--dourado), var(--marrom));
-    display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 14px; padding: 4px;
-    box-shadow: 0 6px 20px rgba(200,135,58,.4);
-    border: 3px solid var(--creme-escuro);
-  }
-  .about-content .dev-photo img {
-    width: 100%; height: 100%; border-radius: 50%;
-    object-fit: cover; display: block; border: 2px solid var(--creme);
-  }
-  .about-content .dev-name { text-align: center; margin-bottom: 18px; }
-  .about-content .dev-name .dev-label {
-    font-size: .68rem; font-weight: 700; text-transform: uppercase;
-    letter-spacing: 2px; color: var(--dourado); margin-bottom: 4px;
-  }
-  .about-content .dev-name .dev-value {
-    font-size: 1.05rem; font-weight: 800; color: var(--preto); line-height: 1.3;
-  }
-  .about-content .dev-name .dev-value small {
-    display: block; font-size: .78rem; color: #8a7d68;
-    font-weight: 600; font-style: italic; margin-top: 2px;
-  }
-  .about-content .version-badge {
-    display: inline-block;
-    background: linear-gradient(135deg, var(--dourado), var(--marrom));
-    color: var(--creme); font-size: .78rem; font-weight: 800;
-    padding: 6px 16px; border-radius: 999px; letter-spacing: 1.5px;
-    text-shadow: 1px 1px 0 rgba(0,0,0,.3);
-    box-shadow: 0 3px 10px rgba(200,135,58,.4); margin-top: 8px;
-  }
-  .about-content .footer-note {
-    margin-top: 16px; font-size: .72rem; color: #a89b88;
-    font-style: italic; line-height: 1.5;
-  }
-  .confirm-box.about-modal { max-width: 440px; }
-  .confirm-box.about-modal .icon-warn { display: none; }
-  .confirm-box.about-modal .top { padding: 20px; }
+  .estoque-info { font-size: .8rem; color: #6b6355; margin-bottom: 16px; text-align: center; }
 
   /* ===== SIDEBAR ===== */
   .sidebar-bg {
-    position: fixed; inset: 0;
-    background: rgba(26,26,26,.6);
-    backdrop-filter: blur(3px);
-    -webkit-backdrop-filter: blur(3px);
-    display: none; z-index: 300; animation: fadeIn .25s ease;
+    position: fixed; inset: 0; background: rgba(26,26,26,.6);
+    backdrop-filter: blur(3px); display: none; z-index: 300;
   }
   .sidebar-bg.aberto { display: block; }
-
   .sidebar {
-    position: fixed; top: 0; left: 0;
-    width: 300px; max-width: 85vw; height: 100%;
+    position: fixed; top: 0; left: 0; width: 300px; max-width: 85vw; height: 100%;
     background: var(--creme); box-shadow: 4px 0 30px rgba(0,0,0,.4);
     border-right: 3px solid var(--dourado); z-index: 301;
-    display: flex; flex-direction: column;
-    transform: translateX(-100%); transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
-    will-change: transform; touch-action: pan-y;
+    display: flex; flex-direction: column; transform: translateX(-100%);
+    transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
   }
   .sidebar-bg.aberto .sidebar { transform: translateX(0); }
-
   .sidebar-header {
     background: linear-gradient(135deg, var(--preto) 0%, var(--marrom-escuro) 100%);
     padding: 20px; border-bottom: 3px solid var(--dourado);
-    position: relative; overflow: hidden;
   }
-  .sidebar-header::before {
-    content: ''; position: absolute; top: -50px; right: -50px;
-    width: 140px; height: 140px;
-    background: radial-gradient(circle, var(--dourado) 0%, transparent 70%);
-    opacity: .3; border-radius: 50%; pointer-events: none;
-  }
-  .sidebar-header img {
-    max-height: 42px; display: block; margin-bottom: 8px;
-    filter: drop-shadow(0 2px 8px rgba(0,0,0,.5));
-    position: relative; z-index: 1;
-  }
-  .sidebar-header .sub {
-    font-size: .68rem; font-weight: 700; letter-spacing: 3px;
-    color: var(--dourado); text-transform: uppercase; position: relative; z-index: 1;
-  }
+  .sidebar-header img { max-height: 42px; margin-bottom: 8px; }
+  .sidebar-header .sub { font-size: .68rem; font-weight: 700; letter-spacing: 3px; color: var(--dourado); text-transform: uppercase; }
   .sidebar-header .fechar {
-    position: absolute; top: 16px; right: 16px;
-    width: 32px; height: 32px; background: rgba(255,255,255,.1);
-    border: none; border-radius: 50%; color: var(--creme);
-    font-size: 1.3rem; cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: all .2s; z-index: 2; padding: 0;
+    position: absolute; top: 16px; right: 16px; width: 32px; height: 32px;
+    background: rgba(255,255,255,.1); border: none; border-radius: 50%;
+    color: var(--creme); font-size: 1.3rem; cursor: pointer;
   }
-  .sidebar-header .fechar:hover { background: var(--vermelho); transform: rotate(90deg); }
-
   .sidebar-body { flex: 1; padding: 12px 0; overflow-y: auto; }
-
   .sidebar-item {
-    display: flex; align-items: center; gap: 14px;
-    padding: 14px 20px; cursor: pointer; transition: all .15s;
-    border: none; background: transparent; width: 100%; text-align: left;
-    font-size: .95rem; font-weight: 600; color: var(--preto); font-family: inherit;
+    display: flex; align-items: center; gap: 14px; padding: 14px 20px;
+    cursor: pointer; border: none; background: transparent; width: 100%; text-align: left;
   }
-  .sidebar-item:hover { background: var(--creme-escuro); padding-left: 24px; }
+  .sidebar-item:hover { background: var(--creme-escuro); }
   .sidebar-item .icone {
     width: 36px; height: 36px; border-radius: 10px;
     background: linear-gradient(135deg, var(--dourado), var(--marrom));
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0; box-shadow: 0 2px 6px rgba(200,135,58,.3); overflow: hidden; padding: 6px;
+    display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
   }
-  .sidebar-item .icone img { width: 100%; height: 100%; object-fit: contain; display: block; }
   .sidebar-item .texto { flex: 1; }
   .sidebar-item .texto .titulo { font-weight: 700; font-size: .95rem; color: var(--preto); }
-  .sidebar-item .texto .desc { font-size: .72rem; color: #8a7d68; margin-top: 2px; font-weight: 500; }
-
+  .sidebar-item .texto .desc { font-size: .72rem; color: #8a7d68; }
   .sidebar-divider { height: 1px; background: var(--creme-escuro); margin: 8px 20px; }
-
-  .lang-switch { display: flex; gap: 8px; padding: 12px 20px; align-items: center; }
-  .lang-switch .label { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .lang-switch .label img { width: 100%; height: 100%; object-fit: contain; }
+  .lang-switch { display: flex; gap: 8px; padding: 12px 20px; }
   .lang-btn {
-    flex: 1; padding: 10px 12px; border-radius: 10px;
-    border: 2px solid var(--creme-escuro); background: #fff;
-    font-size: .85rem; font-weight: 800; cursor: pointer; transition: all .15s;
-    color: var(--marrom-escuro); font-family: inherit;
+    flex: 1; padding: 10px 12px; border-radius: 10px; border: 2px solid var(--creme-escuro);
+    background: #fff; font-weight: 800; cursor: pointer; color: var(--marrom-escuro);
   }
-  .lang-btn:hover { border-color: var(--dourado); background: #fdf8ee; }
-  .lang-btn.ativa {
-    background: linear-gradient(135deg, var(--dourado), var(--marrom));
-    color: var(--creme); border-color: var(--marrom-escuro);
-    box-shadow: 0 2px 6px rgba(200,135,58,.4); text-shadow: 1px 1px 0 rgba(0,0,0,.3);
-  }
-
-  .sidebar-footer {
-    padding: 14px 20px; border-top: 2px solid var(--creme-escuro);
-    font-size: .72rem; color: #a89b88; text-align: center; background: var(--creme-escuro);
-  }
-  .sidebar-footer strong { color: var(--marrom-escuro); }
+  .lang-btn.ativa { background: linear-gradient(135deg, var(--dourado), var(--marrom)); color: var(--creme); }
+  .sidebar-footer { padding: 14px 20px; border-top: 2px solid var(--creme-escuro); font-size: .72rem; color: #a89b88; text-align: center; }
 </style>
 </head>
 <body>
 
-<!-- TOAST NOTIFICATION -->
 <div id="toast">
   <div class="toast-icon">✓</div>
   <span id="toast-text">Pedido copiado!</span>
 </div>
 
-<!-- ===== LOGIN SCREEN ===== -->
 <div id="login-screen">
   <div class="login-box">
     <img src="logo-fabis.png" alt="Fabi's Grill">
@@ -746,25 +376,17 @@
   </div>
 </div>
 
-<!-- ===== APP PRINCIPAL ===== -->
 <div id="app-principal">
   <div class="sync-status oculto" id="syncStatus" data-i18n="synced">Synced</div>
 
   <header>
-    <button class="menu-btn" id="menuBtn" aria-label="Menu">
-      <div class="hamburger">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
+    <button class="menu-btn" id="menuBtn">
+      <div class="hamburger"><span></span><span></span><span></span><span></span></div>
     </button>
-    <img src="logo-fabis.png" alt="Fabi's Grill Temple Bar" class="logo-fabis">
+    <img src="logo-fabis.png" alt="Fabi's Grill" class="logo-fabis">
   </header>
 
-  <div class="welcome-bar">
-    👋 <span id="welcome-text">Welcome!</span>
-  </div>
+  <div class="welcome-bar">👋 <span id="welcome-text">Welcome!</span></div>
 
   <div class="tabs" id="tabs"></div>
 
@@ -776,65 +398,61 @@
   <main id="lista"></main>
 
   <footer>
-    <div class="resumo">
-      <strong id="totalItens">0</strong> <span data-i18n="itemsSelected">items selected</span>
-    </div>
+    <div class="resumo"><strong id="totalItens">0</strong> <span data-i18n="itemsSelected">items selected</span></div>
     <button id="btnVerPedido" disabled data-i18n="viewOrder">View order</button>
   </footer>
 
+  <!-- MODAL RESUMO -->
   <div class="modal-bg" id="modalBg">
     <div class="modal">
       <header>
         <img src="logo-fabis.png" alt="Fabi's Grill" class="logo-fabis">
         <p class="subtitulo" data-i18n="orderSummary">Order Summary</p>
       </header>
-      <div class="conteudo">
-        <pre id="textoPedido"></pre>
-      </div>
+      <div class="conteudo"><pre id="textoPedido"></pre></div>
       <div class="acoes">
         <button class="fechar" id="btnFechar" data-i18n="close">Close</button>
         <button class="copiar" id="btnCopiar" data-i18n="copy">Copy</button>
       </div>
-
       <div class="supplier-section">
         <div class="supplier-label" data-i18n="sendTo">📲 Send order to:</div>
         <div class="supplier-buttons">
-          <button class="supplier-btn whatsapp-btn" data-supplier="ercan">
-            <img src="logo-fabis.png" alt="Ercan">
-            Ercan
-          </button>
-          <button class="supplier-btn whatsapp-btn" data-supplier="sysco">
-            <img src="icons/sysco.png" alt="Sysco">
-            Sysco
-          </button>
-          <button class="supplier-btn whatsapp-btn" data-supplier="musgrave">
-            <img src="icons/musgrave.png" alt="Musgrave">
-            Musgrave
-          </button>
-          <button class="supplier-btn whatsapp-btn" data-supplier="freshpoint">
-            <img src="icons/freshpoint.png" alt="Freshpoint">
-            Freshpoint
-          </button>
+          <button class="supplier-btn whatsapp-btn" data-supplier="ercan"><img src="logo-fabis.png">Ercan</button>
+          <button class="supplier-btn whatsapp-btn" data-supplier="sysco"><img src="icons/sysco.png">Sysco</button>
+          <button class="supplier-btn whatsapp-btn" data-supplier="musgrave"><img src="icons/musgrave.png">Musgrave</button>
+          <button class="supplier-btn whatsapp-btn" data-supplier="freshpoint"><img src="icons/freshpoint.png">Freshpoint</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- MODAL: CLEAR ALL -->
+  <!-- MODAL ESTOQUE (NOVO) -->
+  <div class="modal-bg" id="estoqueBg">
+    <div class="modal">
+      <header>
+        <img src="logo-fabis.png" alt="Fabi's Grill" class="logo-fabis">
+        <p class="subtitulo" data-i18n="stockTitle">📦 Stock / Estoque</p>
+      </header>
+      <div class="conteudo">
+        <div class="estoque-info" id="estoqueInfo"></div>
+        <ul class="estoque-list" id="estoqueList"></ul>
+      </div>
+      <div class="acoes" style="justify-content: space-between;">
+        <button class="fechar" id="btnEstoqueClose" data-i18n="close" style="flex: 1;">Close</button>
+        <button class="confirmar" id="btnEstoqueLimpar" style="flex: 1; background: linear-gradient(135deg, var(--dourado), var(--marrom)); color: #fff;" data-i18n="markReceived">Mark as Received</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL CLEAR ALL -->
   <div class="confirm-bg" id="confirmBg">
     <div class="confirm-box">
-      <div class="top">
-        <img src="logo-fabis.png" alt="Fabi's Grill">
-        <div class="sub" data-i18n="confirmAction">Confirm Action</div>
-      </div>
+      <div class="top"><img src="logo-fabis.png"><div class="sub" data-i18n="confirmAction">Confirm</div></div>
       <div class="body">
         <div class="icon-warn">⚠️</div>
         <h2 data-i18n="clearTitle">Clear all items?</h2>
-        <p data-i18n="clearDesc">This will remove all selected items for every staff member.</p>
+        <p data-i18n="clearDesc">This will remove all selected items.</p>
         <p class="confirm-count" id="confirmCount"></p>
-        <div class="aviso" data-i18n="clearWarning">
-          💡 This cannot be undone. All staff will see the empty order.
-        </div>
       </div>
       <div class="acoes">
         <button class="cancelar" id="btnConfirmCancel" data-i18n="cancel">Cancel</button>
@@ -843,23 +461,15 @@
     </div>
   </div>
 
-  <!-- MODAL: REPEAT WARNING -->
+  <!-- MODAL REPEAT WARNING -->
   <div class="confirm-bg" id="repeatBg">
     <div class="confirm-box repeat-modal">
-      <div class="top">
-        <img src="logo-fabis.png" alt="Fabi's Grill">
-        <div class="sub" data-i18n="attention">Attention</div>
-      </div>
+      <div class="top"><img src="logo-fabis.png"><div class="sub" data-i18n="attention">Attention</div></div>
       <div class="body">
         <div class="icon-warn">💡</div>
         <h2 data-i18n="repeatTitle">Repeat Items?</h2>
-        <p data-i18n="repeatDesc">Some items were already ordered in the last order:</p>
-        
+        <p data-i18n="repeatDesc">The following items were already ordered in your last order:</p>
         <ul class="repeat-items-list" id="repeatItemsList"></ul>
-        
-        <div class="aviso" data-i18n="repeatWarning">
-          Are you sure you want to order them again?
-        </div>
       </div>
       <div class="acoes">
         <button class="cancelar" id="btnRepeatCancel" data-i18n="review">Review</button>
@@ -868,17 +478,14 @@
     </div>
   </div>
 
-  <!-- MODAL: LOGOUT -->
+  <!-- MODAL LOGOUT -->
   <div class="confirm-bg" id="logoutBg">
     <div class="confirm-box">
-      <div class="top">
-        <img src="logo-fabis.png" alt="Fabi's Grill">
-        <div class="sub" data-i18n="logout">Logout</div>
-      </div>
+      <div class="top"><img src="logo-fabis.png"><div class="sub" data-i18n="logout">Logout</div></div>
       <div class="body">
         <div class="icon-warn">🚪</div>
         <h2 data-i18n="logoutTitle">Log out?</h2>
-        <p data-i18n="logoutDesc">Are you sure you want to log out and change user?</p>
+        <p data-i18n="logoutDesc">Are you sure you want to change user?</p>
       </div>
       <div class="acoes">
         <button class="cancelar" id="btnLogoutCancel" data-i18n="cancel">Cancel</button>
@@ -887,41 +494,20 @@
     </div>
   </div>
 
-  <!-- MODAL: ABOUT -->
+  <!-- MODAL ABOUT -->
   <div class="confirm-bg" id="aboutBg">
     <div class="confirm-box about-modal">
-      <div class="top">
-        <img src="logo-fabis.png" alt="Fabi's Grill">
-        <div class="sub" data-i18n="about">About</div>
-      </div>
+      <div class="top"><img src="logo-fabis.png"><div class="sub" data-i18n="about">About</div></div>
       <div class="body">
         <div class="about-content">
           <div class="icon-about">🔥</div>
-          <h2>Fabi<span class="apostrofo">'</span>s Grill</h2>
+          <h2>Fabi's Grill</h2>
           <div class="local">Temple Bar · Dublin</div>
-
-          <div class="dev-photo">
-            <img src="eduardo.jpg" alt="Eduardo Oliveira">
-          </div>
-
-          <div class="dev-name">
-            <div class="dev-label">Developed by</div>
-            <div class="dev-value">EOTECH <small>Eduardo Oliveira</small></div>
-          </div>
-
+          <div class="dev-photo"><img src="eduardo.jpg"></div>
           <div class="version-badge">VERSION 1.0</div>
-
-          <div class="footer-note">
-            © 2026 Fabi's Grill · All rights reserved<br>
-            Made with 🔥 in Dublin
-          </div>
         </div>
       </div>
-      <div class="acoes">
-        <button class="confirmar" id="btnAboutOk" style="background: linear-gradient(135deg, var(--dourado), var(--marrom)); box-shadow: 0 3px 10px rgba(200,135,58,.4);">
-          <span data-i18n="close">Close</span>
-        </button>
-      </div>
+      <div class="acoes"><button class="confirmar" id="btnAboutOk" data-i18n="close" style="background: var(--dourado); color: var(--creme);">Close</button></div>
     </div>
   </div>
 
@@ -933,70 +519,24 @@
         <div class="sub" data-i18n="menu">Menu</div>
       </div>
       <div class="sidebar-body">
-        <button class="sidebar-item" id="menuSearch">
-          <div class="icone"><img src="icons/icon-search.png" alt="Search"></div>
-          <div class="texto">
-            <div class="titulo" data-i18n="searchItems">Search Items</div>
-            <div class="desc" data-i18n="searchDesc">Find quickly</div>
-          </div>
-        </button>
-
-        <button class="sidebar-item" id="menuHistory">
-          <div class="icone"><img src="icons/icon-analytics.png" alt="Analytics"></div>
-          <div class="texto">
-            <div class="titulo" data-i18n="history">Order History</div>
-            <div class="desc" data-i18n="comingSoon">Coming soon</div>
-          </div>
-        </button>
-
-        <button class="sidebar-item" id="menuStaff">
-          <div class="icone"><img src="icons/icon-staff.png" alt="Staff"></div>
-          <div class="texto">
-            <div class="titulo" data-i18n="staffProfile">Staff Profile</div>
-            <div class="desc" data-i18n="comingSoon">Coming soon</div>
-          </div>
-        </button>
-
+        <button class="sidebar-item" id="menuSearch"><div class="icone">🔍</div><div class="texto"><div class="titulo" data-i18n="searchItems">Search Items</div></div></button>
+        
+        <!-- NOVO BOTÃO ESTOQUE -->
+        <button class="sidebar-item" id="menuStock"><div class="icone">📦</div><div class="texto"><div class="titulo" data-i18n="stock">Estoque</div><div class="desc" data-i18n="stockDesc">Last Order Status</div></div></button>
+        
+        <button class="sidebar-item" id="menuStaff"><div class="icone">👤</div><div class="texto"><div class="titulo" data-i18n="staffProfile">Staff Profile</div><div class="desc" data-i18n="comingSoon">Coming soon</div></div></button>
         <div class="sidebar-divider"></div>
-
         <div class="lang-switch">
-          <span class="label"><img src="icons/icon-language.png" alt="Language"></span>
           <button class="lang-btn" id="btnLangEN">EN</button>
           <button class="lang-btn" id="btnLangPT">PT</button>
         </div>
-
         <div class="sidebar-divider"></div>
-
-        <button class="sidebar-item" id="menuAbout">
-          <div class="icone"><img src="icons/icon-about.png" alt="About"></div>
-          <div class="texto">
-            <div class="titulo" data-i18n="about">About</div>
-            <div class="desc">Version 1.0</div>
-          </div>
-        </button>
-
-        <button class="sidebar-item" id="menuClear">
-          <div class="icone"><img src="icons/icon-clear.png" alt="Clear"></div>
-          <div class="texto">
-            <div class="titulo" data-i18n="clearAll">Clear All</div>
-            <div class="desc" data-i18n="removeAll">Remove all items</div>
-          </div>
-        </button>
-
+        <button class="sidebar-item" id="menuAbout"><div class="icone">ℹ️</div><div class="texto"><div class="titulo" data-i18n="about">About</div></div></button>
+        <button class="sidebar-item" id="menuClear"><div class="icone">🗑️</div><div class="texto"><div class="titulo" data-i18n="clearAll">Clear All</div></div></button>
         <div class="sidebar-divider"></div>
-
-        <button class="sidebar-item" id="menuLogout">
-          <div class="icone"><img src="icons/icon-logout.png" alt="Logout"></div>
-          <div class="texto">
-            <div class="titulo" data-i18n="logout">Logout</div>
-            <div class="desc" data-i18n="changeUser">Change user</div>
-          </div>
-        </button>
+        <button class="sidebar-item" id="menuLogout"><div class="icone">🚪</div><div class="texto"><div class="titulo" data-i18n="logout">Logout</div></div></button>
       </div>
-      <div class="sidebar-footer">
-        <strong>Fabi's Grill</strong><br>
-        Temple Bar · Dublin
-      </div>
+      <div class="sidebar-footer"><strong>Fabi's Grill</strong><br>Temple Bar · Dublin</div>
     </aside>
   </div>
 </div>
@@ -1019,12 +559,9 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const pedidoRef = ref(db, "pedido_atual");
-const metaRef = ref(db, "meta");
 const ultimoPedidoRef = ref(db, "ultimo_pedido");
+const estoqueHistoricoRef = ref(db, "estoque_historico"); // NOVO
 
-/* =========================================================
-   SUPPLIERS
-   ========================================================= */
 const FORNECEDORES = {
   ercan: { nome: "Ercan", saudacao: "Hello Ercan, could you send it to Fabis Grill temple bar, " },
   sysco: { nome: "Sysco", saudacao: "Hello Sysco, could you send it to Fabis Grill temple bar, " },
@@ -1033,41 +570,30 @@ const FORNECEDORES = {
 };
 const FORNECEDOR_DEFAULT = "ercan";
 
-/* =========================================================
-   TRANSLATIONS
-   ========================================================= */
 const TRANSLATIONS = {
   en: {
-    synced: "Synced", searchPlaceholder: "Search item...", clearAll: "Clear all",
-    itemsSelected: "items selected", viewOrder: "View order", orderSummary: "Order Summary",
-    close: "Close", copy: "Copy", sendTo: "📲 Send order to:", confirmAction: "Confirm Action",
-    clearTitle: "Clear all items?", clearDesc: "This will remove all selected items for every staff member.",
-    clearWarning: "💡 This cannot be undone. All staff will see the empty order.", cancel: "Cancel",
-    menu: "Menu", searchItems: "Search Items", searchDesc: "Find quickly", history: "Order History",
-    staffProfile: "Staff Profile", comingSoon: "Coming soon", about: "About", removeAll: "Remove all items",
-    logout: "Logout", changeUser: "Change user", language: "🌍 Language", welcome: "Welcome", enterName: "Enter your name",
-    attention: "Attention", repeatTitle: "Repeat Items?",
-    repeatDesc: "The following items were already ordered in your last order:",
-    repeatWarning: "Are you sure you want to order them again?", review: "Review", confirmSend: "Yes, Send",
-    orderCopied: "Order copied!", nameRequired: "Please enter your name.",
-    logoutTitle: "Log out?", logoutDesc: "Are you sure you want to log out and change user?",
-    historyAlert: "📊 Analytics coming soon!", staffAlert: "👤 Staff Profile coming soon!"
+    synced: "Synced", searchPlaceholder: "Search item...", clearAll: "Clear all", itemsSelected: "items selected",
+    viewOrder: "View order", orderSummary: "Order Summary", close: "Close", copy: "Copy", sendTo: "📲 Send to:",
+    confirmAction: "Confirm", clearTitle: "Clear all items?", clearDesc: "Remove all selected items.",
+    cancel: "Cancel", menu: "Menu", searchItems: "Search Items", stock: "Stock", stockDesc: "Last order status",
+    staffProfile: "Staff Profile", comingSoon: "Coming soon", about: "About", logout: "Logout",
+    welcome: "Welcome", enterName: "Enter your name", attention: "Attention", repeatTitle: "Repeat Items?",
+    repeatDesc: "Items already ordered in the last order:", review: "Review", confirmSend: "Yes, Send",
+    orderCopied: "Order copied!", nameRequired: "Please enter your name.", logoutTitle: "Log out?",
+    logoutDesc: "Change user?", stockTitle: "📦 Stock / Estoque", markReceived: "Mark as Received",
+    noStockHistory: "No recent order history.", lastOrderBy: "Order sent by", at: "at"
   },
   pt: {
-    synced: "Sincronizado", searchPlaceholder: "Buscar item...", clearAll: "Limpar tudo",
-    itemsSelected: "itens selecionados", viewOrder: "Ver pedido", orderSummary: "Resumo do Pedido",
-    close: "Fechar", copy: "Copiar", sendTo: "📲 Enviar pedido para:", confirmAction: "Confirmar Ação",
-    clearTitle: "Limpar todos os itens?", clearDesc: "Isso vai remover todos os itens selecionados de todos os staffs.",
-    clearWarning: "💡 Isso não pode ser desfeito. Todos os staffs verão o pedido vazio.", cancel: "Cancelar",
-    menu: "Menu", searchItems: "Buscar Itens", searchDesc: "Encontrar rapidamente", history: "Histórico",
-    staffProfile: "Perfil do Staff", comingSoon: "Em breve", about: "Sobre", removeAll: "Remover todos",
-    logout: "Sair", changeUser: "Trocar usuário", language: "🌍 Idioma", welcome: "Bem-vindo", enterName: "Digite seu nome",
-    attention: "Atenção", repeatTitle: "Itens Repetidos?",
-    repeatDesc: "Os seguintes itens já foram pedidos no seu último pedido:",
-    repeatWarning: "Tem certeza que deseja pedir novamente?", review: "Revisar", confirmSend: "Sim, Enviar",
-    orderCopied: "Pedido copiado!", nameRequired: "Por favor, digite seu nome.",
-    logoutTitle: "Sair?", logoutDesc: "Tem certeza que deseja sair e trocar de usuário?",
-    historyAlert: "📊 Análises em breve!", staffAlert: "👤 Perfil do Staff em breve!"
+    synced: "Sincronizado", searchPlaceholder: "Buscar item...", clearAll: "Limpar tudo", itemsSelected: "itens selecionados",
+    viewOrder: "Ver pedido", orderSummary: "Resumo do Pedido", close: "Fechar", copy: "Copiar", sendTo: "📲 Enviar para:",
+    confirmAction: "Confirmar", clearTitle: "Limpar todos os itens?", clearDesc: "Remover todos os itens selecionados.",
+    cancel: "Cancelar", menu: "Menu", searchItems: "Buscar Itens", stock: "Estoque", stockDesc: "Último pedido",
+    staffProfile: "Perfil do Staff", comingSoon: "Em breve", about: "Sobre", logout: "Sair",
+    welcome: "Bem-vindo", enterName: "Digite seu nome", attention: "Atenção", repeatTitle: "Itens Repetidos?",
+    repeatDesc: "Itens já pedidos no último pedido:", review: "Revisar", confirmSend: "Sim, Enviar",
+    orderCopied: "Pedido copiado!", nameRequired: "Por favor, digite seu nome.", logoutTitle: "Sair?",
+    logoutDesc: "Trocar de usuário?", stockTitle: "📦 Estoque", markReceived: "Marcar como Recebido",
+    noStockHistory: "Nenhum histórico recente.", lastOrderBy: "Pedido enviado por", at: "às"
   }
 };
 
@@ -1087,17 +613,12 @@ function aplicarIdioma(lang) {
   });
   document.getElementById("btnLangEN").classList.toggle("ativa", lang === "en");
   document.getElementById("btnLangPT").classList.toggle("ativa", lang === "pt");
-  
   const staffName = localStorage.getItem("fabis_staff_name");
   if (staffName) document.getElementById("welcome-text").textContent = `${t.welcome}, ${staffName}!`;
-  
   const inputLogin = document.getElementById("input-staff-name");
   if (inputLogin) inputLogin.placeholder = t.enterName;
 }
 
-/* =========================================================
-   ITEMS LIST
-   ========================================================= */
 const ITENS = [
   { id: "iceberg", nome: "box iceberg lettuce", pt: "Alface americana", tag: "BOX" },
   { id: "cabbage", nome: "box York cabbage", pt: "Couve", tag: "BOX" },
@@ -1122,7 +643,7 @@ const ITENS = [
   { id: "tofu", nome: "tofu", pt: "Tofu" },
   { id: "peeled_tomato", nome: "Ardita Peeled Tomato 6x2.5 KG", pt: "Molho tomate" },
   { id: "cream_flour", nome: "Odlums Cream Flour 1x25 KG", pt: "Trigo" },
-  { id: "french_fries", nome: "Sysco Classic Extra Thin Cut French Fries 6x6 (4266) 4x2.5 KG", pt: "Batata frita" },
+  { id: "french_fries", nome: "Sysco French Fries 6x6", pt: "Batata frita" },
   { id: "bread_crumbs", nome: "bread crumbs", pt: "Farinha de rosca" },
   { id: "vinegar", nome: "vinegar", pt: "Vinagre" },
   { id: "sea_salt", nome: "sea salt", pt: "Sal marinho" },
@@ -1134,26 +655,26 @@ const ITENS = [
   { id: "ketchup", nome: "ketchup", pt: "Ketchup" },
   { id: "ketchup_sachets", nome: "ketchup sachets", pt: "Ketchup sachês" },
   { id: "tilda_rice", nome: "bag blue Tilda rice", pt: "Arroz", tag: "BAG" },
-  { id: "potatoes", nome: "Griffin Washed Rooster Potatoes 1x10 KG", pt: "Batata" },
+  { id: "potatoes", nome: "Griffin Potatoes 1x10 KG", pt: "Batata" },
   { id: "coke_zero_330", nome: "pack of coke zero 330ml", pt: "Coca-Cola Zero 330ml", tag: "PACK" },
   { id: "coke_zero_500", nome: "pack of coke zero 500ml", pt: "Coca-Cola Zero 500ml", tag: "PACK" },
   { id: "coke_cola_330", nome: "pack of coke cola 330ml", pt: "Coca-Cola 330ml", tag: "PACK" },
   { id: "coke_cola_500", nome: "pack of coke cola 500ml", pt: "Coca-Cola 500ml", tag: "PACK" },
   { id: "sparkling", nome: "pack of sparkling water 500ml", pt: "Água com gás", tag: "PACK" },
   { id: "still_water", nome: "pack of still water 500ml", pt: "Água sem gás", tag: "PACK" },
-  { id: "blue_paper", nome: "Multi-Purpose Blue Centrefeed Roll 2ply 1x6 EA", pt: "Blue paper" },
-  { id: "gloves", nome: "Vinyl Gloves Blue XL L M (powder free) 1x100 EA", pt: "Luva" },
-  { id: "toilet_roll", nome: "Mini Jumbo Toilet Roll 2ply 1x12 EA", pt: "Papel higiênico" },
-  { id: "napkins", nome: "Tork White Lunch Napkin 2ply 10x200 EA", pt: "Guardanapo" },
+  { id: "blue_paper", nome: "Blue Centrefeed Roll 2ply 1x6 EA", pt: "Blue paper" },
+  { id: "gloves", nome: "Vinyl Gloves Blue XL L M", pt: "Luva" },
+  { id: "toilet_roll", nome: "Mini Jumbo Toilet Roll 2ply", pt: "Papel higiênico" },
+  { id: "napkins", nome: "Tork White Lunch Napkin 2ply", pt: "Guardanapo" },
   { id: "washing_up", nome: "washing up", pt: "Detergente louça" },
-  { id: "spray_wipe", nome: "T 001 SPRAY & WIPE hard surface cleaner EN 12761", pt: "Limpa superfícies" },
+  { id: "spray_wipe", nome: "T 001 SPRAY & WIPE", pt: "Limpa superfícies" },
   { id: "yellow_sponge", nome: "yellow sponge", pt: "Esponja amarela" },
   { id: "iron_sponge", nome: "iron sponge", pt: "Esponja de aço" },
-  { id: "c650", nome: "Clear Microwaveable Container & Lid 650cc 1x250 EA", pt: "Embalagem C650" },
+  { id: "c650", nome: "Clear Container 650cc", pt: "Embalagem C650" },
   { id: "c500", nome: "c500", pt: "Embalagem C500" },
-  { id: "fish_chips", nome: "fish and chips", pt: "Embalagem fish and chips" },
-  { id: "salad_375", nome: "square pet hinged salad containers 375 ml", pt: "Embalagem salada 375ml" },
-  { id: "sos_bags", nome: "box of S.O.S brown carrier bags Flat Handle LARGE", pt: "Sacos S.O.S grandes", tag: "BOX" }
+  { id: "fish_chips", nome: "fish and chips box", pt: "Embalagem fish and chips" },
+  { id: "salad_375", nome: "square salad containers 375 ml", pt: "Embalagem salada" },
+  { id: "sos_bags", nome: "S.O.S brown carrier bags LARGE", pt: "Sacos S.O.S", tag: "BOX" }
 ];
 
 const CATEGORIAS = [
@@ -1175,13 +696,12 @@ const CATEGORIA_POR_ID = {};
 ["blue_paper","gloves","toilet_roll","napkins","washing_up","spray_wipe","yellow_sponge","iron_sponge"].forEach(id => CATEGORIA_POR_ID[id] = "limpeza");
 ["c650","c500","fish_chips","salad_375","sos_bags"].forEach(id => CATEGORIA_POR_ID[id] = "embalagem");
 
-/* =========================================================
-   STATE
-   ========================================================= */
 let estado = {};
 let filtro = "";
 let abaAtiva = "vegetais";
 let primeiraCarga = true;
+let ultimoPedidoSincronizado = {};
+let estoqueHistorico = null;
 
 const syncEl = document.getElementById("syncStatus");
 let syncTimeout = null;
@@ -1193,32 +713,25 @@ function mostrarStatus(chaveTexto, tipo) {
   syncTimeout = setTimeout(() => syncEl.classList.add("oculto"), 1500);
 }
 
-/* =========================================================
-   TOAST FUNCTION (RÁPIDA E CENTRALIZADA)
-   ========================================================= */
 let toastTimeout = null;
 function mostrarToast(mensagem, tipo = "sucesso") {
   const toast = document.getElementById("toast");
   const text = document.getElementById("toast-text");
   const icon = toast.querySelector(".toast-icon");
-  
   text.textContent = mensagem;
   toast.className = tipo === "erro" ? "erro visivel" : "visivel";
   icon.textContent = tipo === "erro" ? "✕" : "✓";
-  
   clearTimeout(toastTimeout);
-  toastTimeout = setTimeout(() => {
-    toast.classList.remove("visivel");
-  }, 1500); /* 1.5 segundos */
+  toastTimeout = setTimeout(() => { toast.classList.remove("visivel"); }, 1500);
 }
 
-/* =========================================================
-   FIREBASE — REAL-TIME SYNC E MEMÓRIA DO ÚLTIMO PEDIDO
-   ========================================================= */
-let ultimoPedidoSincronizado = {};
-
+/* ===== FIREBASE LISTENERS ===== */
 onValue(ultimoPedidoRef, (snapshot) => {
   ultimoPedidoSincronizado = snapshot.val() || {};
+});
+
+onValue(estoqueHistoricoRef, (snapshot) => {
+  estoqueHistorico = snapshot.val() || null;
 });
 
 onValue(pedidoRef, (snapshot) => {
@@ -1260,9 +773,33 @@ async function salvarComoUltimoPedido() {
   }
 }
 
-/* =========================================================
-   RENDER
-   ========================================================= */
+// NOVA FUNÇÃO: Salva o histórico de estoque com data e nome
+async function salvarHistoricoEstoque() {
+  const staffName = localStorage.getItem("fabis_staff_name") || "Unknown";
+  const agora = new Date();
+  const dataFormatada = agora.toLocaleString(idiomaAtual === "pt" ? "pt-PT" : "en-GB", {
+    day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit"
+  });
+
+  try {
+    const dados = {
+      staff: staffName,
+      data: dataFormatada,
+      itens: {}
+    };
+    
+    ITENS.forEach(item => {
+      const qtd = estado[item.id] || 0;
+      if (qtd > 0) dados.itens[item.id] = { nome: item.nome, qtd: qtd };
+    });
+
+    await set(estoqueHistoricoRef, dados);
+  } catch (e) {
+    console.error("Erro ao salvar histórico:", e);
+  }
+}
+
+/* ===== RENDER ===== */
 const tabsEl = document.getElementById("tabs");
 const listaEl = document.getElementById("lista");
 const totalEl = document.getElementById("totalItens");
@@ -1275,41 +812,24 @@ function atualizarTotal() {
 }
 
 function renderList(animar = false) {
-  if (animar) {
-    listaEl.classList.add("transitioning");
-    listaEl.classList.remove("entrando");
-  }
-
+  if (animar) { listaEl.classList.add("transitioning"); listaEl.classList.remove("entrando"); }
   const doRender = () => {
     listaEl.innerHTML = "";
     const itensAba = ITENS.filter(i => CATEGORIA_POR_ID[i.id] === abaAtiva);
-    const itensFiltrados = itensAba.filter(i =>
-      (i.nome + " " + i.pt).toLowerCase().includes(filtro)
-    );
-
+    const itensFiltrados = itensAba.filter(i => (i.nome + " " + i.pt).toLowerCase().includes(filtro));
     if (itensFiltrados.length === 0) {
-      const v = document.createElement("div");
-      v.className = "vazio";
-      v.textContent = idiomaAtual === "pt" ? "Nenhum item nesta categoria." : "No items in this category.";
+      const v = document.createElement("div"); v.className = "vazio";
+      v.textContent = idiomaAtual === "pt" ? "Nenhum item." : "No items.";
       listaEl.appendChild(v);
     } else {
       const frag = document.createDocumentFragment();
       itensFiltrados.forEach(item => renderItem(item, frag));
       listaEl.appendChild(frag);
     }
-
     atualizarTotal();
-
-    if (animar) {
-      requestAnimationFrame(() => {
-        listaEl.classList.remove("transitioning");
-        listaEl.classList.add("entrando");
-      });
-    }
+    if (animar) requestAnimationFrame(() => { listaEl.classList.remove("transitioning"); listaEl.classList.add("entrando"); });
   };
-
-  if (animar) setTimeout(doRender, 100);
-  else doRender();
+  if (animar) setTimeout(doRender, 100); else doRender();
 }
 
 function renderTabsOnly() {
@@ -1317,20 +837,14 @@ function renderTabsOnly() {
   CATEGORIAS.forEach((cat, idx) => {
     const btn = tabButtons[idx];
     if (!btn) return;
-    if (cat.id === abaAtiva) btn.classList.add("ativa");
-    else btn.classList.remove("ativa");
-
+    if (cat.id === abaAtiva) btn.classList.add("ativa"); else btn.classList.remove("ativa");
     const idsCat = Object.keys(CATEGORIA_POR_ID).filter(id => CATEGORIA_POR_ID[id] === cat.id);
     const selecionados = idsCat.reduce((s, id) => s + (estado[id] || 0), 0);
-
     const badgeExistente = btn.querySelector(".badge");
     if (selecionados > 0) {
       if (badgeExistente) badgeExistente.textContent = selecionados;
       else {
-        const badge = document.createElement("span");
-        badge.className = "badge";
-        badge.textContent = selecionados;
-        btn.appendChild(badge);
+        const badge = document.createElement("span"); badge.className = "badge"; badge.textContent = selecionados; btn.appendChild(badge);
       }
     } else if (badgeExistente) badgeExistente.remove();
   });
@@ -1344,24 +858,18 @@ function renderTabs() {
     const nome = idiomaAtual === "pt" ? cat.nomePT : cat.nomeEN;
     const btn = document.createElement("button");
     btn.className = "tab" + (abaAtiva === cat.id ? " ativa" : "");
-    btn.dataset.catId = cat.id;
     btn.innerHTML = nome + (selecionados > 0 ? `<span class="badge">${selecionados}</span>` : "");
     btn.onclick = () => {
       if (abaAtiva === cat.id) return;
-      abaAtiva = cat.id;
-      filtro = "";
+      abaAtiva = cat.id; filtro = "";
       document.getElementById("busca").value = "";
-      renderTabsOnly();
-      renderList(true);
+      renderTabsOnly(); renderList(true);
     };
     tabsEl.appendChild(btn);
   });
 }
 
-function render(animar = false) {
-  renderTabs();
-  renderList(animar);
-}
+function render(animar = false) { renderTabs(); renderList(animar); }
 
 function renderItem(item, container) {
   const qtd = estado[item.id] || 0;
@@ -1369,20 +877,17 @@ function renderItem(item, container) {
   div.className = "item" + (qtd > 0 ? " selecionado" : "");
 
   const check = document.createElement("div");
-  check.className = "check";
-  check.textContent = "✓";
+  check.className = "check"; check.textContent = "✓";
   check.onclick = () => toggleItem(item.id);
 
   const info = document.createElement("div");
   info.className = "info";
-  const tagBox = item.tag ? `<span class="tag-box">${item.tag}</span>` : "";
-  info.innerHTML = `<div class="nome">${item.nome}${tagBox}</div>` + `<div class="pt">${item.pt}</div>`;
+  info.innerHTML = `<div class="nome">${item.nome}${item.tag ? `<span class="tag-box">${item.tag}</span>` : ""}</div><div class="pt">${item.pt}</div>`;
   info.onclick = () => toggleItem(item.id);
 
   const qty = document.createElement("div");
   qty.className = "qty";
-  const btnMenos = document.createElement("button");
-  btnMenos.textContent = "−";
+  const btnMenos = document.createElement("button"); btnMenos.textContent = "−";
   btnMenos.onclick = (e) => { e.stopPropagation(); alterarQtd(item.id, -1); };
   const input = document.createElement("input");
   input.type = "number"; input.min = "0"; input.value = qtd;
@@ -1392,8 +897,7 @@ function renderItem(item, container) {
     if (v > 0) estado[item.id] = v; else delete estado[item.id];
     guardarNaCloud(); renderTabsOnly(); renderList();
   };
-  const btnMais = document.createElement("button");
-  btnMais.textContent = "+";
+  const btnMais = document.createElement("button"); btnMais.textContent = "+";
   btnMais.onclick = (e) => { e.stopPropagation(); alterarQtd(item.id, +1); };
 
   qty.appendChild(btnMenos); qty.appendChild(input); qty.appendChild(btnMais);
@@ -1414,9 +918,6 @@ function alterarQtd(id, delta) {
   guardarNaCloud(); renderTabsOnly(); renderList();
 }
 
-/* =========================================================
-   GENERATE ORDER TEXT
-   ========================================================= */
 function gerarTextoPedidoFornecedor(fornecedorKey) {
   const config = FORNECEDORES[fornecedorKey] || FORNECEDORES[FORNECEDOR_DEFAULT];
   const linhas = [config.saudacao, ""];
@@ -1428,9 +929,7 @@ function gerarTextoPedidoFornecedor(fornecedorKey) {
   return linhas.join("\n");
 }
 
-/* =========================================================
-   EVENTS E LÓGICA DE REPETIÇÃO / COPY
-   ========================================================= */
+/* ===== EVENTS ===== */
 document.getElementById("busca").addEventListener("input", (e) => {
   filtro = e.target.value.toLowerCase().trim();
   if (filtro) {
@@ -1457,7 +956,6 @@ let isCopyAction = false;
 document.querySelectorAll(".supplier-btn[data-supplier]").forEach(btn => {
   btn.addEventListener("click", () => {
     const fornecedor = btn.dataset.supplier;
-    
     const itensRepetidos = [];
     Object.keys(estado).forEach(idAtual => {
       if (estado[idAtual] > 0 && ultimoPedidoSincronizado[idAtual] > 0) {
@@ -1467,17 +965,10 @@ document.querySelectorAll(".supplier-btn[data-supplier]").forEach(btn => {
     });
 
     if (itensRepetidos.length > 0) {
-      fornecedorPendente = fornecedor;
-      isCopyAction = false;
-      
+      fornecedorPendente = fornecedor; isCopyAction = false;
       const listaEl = document.getElementById("repeatItemsList");
       listaEl.innerHTML = "";
-      itensRepetidos.forEach(nome => {
-        const li = document.createElement("li");
-        li.textContent = nome;
-        listaEl.appendChild(li);
-      });
-      
+      itensRepetidos.forEach(nome => { const li = document.createElement("li"); li.textContent = nome; listaEl.appendChild(li); });
       modalBg.classList.remove("aberto");
       document.getElementById("repeatBg").classList.add("aberto");
     } else {
@@ -1488,7 +979,6 @@ document.querySelectorAll(".supplier-btn[data-supplier]").forEach(btn => {
 
 document.getElementById("btnCopiar").addEventListener("click", async () => {
   const texto = gerarTextoPedidoFornecedor(FORNECEDOR_DEFAULT);
-  
   const itensRepetidos = [];
   Object.keys(estado).forEach(idAtual => {
     if (estado[idAtual] > 0 && ultimoPedidoSincronizado[idAtual] > 0) {
@@ -1498,17 +988,10 @@ document.getElementById("btnCopiar").addEventListener("click", async () => {
   });
 
   if (itensRepetidos.length > 0) {
-    isCopyAction = true; 
-    fornecedorPendente = FORNECEDOR_DEFAULT;
-
+    isCopyAction = true; fornecedorPendente = FORNECEDOR_DEFAULT;
     const listaEl = document.getElementById("repeatItemsList");
     listaEl.innerHTML = "";
-    itensRepetidos.forEach(nome => {
-      const li = document.createElement("li");
-      li.textContent = nome;
-      listaEl.appendChild(li);
-    });
-    
+    itensRepetidos.forEach(nome => { const li = document.createElement("li"); li.textContent = nome; listaEl.appendChild(li); });
     modalBg.classList.remove("aberto");
     document.getElementById("repeatBg").classList.add("aberto");
   } else {
@@ -1517,16 +1000,12 @@ document.getElementById("btnCopiar").addEventListener("click", async () => {
 });
 
 async function executarCopia(texto) {
-  // 1. Mostra o Toast IMEDIATAMENTE (sem esperar a área de transferência)
   mostrarToast(TRANSLATIONS[idiomaAtual].orderCopied, "sucesso");
-  
-  // 2. Fecha o modal do resumo imediatamente para dar sensação de velocidade
   modalBg.classList.remove("aberto");
-
-  // 3. Faz a cópia em segundo plano
   try {
     await navigator.clipboard.writeText(texto);
     await salvarComoUltimoPedido();
+    await salvarHistoricoEstoque(); // NOVO
   } catch {
     const range = document.createRange();
     range.selectNode(document.getElementById("textoPedido"));
@@ -1534,6 +1013,7 @@ async function executarCopia(texto) {
     window.getSelection().addRange(range);
     document.execCommand("copy");
     await salvarComoUltimoPedido();
+    await salvarHistoricoEstoque(); // NOVO
   }
 }
 
@@ -1544,14 +1024,13 @@ function enviarParaWhatsApp(fornecedorKey) {
   const url = isMobile ? `whatsapp://send?text=${textoCodificado}` : `https://wa.me/?text=${textoCodificado}`;
   
   salvarComoUltimoPedido();
+  salvarHistoricoEstoque(); // NOVO
   
   window.open(url, "_blank");
   modalBg.classList.remove("aberto");
 }
 
-/* =========================================================
-   MODAL: RESUMO DO PEDIDO
-   ========================================================= */
+/* ===== MODAIS ===== */
 const modalBg = document.getElementById("modalBg");
 const textoPedido = document.getElementById("textoPedido");
 
@@ -1562,10 +1041,6 @@ document.getElementById("btnVerPedido").addEventListener("click", () => {
 document.getElementById("btnFechar").addEventListener("click", () => modalBg.classList.remove("aberto"));
 modalBg.addEventListener("click", (e) => { if (e.target === modalBg) modalBg.classList.remove("aberto"); });
 
-
-/* =========================================================
-   MODAIS DE REPETIÇÃO E CONFIRMAÇÃO
-   ========================================================= */
 const repeatBg = document.getElementById("repeatBg");
 document.getElementById("btnRepeatCancel").addEventListener("click", () => {
   repeatBg.classList.remove("aberto");
@@ -1573,22 +1048,60 @@ document.getElementById("btnRepeatCancel").addEventListener("click", () => {
 });
 document.getElementById("btnRepeatOk").addEventListener("click", () => {
   repeatBg.classList.remove("aberto");
-  
-  if (isCopyAction) {
-    const texto = gerarTextoPedidoFornecedor(FORNECEDOR_DEFAULT);
-    executarCopia(texto);
-    isCopyAction = false;
-  } 
-  else if (fornecedorPendente) {
-    enviarParaWhatsApp(fornecedorPendente);
-  }
+  if (isCopyAction) { executarCopia(gerarTextoPedidoFornecedor(FORNECEDOR_DEFAULT)); isCopyAction = false; } 
+  else if (fornecedorPendente) { enviarParaWhatsApp(fornecedorPendente); }
   fornecedorPendente = null;
 });
 repeatBg.addEventListener("click", (e) => { if (e.target === repeatBg) repeatBg.classList.remove("aberto"); });
 
-/* =========================================================
-   MODAL: CONFIRM (CLEAR ALL)
-   ========================================================= */
+/* ===== MODAL ESTOQUE (NOVO) ===== */
+const estoqueBg = document.getElementById("estoqueBg");
+const estoqueList = document.getElementById("estoqueList");
+const estoqueInfo = document.getElementById("estoqueInfo");
+
+function renderEstoque() {
+  estoqueList.innerHTML = "";
+  if (!estoqueHistorico || !estoqueHistorico.itens || Object.keys(estoqueHistorico.itens).length === 0) {
+    estoqueInfo.textContent = TRANSLATIONS[idiomaAtual].noStockHistory;
+    document.getElementById("btnEstoqueLimpar").style.display = "none";
+    return;
+  }
+
+  document.getElementById("btnEstoqueLimpar").style.display = "block";
+  estoqueInfo.textContent = `${TRANSLATIONS[idiomaAtual].lastOrderBy} ${estoqueHistorico.staff} ${TRANSLATIONS[idiomaAtual].at} ${estoqueHistorico.data}`;
+
+  Object.values(estoqueHistorico.itens).forEach(item => {
+    const li = document.createElement("li");
+    li.className = "estoque-item";
+    li.innerHTML = `<span>${item.nome}</span> <span class="qtd">${item.qtd}</span>`;
+    estoqueList.appendChild(li);
+  });
+}
+
+document.getElementById("menuStock").addEventListener("click", () => {
+  fecharSidebar();
+  setTimeout(() => {
+    renderEstoque();
+    estoqueBg.classList.add("aberto");
+  }, 250);
+});
+
+document.getElementById("btnEstoqueClose").addEventListener("click", () => estoqueBg.classList.remove("aberto"));
+
+document.getElementById("btnEstoqueLimpar").addEventListener("click", async () => {
+  try {
+    await set(estoqueHistoricoRef, null);
+    mostrarToast(idiomaAtual === "pt" ? "Histórico limpo!" : "History cleared!", "sucesso");
+    estoqueBg.classList.remove("aberto");
+  } catch (e) {
+    console.error(e);
+    mostrarToast("Error", "erro");
+  }
+});
+
+estoqueBg.addEventListener("click", (e) => { if (e.target === estoqueBg) estoqueBg.classList.remove("aberto"); });
+
+/* ===== MODAL CLEAR ALL ===== */
 const confirmBg = document.getElementById("confirmBg");
 const btnConfirmOk = document.getElementById("btnConfirmOk");
 const btnConfirmCancel = document.getElementById("btnConfirmCancel");
@@ -1598,15 +1111,13 @@ function abrirConfirm() {
   const totalItens = Object.values(estado).reduce((a, b) => a + b, 0);
   if (confirmCountEl) {
     confirmCountEl.textContent = idiomaAtual === "pt"
-      ? `🛒 ${totalItens} ${totalItens === 1 ? "item será removido" : "itens serão removidos"}`
-      : `🛒 ${totalItens} ${totalItens === 1 ? "item will be removed" : "items will be removed"}`;
+      ? `🛒 ${totalItens} ${totalItens === 1 ? "item" : "itens"}`
+      : `🛒 ${totalItens} ${totalItens === 1 ? "item" : "items"}`;
   }
   btnConfirmOk.disabled = totalItens === 0;
   confirmBg.classList.add("aberto");
 }
-
 function fecharConfirm() { confirmBg.classList.remove("aberto"); }
-
 document.getElementById("btnLimpar").addEventListener("click", abrirConfirm);
 document.getElementById("menuClear").addEventListener("click", () => { fecharSidebar(); setTimeout(abrirConfirm, 250); });
 btnConfirmCancel.addEventListener("click", fecharConfirm);
@@ -1615,29 +1126,22 @@ btnConfirmOk.addEventListener("click", async () => {
 });
 confirmBg.addEventListener("click", (e) => { if (e.target === confirmBg) fecharConfirm(); });
 
-/* =========================================================
-   MODAL: LOGOUT
-   ========================================================= */
+/* ===== MODAL LOGOUT ===== */
 const logoutBg = document.getElementById("logoutBg");
 document.getElementById("btnLogoutCancel").addEventListener("click", () => logoutBg.classList.remove("aberto"));
 document.getElementById("btnLogoutOk").addEventListener("click", () => {
-  sessionStorage.removeItem("fabis_session_active"); 
-  location.reload();
+  sessionStorage.removeItem("fabis_session_active"); location.reload();
 });
 logoutBg.addEventListener("click", (e) => { if (e.target === logoutBg) logoutBg.classList.remove("aberto"); });
 
-/* =========================================================
-   MODAL: ABOUT
-   ========================================================= */
+/* ===== MODAL ABOUT ===== */
 const aboutBg = document.getElementById("aboutBg");
 function abrirAbout() { aboutBg.classList.add("aberto"); }
 function fecharAbout() { aboutBg.classList.remove("aberto"); }
 document.getElementById("btnAboutOk").addEventListener("click", fecharAbout);
 aboutBg.addEventListener("click", (e) => { if (e.target === aboutBg) fecharAbout(); });
 
-/* =========================================================
-   SIDEBAR MENU
-   ========================================================= */
+/* ===== SIDEBAR ===== */
 const sidebarBg = document.getElementById("sidebarBg");
 const sidebarEl = document.querySelector(".sidebar");
 
@@ -1650,89 +1154,13 @@ sidebarBg.addEventListener("click", (e) => { if (e.target === sidebarBg) fecharS
 
 document.getElementById("menuSearch").addEventListener("click", () => { fecharSidebar(); setTimeout(() => document.getElementById("busca").focus(), 350); });
 document.getElementById("menuAbout").addEventListener("click", () => { fecharSidebar(); setTimeout(abrirAbout, 250); });
-
-document.getElementById("menuHistory").addEventListener("click", () => {
-  fecharSidebar();
-  setTimeout(() => {
-    mostrarToast(TRANSLATIONS[idiomaAtual].historyAlert, "erro");
-  }, 250);
-});
-
-document.getElementById("menuStaff").addEventListener("click", () => {
-  fecharSidebar();
-  setTimeout(() => {
-    mostrarToast(TRANSLATIONS[idiomaAtual].staffAlert, "erro");
-  }, 250);
-});
-
-document.getElementById("menuLogout").addEventListener("click", () => {
-  fecharSidebar();
-  setTimeout(() => {
-    logoutBg.classList.add("aberto");
-  }, 250);
-});
+document.getElementById("menuStaff").addEventListener("click", () => { fecharSidebar(); setTimeout(() => mostrarToast(TRANSLATIONS[idiomaAtual].comingSoon, "erro"), 250); });
+document.getElementById("menuLogout").addEventListener("click", () => { fecharSidebar(); setTimeout(() => logoutBg.classList.add("aberto"), 250); });
 
 document.getElementById("btnLangEN").addEventListener("click", () => { aplicarIdioma("en"); render(); });
 document.getElementById("btnLangPT").addEventListener("click", () => { aplicarIdioma("pt"); render(); });
 
-/* =========================================================
-   SIDEBAR SWIPE GESTURE
-   ========================================================= */
-let touchStartX = 0, touchStartY = 0, touchCurrentX = 0, isSwiping = false, swipeDirection = null;
-const SWIPE_THRESHOLD = 60, VELOCITY_THRESHOLD = 0.3;
-
-sidebarBg.addEventListener("touchstart", (e) => {
-  if (!sidebarBg.classList.contains("aberto")) return;
-  const touch = e.touches[0];
-  touchStartX = touch.clientX; touchStartY = touch.clientY; touchCurrentX = touchStartX;
-  isSwiping = true; swipeDirection = null; sidebarEl.style.transition = "none"; 
-}, { passive: true });
-
-sidebarBg.addEventListener("touchmove", (e) => {
-  if (!isSwiping) return;
-  const touch = e.touches[0];
-  const deltaX = touch.clientX - touchStartX;
-  const deltaY = touch.clientY - touchStartY;
-  if (!swipeDirection && (Math.abs(deltaX) > 5 || Math.abs(deltaY) > 5)) {
-    swipeDirection = Math.abs(deltaX) > Math.abs(deltaY) ? "horizontal" : "vertical";
-  }
-  if (swipeDirection === "horizontal" && deltaX < 0) {
-    sidebarEl.style.transform = `translateX(${deltaX}px)`;
-    touchCurrentX = touch.clientX;
-    if (e.cancelable) e.preventDefault();
-  }
-}, { passive: false });
-
-sidebarBg.addEventListener("touchend", () => {
-  if (!isSwiping) return;
-  const deltaX = touchCurrentX - touchStartX;
-  const velocity = Math.abs(deltaX) / 200;
-  sidebarEl.style.transition = ""; sidebarEl.style.transform = "";
-  if (swipeDirection === "horizontal" && deltaX < 0) {
-    if (Math.abs(deltaX) > SWIPE_THRESHOLD || velocity > VELOCITY_THRESHOLD) fecharSidebar();
-  }
-  isSwiping = false; swipeDirection = null;
-}, { passive: true });
-
-let edgeTouchStartX = 0;
-document.addEventListener("touchstart", (e) => {
-  if (sidebarBg.classList.contains("aberto")) return;
-  const touch = e.touches[0];
-  if (touch.clientX < 30) edgeTouchStartX = touch.clientX; else edgeTouchStartX = 0;
-}, { passive: true });
-
-document.addEventListener("touchend", (e) => {
-  if (edgeTouchStartX > 0 && !sidebarBg.classList.contains("aberto")) {
-    const touch = e.changedTouches[0];
-    const deltaX = touch.clientX - edgeTouchStartX;
-    if (deltaX > 50) abrirSidebar();
-  }
-  edgeTouchStartX = 0;
-}, { passive: true });
-
-/* =========================================================
-   FECHAR MODAIS COM ESCAPE E BLOQUEAR ZOOM
-   ========================================================= */
+/* ===== FECHAR MODAIS E ZOOM ===== */
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
     if (aboutBg.classList.contains("aberto")) fecharAbout();
@@ -1740,6 +1168,7 @@ document.addEventListener("keydown", (e) => {
     else if (confirmBg.classList.contains("aberto")) fecharConfirm();
     else if (repeatBg.classList.contains("aberto")) repeatBg.classList.remove("aberto");
     else if (logoutBg.classList.contains("aberto")) logoutBg.classList.remove("aberto");
+    else if (estoqueBg.classList.contains("aberto")) estoqueBg.classList.remove("aberto");
     else if (modalBg.classList.contains("aberto")) modalBg.classList.remove("aberto");
   }
 });
@@ -1753,43 +1182,26 @@ document.addEventListener('touchend', (e) => {
   if (now - lastTouchEnd <= 300) e.preventDefault();
   lastTouchEnd = now;
 }, { passive: false });
-document.addEventListener('wheel', (e) => { if (e.ctrlKey) e.preventDefault(); }, { passive: false });
-document.addEventListener('keydown', (e) => {
-  if ((e.ctrlKey || e.metaKey) && (e.key === '+' || e.key === '-' || e.key === '0' || e.key === '=')) e.preventDefault();
-});
 
-/* =========================================================
-   AUTO-CLEAR DIÁRIO ÀS 6:00 DA MANHÃ
-   ========================================================= */
+/* ===== AUTO-CLEAR ===== */
 const AUTO_CLEAR_HOUR = 6;
-
 async function verificarAutoClear() {
   const agora = new Date();
   if (agora.getHours() < AUTO_CLEAR_HOUR) return;
-
   const hojeLocal = `${agora.getFullYear()}-${String(agora.getMonth() + 1).padStart(2, "0")}-${String(agora.getDate()).padStart(2, "0")}`;
-
   try {
     const snapshot = await get(child(ref(db), "meta/ultimo_auto_clear"));
     if (snapshot.exists() && snapshot.val() === hojeLocal) return;
-
     await set(ref(db, "meta/ultimo_auto_clear"), hojeLocal);
-    console.log("🌅 Auto-clear das 6h — limpando pedido...");
     estado = {};
     await set(pedidoRef, null);
-    console.log("✅ Pedido limpo automaticamente.");
     renderTabsOnly(); renderList();
-  } catch (e) {
-    console.error("❌ Erro no auto-clear:", e);
-  }
+  } catch (e) { console.error(e); }
 }
-
 verificarAutoClear();
 setInterval(verificarAutoClear, 60 * 1000);
 
-/* =========================================================
-   SISTEMA DE LOGIN (STAFF) - COM SESSÃO
-   ========================================================= */
+/* ===== LOGIN ===== */
 const loginScreen = document.getElementById("login-screen");
 const appPrincipal = document.getElementById("app-principal");
 const inputStaffName = document.getElementById("input-staff-name");
@@ -1799,18 +1211,15 @@ const welcomeText = document.getElementById("welcome-text");
 function iniciarApp() {
   const staffName = localStorage.getItem("fabis_staff_name");
   const sessaoAtiva = sessionStorage.getItem("fabis_session_active");
-
   if (sessaoAtiva === "true") {
-    loginScreen.style.display = "none";
-    appPrincipal.style.display = "flex";
+    loginScreen.style.display = "none"; appPrincipal.style.display = "flex";
     setTimeout(() => { appPrincipal.classList.add("visivel"); }, 50);
     if (staffName) {
       const welcomeMsg = idiomaAtual === "pt" ? "Bem-vindo" : "Welcome";
       welcomeText.textContent = `${welcomeMsg}, ${staffName}!`;
     }
   } else {
-    loginScreen.style.display = "flex";
-    appPrincipal.style.display = "none";
+    loginScreen.style.display = "flex"; appPrincipal.style.display = "none";
     if (staffName) inputStaffName.value = staffName;
     setTimeout(() => inputStaffName.focus(), 100);
   }
@@ -1818,20 +1227,13 @@ function iniciarApp() {
 
 btnEnter.addEventListener("click", () => {
   const name = inputStaffName.value.trim();
-  if (name.length < 2) {
-    mostrarToast(TRANSLATIONS[idiomaAtual].nameRequired, "erro");
-    return;
-  }
+  if (name.length < 2) { mostrarToast(TRANSLATIONS[idiomaAtual].nameRequired, "erro"); return; }
   localStorage.setItem("fabis_staff_name", name);
   sessionStorage.setItem("fabis_session_active", "true");
   iniciarApp();
 });
-
 inputStaffName.addEventListener("keypress", (e) => { if (e.key === "Enter") btnEnter.click(); });
 
-/* =========================================================
-   INIT
-   ========================================================= */
 aplicarIdioma(idiomaAtual);
 render();
 iniciarApp();
