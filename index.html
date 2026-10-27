@@ -527,7 +527,7 @@
     </div>
   </div>
 
-  <!-- MODAL PERFIL STAFF (NOVO) -->
+  <!-- MODAL PERFIL STAFF -->
   <div class="modal-bg" id="profileBg">
     <div class="modal">
       <header>
@@ -712,8 +712,7 @@ const firebaseConfig = {
   appId: "1:775124154460:web:afcc334783ec6cf8368e99"
 };
 
-/* ⚠️ COLOQUE A SUA API KEY DA IMGBB AQUI ⚠️ */
-const IMGBB_API_KEY = "SUA_CHAVE_AQUI"; 
+const IMGBB_API_KEY = "44d857cb701a7d6a626e0d56587eeb42";
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
@@ -891,7 +890,7 @@ function mostrarToast(mensagem, tipo = "sucesso") {
 /* ===== FIREBASE LISTENERS ===== */
 onValue(ultimoPedidoRef, (snapshot) => { ultimoPedidoSincronizado = snapshot.val() || {}; });
 onValue(estoqueHistoricoRef, (snapshot) => { estoqueHistorico = snapshot.val() || null; });
-onValue(perfisRef, (snapshot) => { perfis = snapshot.val() || {}; renderPerfil(); }); // NOVO
+onValue(perfisRef, (snapshot) => { perfis = snapshot.val() || {}; renderPerfil(); });
 
 onValue(pedidoRef, (snapshot) => {
   const dados = snapshot.val();
@@ -1243,7 +1242,7 @@ document.getElementById("btnEstoqueLimpar").addEventListener("click", async () =
 
 estoqueBg.addEventListener("click", (e) => { if (e.target === estoqueBg) estoqueBg.classList.remove("aberto"); });
 
-/* ===== MODAL PERFIL (NOVO) ===== */
+/* ===== MODAL PERFIL ===== */
 const profileBg = document.getElementById("profileBg");
 const profileName = document.getElementById("profileName");
 const profileImg = document.getElementById("profileImg");
@@ -1285,11 +1284,6 @@ btnChangePhoto.addEventListener("click", () => fileInput.click());
 fileInput.addEventListener("change", async (e) => {
   const file = e.target.files[0];
   if (!file) return;
-
-  if (IMGBB_API_KEY === "SUA_CHAVE_AQUI") {
-    mostrarToast(idiomaAtual === "pt" ? "Configure a API Key da ImgBB no código." : "Please set ImgBB API Key.", "erro");
-    return;
-  }
 
   const originalText = btnChangePhoto.innerHTML;
   btnChangePhoto.innerHTML = `⏳ ${TRANSLATIONS[idiomaAtual].uploading}`;
