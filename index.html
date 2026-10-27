@@ -228,7 +228,7 @@
   }
   footer button:disabled { background: #4a4a4a; border-color: #666; color: #999; }
 
-  /* ===== MODAIS ===== */
+  /* ===== MODAL RESUMO ===== */
   .modal-bg {
     position: fixed; inset: 0; background: rgba(26,26,26,.75);
     backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center;
@@ -272,7 +272,7 @@
   .supplier-btn img { width: 48px; height: 48px; border-radius: 50%; background: #fff; padding: 3px; }
   .supplier-btn.whatsapp-btn { background: linear-gradient(135deg, #25D366, #128C7E); color: #fff; border-color: #128C7E; }
 
-  /* ===== POP-UPS PREMIUM UNIFICADOS ===== */
+  /* ===== POP-UPS PREMIUM UNIFICADOS (PADRÃO LOGOUT) ===== */
   .confirm-bg {
     position: fixed; inset: 0; background: rgba(26,26,26,.7);
     backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center;
@@ -314,13 +314,13 @@
   .confirm-box .acoes .cancelar { background: #f3f4f6; color: #4b5563; border: 1px solid #e5e7eb; }
   .confirm-box .acoes .confirmar { background: linear-gradient(135deg, #ef4444, #b91c1c); color: #fff; }
 
-  /* ===== ESTOQUE MODAL ===== */
+  /* ===== CONTEÚDO INTERNO DO ESTOQUE ===== */
   .estoque-list {
-    background: #fff; border-radius: 12px; border: 2px solid var(--creme-escuro);
-    max-height: 300px; overflow-y: auto; text-align: left; margin-top: 10px;
+    background: #f8f9fa; border-radius: 12px; border: 2px solid var(--creme-escuro);
+    max-height: 200px; overflow-y: auto; text-align: left; margin-top: 10px;
   }
   .estoque-item {
-    display: flex; justify-content: space-between; padding: 12px 14px;
+    display: flex; justify-content: space-between; padding: 10px 14px;
     border-bottom: 1px solid var(--creme-escuro); font-size: .9rem;
   }
   .estoque-item:last-child { border-bottom: none; }
@@ -330,16 +330,16 @@
   }
   .estoque-info { font-size: .85rem; color: #6b6355; margin-bottom: 16px; text-align: center; }
 
-  /* ===== PERFIL STAFF MODAL ===== */
-  .profile-content { text-align: center; padding: 10px 0; }
+  /* ===== CONTEÚDO INTERNO DO PERFIL ===== */
+  .profile-content { text-align: center; }
   .profile-photo-wrap {
-    position: relative; width: 120px; height: 120px; margin: 0 auto 16px;
+    position: relative; width: 100px; height: 100px; margin: 0 auto 16px;
   }
   .profile-photo {
     width: 100%; height: 100%; border-radius: 50%;
     background: linear-gradient(135deg, var(--dourado), var(--marrom));
     display: flex; align-items: center; justify-content: center;
-    font-size: 3rem; font-weight: 800; color: var(--creme);
+    font-size: 2.5rem; font-weight: 800; color: var(--creme);
     border: 4px solid var(--creme-escuro); box-shadow: 0 8px 24px rgba(0,0,0,.15);
     object-fit: cover;
   }
@@ -349,6 +349,58 @@
     display: inline-flex; align-items: center; gap: 8px;
   }
   .profile-name { font-size: 1.4rem; font-weight: 800; color: var(--preto); margin-top: 10px; }
+
+  /* ===== SIDEBAR ===== */
+  .sidebar-bg {
+    position: fixed; inset: 0; background: rgba(26,26,26,.6);
+    backdrop-filter: blur(3px); display: none; z-index: 300;
+  }
+  .sidebar-bg.aberto { display: block; }
+  .sidebar {
+    position: fixed; top: 0; left: 0; width: 300px; max-width: 85vw; height: 100%;
+    background: var(--creme); box-shadow: 4px 0 30px rgba(0,0,0,.4);
+    border-right: 3px solid var(--dourado); z-index: 301;
+    display: flex; flex-direction: column; transform: translateX(-100%);
+    transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .sidebar-bg.aberto .sidebar { transform: translateX(0); }
+  .sidebar-header {
+    background: linear-gradient(135deg, var(--preto) 0%, var(--marrom-escuro) 100%);
+    padding: 20px; border-bottom: 3px solid var(--dourado);
+  }
+  .sidebar-header img { max-height: 42px; margin-bottom: 8px; }
+  .sidebar-header .sub { font-size: .68rem; font-weight: 700; letter-spacing: 3px; color: var(--dourado); text-transform: uppercase; }
+  .sidebar-header .fechar {
+    position: absolute; top: 16px; right: 16px; width: 32px; height: 32px;
+    background: rgba(255,255,255,.1); border: none; border-radius: 50%;
+    color: var(--creme); font-size: 1.3rem; cursor: pointer;
+  }
+  .sidebar-body { flex: 1; padding: 12px 0; overflow-y: auto; }
+  .sidebar-item {
+    display: flex; align-items: center; gap: 14px; padding: 14px 20px;
+    cursor: pointer; border: none; background: transparent; width: 100%; text-align: left;
+  }
+  .sidebar-item:hover { background: var(--creme-escuro); }
+  .sidebar-item .icone {
+    width: 36px; height: 36px; border-radius: 10px;
+    background: linear-gradient(135deg, var(--dourado), var(--marrom));
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    box-shadow: 0 2px 6px rgba(200,135,58,.3); overflow: hidden; padding: 6px;
+  }
+  .sidebar-item .icone img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .sidebar-item .texto { flex: 1; }
+  .sidebar-item .texto .titulo { font-weight: 700; font-size: .95rem; color: var(--preto); }
+  .sidebar-item .texto .desc { font-size: .72rem; color: #8a7d68; }
+  .sidebar-divider { height: 1px; background: var(--creme-escuro); margin: 8px 20px; }
+  .lang-switch { display: flex; gap: 8px; padding: 12px 20px; align-items: center; }
+  .lang-switch .label { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .lang-switch .label img { width: 100%; height: 100%; object-fit: contain; }
+  .lang-btn {
+    flex: 1; padding: 10px 12px; border-radius: 10px; border: 2px solid var(--creme-escuro);
+    background: #fff; font-weight: 800; cursor: pointer; color: var(--marrom-escuro);
+  }
+  .lang-btn.ativa { background: linear-gradient(135deg, var(--dourado), var(--marrom)); color: var(--creme); }
+  .sidebar-footer { padding: 14px 20px; border-top: 2px solid var(--creme-escuro); font-size: .72rem; color: #a89b88; text-align: center; }
 
   /* ===== ABOUT MODAL ===== */
   .about-content { text-align: center; padding: 8px 0; }
@@ -408,58 +460,6 @@
   .confirm-box.about-modal { max-width: 440px; }
   .confirm-box.about-modal .icon-warn { display: none; }
   .confirm-box.about-modal .top { padding: 20px; }
-
-  /* ===== SIDEBAR ===== */
-  .sidebar-bg {
-    position: fixed; inset: 0; background: rgba(26,26,26,.6);
-    backdrop-filter: blur(3px); display: none; z-index: 300;
-  }
-  .sidebar-bg.aberto { display: block; }
-  .sidebar {
-    position: fixed; top: 0; left: 0; width: 300px; max-width: 85vw; height: 100%;
-    background: var(--creme); box-shadow: 4px 0 30px rgba(0,0,0,.4);
-    border-right: 3px solid var(--dourado); z-index: 301;
-    display: flex; flex-direction: column; transform: translateX(-100%);
-    transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
-  }
-  .sidebar-bg.aberto .sidebar { transform: translateX(0); }
-  .sidebar-header {
-    background: linear-gradient(135deg, var(--preto) 0%, var(--marrom-escuro) 100%);
-    padding: 20px; border-bottom: 3px solid var(--dourado);
-  }
-  .sidebar-header img { max-height: 42px; margin-bottom: 8px; }
-  .sidebar-header .sub { font-size: .68rem; font-weight: 700; letter-spacing: 3px; color: var(--dourado); text-transform: uppercase; }
-  .sidebar-header .fechar {
-    position: absolute; top: 16px; right: 16px; width: 32px; height: 32px;
-    background: rgba(255,255,255,.1); border: none; border-radius: 50%;
-    color: var(--creme); font-size: 1.3rem; cursor: pointer;
-  }
-  .sidebar-body { flex: 1; padding: 12px 0; overflow-y: auto; }
-  .sidebar-item {
-    display: flex; align-items: center; gap: 14px; padding: 14px 20px;
-    cursor: pointer; border: none; background: transparent; width: 100%; text-align: left;
-  }
-  .sidebar-item:hover { background: var(--creme-escuro); }
-  .sidebar-item .icone {
-    width: 36px; height: 36px; border-radius: 10px;
-    background: linear-gradient(135deg, var(--dourado), var(--marrom));
-    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-    box-shadow: 0 2px 6px rgba(200,135,58,.3); overflow: hidden; padding: 6px;
-  }
-  .sidebar-item .icone img { width: 100%; height: 100%; object-fit: contain; display: block; }
-  .sidebar-item .texto { flex: 1; }
-  .sidebar-item .texto .titulo { font-weight: 700; font-size: .95rem; color: var(--preto); }
-  .sidebar-item .texto .desc { font-size: .72rem; color: #8a7d68; }
-  .sidebar-divider { height: 1px; background: var(--creme-escuro); margin: 8px 20px; }
-  .lang-switch { display: flex; gap: 8px; padding: 12px 20px; align-items: center; }
-  .lang-switch .label { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .lang-switch .label img { width: 100%; height: 100%; object-fit: contain; }
-  .lang-btn {
-    flex: 1; padding: 10px 12px; border-radius: 10px; border: 2px solid var(--creme-escuro);
-    background: #fff; font-weight: 800; cursor: pointer; color: var(--marrom-escuro);
-  }
-  .lang-btn.ativa { background: linear-gradient(135deg, var(--dourado), var(--marrom)); color: var(--creme); }
-  .sidebar-footer { padding: 14px 20px; border-top: 2px solid var(--creme-escuro); font-size: .72rem; color: #a89b88; text-align: center; }
 </style>
 </head>
 <body>
@@ -533,32 +533,28 @@
     </div>
   </div>
 
-  <!-- MODAL ESTOQUE -->
-  <div class="modal-bg" id="estoqueBg">
-    <div class="modal">
-      <header>
-        <img src="logo-fabis.png" alt="Fabi's Grill" class="logo-fabis">
-        <p class="subtitulo" data-i18n="stockTitle">📦 Stock / Estoque</p>
-      </header>
-      <div class="conteudo">
-        <div class="estoque-info" id="estoqueInfo"></div>
+  <!-- MODAL ESTOQUE (PADRONIZADO) -->
+  <div class="confirm-bg" id="estoqueBg">
+    <div class="confirm-box">
+      <div class="top"><img src="logo-fabis.png"><div class="sub" data-i18n="stock">Estoque</div></div>
+      <div class="body">
+        <div class="icon-warn" style="background: linear-gradient(135deg, var(--verde-claro), #bbf7d0); border-color: #fff; box-shadow: 0 8px 24px rgba(22,163,74,.25), inset 0 0 0 2px var(--verde);">📦</div>
+        <h2 data-i18n="stockTitle" style="font-size: 1.2rem; margin-bottom: 5px;">Stock / Estoque</h2>
+        <div class="estoque-info" id="estoqueInfo" style="margin-bottom: 10px;"></div>
         <ul class="estoque-list" id="estoqueList"></ul>
       </div>
-      <div class="acoes" style="justify-content: space-between;">
-        <button class="fechar" id="btnEstoqueClose" data-i18n="close" style="flex: 1;">Close</button>
-        <button class="confirmar" id="btnEstoqueLimpar" style="flex: 1; background: linear-gradient(135deg, var(--dourado), var(--marrom)); color: #fff;" data-i18n="markReceived">Mark as Received</button>
+      <div class="acoes">
+        <button class="cancelar" id="btnEstoqueClose" data-i18n="close">Close</button>
+        <button class="confirmar" id="btnEstoqueLimpar" style="background: linear-gradient(135deg, var(--verde), var(--verde-escuro));" data-i18n="markReceived">Received</button>
       </div>
     </div>
   </div>
 
-  <!-- MODAL PERFIL STAFF -->
-  <div class="modal-bg" id="profileBg">
-    <div class="modal">
-      <header>
-        <img src="logo-fabis.png" alt="Fabi's Grill" class="logo-fabis">
-        <p class="subtitulo" data-i18n="staffProfile">Staff Profile</p>
-      </header>
-      <div class="conteudo">
+  <!-- MODAL PERFIL STAFF (PADRONIZADO) -->
+  <div class="confirm-bg" id="profileBg">
+    <div class="confirm-box">
+      <div class="top"><img src="logo-fabis.png"><div class="sub" data-i18n="staffProfile">Staff Profile</div></div>
+      <div class="body">
         <div class="profile-content">
           <div class="profile-photo-wrap">
             <img id="profileImg" class="profile-photo" style="display: none;">
@@ -573,7 +569,7 @@
         </div>
       </div>
       <div class="acoes">
-        <button class="fechar" id="btnProfileClose" data-i18n="close" style="flex: 1;">Close</button>
+        <button class="cancelar" id="btnProfileClose" data-i18n="close" style="flex: 1;">Close</button>
       </div>
     </div>
   </div>
