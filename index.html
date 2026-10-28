@@ -3,16 +3,37 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#1a1a1a">
 <title>Fabi's Grill — Order</title>
 <style>
+  /* =========================================================
+     RESET + BASE
+     ========================================================= */
   * { box-sizing: border-box; }
-  html, body {
-    margin: 0; padding: 0; height: 100%;
+
+  html {
+    height: 100%;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0; padding: 0;
+    height: 100%;
+    height: 100dvh;
     touch-action: pan-y;
-    -webkit-text-size-adjust: 100%; text-size-adjust: 100%;
     overscroll-behavior: none;
     user-select: none; -webkit-user-select: none; -webkit-touch-callout: none;
+    font-family: 'Segoe UI', system-ui, -apple-system, Roboto, sans-serif;
+    background: var(--creme);
+    color: var(--preto);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
   }
+
   :root {
     --marrom: #8b5a2b; --marrom-escuro: #5c3a1a; --dourado: #c8873a;
     --creme: #f5f0e6; --creme-escuro: #e8dfd0;
@@ -21,13 +42,10 @@
     --vermelho: #dc2626;
     --laranja: #ea580c;
   }
-  body {
-    font-family: 'Segoe UI', system-ui, -apple-system, Roboto, sans-serif;
-    background: var(--creme); color: var(--preto);
-    min-height: 100vh; display: flex; flex-direction: column;
-  }
-  
-  /* ===== TOAST NOTIFICATION ===== */
+
+  /* =========================================================
+     TOAST
+     ========================================================= */
   #toast {
     position: fixed; top: 50%; left: 50%;
     transform: translate(-50%, -50%) scale(0.8);
@@ -40,19 +58,27 @@
     z-index: 9999; opacity: 0; visibility: hidden;
     transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     pointer-events: none;
+    max-width: calc(100vw - 32px);
   }
   #toast.visivel { opacity: 1; visibility: visible; transform: translate(-50%, -50%) scale(1); }
   #toast .toast-icon {
     width: 28px; height: 28px; border-radius: 50%;
     background: var(--verde); color: #fff;
     display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
+    flex-shrink: 0;
   }
   #toast.erro .toast-icon { background: var(--vermelho); }
 
-  /* ===== LOGIN SCREEN ===== */
+  /* =========================================================
+     LOGIN SCREEN
+     ========================================================= */
   #login-screen {
     display: none; position: fixed; inset: 0; z-index: 999;
-    align-items: center; justify-content: center; padding: 20px; flex-direction: column;
+    align-items: center; justify-content: center; flex-direction: column;
+    padding: calc(20px + env(safe-area-inset-top, 0px))
+             calc(20px + env(safe-area-inset-right, 0px))
+             calc(20px + env(safe-area-inset-bottom, 0px))
+             calc(20px + env(safe-area-inset-left, 0px));
     background-color: var(--marrom-escuro);
     background-image: url('bg-login.jpg'); background-size: cover;
     background-position: center; background-repeat: no-repeat;
@@ -75,6 +101,7 @@
     width: 100%; padding: 15px; border: 2px solid var(--creme-escuro); border-radius: 12px;
     font-size: 1.1rem; margin-bottom: 15px; outline: none; text-align: center;
     font-weight: 700; color: var(--preto); font-family: inherit; transition: border-color 0.2s;
+    -webkit-user-select: text; user-select: text;
   }
   .login-box input:focus { border-color: var(--dourado); }
   .login-box button {
@@ -84,17 +111,29 @@
   }
   .login-box button:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(200,135,58,.4); }
 
-  /* ===== APP PRINCIPAL ===== */
+  /* =========================================================
+     APP PRINCIPAL
+     ========================================================= */
   #app-principal {
-    display: none; flex-direction: column; height: 100%;
+    display: none; flex-direction: column;
+    height: 100%;
+    height: 100dvh;
+    width: 100%;
     opacity: 0; transition: opacity 0.4s ease;
+    overflow: hidden;
   }
   #app-principal.visivel { opacity: 1; }
 
-  /* ===== HEADER E SAUDAÇÃO ===== */
+  /* =========================================================
+     HEADER
+     ========================================================= */
   header {
     background: linear-gradient(135deg, var(--preto) 0%, var(--marrom-escuro) 100%);
-    padding: 14px 20px; box-shadow: 0 3px 12px rgba(0,0,0,.35);
+    padding: 14px 20px;
+    padding-top: calc(14px + env(safe-area-inset-top, 0px));
+    padding-left: calc(20px + env(safe-area-inset-left, 0px));
+    padding-right: calc(20px + env(safe-area-inset-right, 0px));
+    box-shadow: 0 3px 12px rgba(0,0,0,.35);
     flex-shrink: 0; border-bottom: 3px solid var(--dourado);
     display: flex; align-items: center; justify-content: center;
     position: relative; overflow: hidden;
@@ -110,11 +149,10 @@
     display: block; filter: drop-shadow(0 3px 10px rgba(0,0,0,.5));
     position: relative; z-index: 1;
   }
-  @media (max-width: 480px) { header .logo-fabis { max-height: 56px; } }
 
-  /* ===== NOVO AVATAR DO STAFF NO HEADER ===== */
   .header-avatar {
-    position: absolute; top: 50%; right: 16px;
+    position: absolute; top: 50%;
+    right: calc(16px + env(safe-area-inset-right, 0px));
     transform: translateY(-50%);
     width: 44px; height: 44px; border-radius: 50%;
     background: linear-gradient(135deg, var(--dourado), var(--marrom));
@@ -128,15 +166,9 @@
     width: 100%; height: 100%; object-fit: cover; display: none;
   }
 
-  .welcome-bar {
-    text-align: center; padding: 12px 16px 6px; 
-    font-size: 1.1rem; font-weight: 800; 
-    color: var(--marrom-escuro); background: var(--creme);
-  }
-  .welcome-bar span { color: var(--dourado); }
-
   .menu-btn {
-    position: absolute; top: 50%; left: 16px;
+    position: absolute; top: 50%;
+    left: calc(16px + env(safe-area-inset-left, 0px));
     transform: translateY(-50%); width: 44px; height: 44px;
     background: rgba(200,135,58,.15); border: 2px solid var(--dourado);
     border-radius: 12px; display: flex; align-items: center; justify-content: center;
@@ -147,8 +179,25 @@
   .menu-btn .hamburger { display: flex; flex-direction: column; gap: 4px; }
   .menu-btn .hamburger span { display: block; width: 20px; height: 2.5px; background: var(--dourado); border-radius: 2px; transition: background .2s; }
 
+  /* =========================================================
+     WELCOME BAR
+     ========================================================= */
+  .welcome-bar {
+    text-align: center; padding: 12px 16px 6px;
+    font-size: 1.1rem; font-weight: 800;
+    color: var(--marrom-escuro); background: var(--creme);
+    flex-shrink: 0;
+  }
+  .welcome-bar span { color: var(--dourado); }
+
+  /* =========================================================
+     SYNC STATUS
+     ========================================================= */
   .sync-status {
-    position: fixed; top: 16px; right: 16px; font-size: .75rem; font-weight: 700;
+    position: fixed;
+    top: calc(16px + env(safe-area-inset-top, 0px));
+    right: calc(16px + env(safe-area-inset-right, 0px));
+    font-size: .75rem; font-weight: 700;
     padding: 6px 12px; border-radius: 999px; box-shadow: 0 2px 10px rgba(0,0,0,.3);
     z-index: 100; transition: opacity .3s; color: #fff;
   }
@@ -157,6 +206,9 @@
   .sync-status.offline { background: var(--vermelho); }
   .sync-status.oculto { opacity: 0; }
 
+  /* =========================================================
+     TABS
+     ========================================================= */
   .tabs {
     display: flex; gap: 6px; padding: 12px 14px; background: var(--preto-suave);
     border-bottom: 3px solid var(--dourado); overflow-x: auto; flex-shrink: 0; scrollbar-width: thin;
@@ -180,6 +232,9 @@
     border-radius: 999px; margin-left: 6px; box-shadow: 0 0 0 2px rgba(255,255,255,.3);
   }
 
+  /* =========================================================
+     TOOLBAR
+     ========================================================= */
   .toolbar {
     display: flex; flex-wrap: wrap; gap: 8px; padding: 12px 16px;
     background: var(--creme); border-bottom: 2px solid var(--creme-escuro); flex-shrink: 0;
@@ -196,7 +251,20 @@
   }
   .toolbar button.danger { background: var(--preto); color: var(--creme); }
 
-  main { flex: 1; padding: 14px 16px 30px; overflow-y: auto; }
+  /* =========================================================
+     MAIN + LISTA
+     ========================================================= */
+  main {
+    flex: 1;
+    min-height: 0;
+    padding: 14px 16px 30px;
+    padding-left: calc(16px + env(safe-area-inset-left, 0px));
+    padding-right: calc(16px + env(safe-area-inset-right, 0px));
+    padding-bottom: calc(30px + env(safe-area-inset-bottom, 0px));
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
   .item {
     display: flex; align-items: center; gap: 12px; background: #fff;
     border: 2px solid var(--creme-escuro); border-radius: 14px;
@@ -209,7 +277,7 @@
   .check {
     width: 28px; height: 28px; border-radius: 8px; border: 2.5px solid var(--creme-escuro);
     display: flex; align-items: center; justify-content: center; cursor: pointer;
-    color: transparent; background: #fff;
+    color: transparent; background: #fff; flex-shrink: 0;
   }
   .item.selecionado .check { background: var(--verde); border-color: var(--verde-escuro); color: #fff; }
   .qty { display: flex; align-items: center; gap: 5px; }
@@ -217,10 +285,43 @@
   .qty input { width: 50px; text-align: center; border: 2px solid var(--creme-escuro); border-radius: 9px; font-weight: 800; }
   .item.selecionado .qty input { border-color: var(--verde); }
 
+  .tag-box {
+    display: inline-block; font-size: .62rem; font-weight: 800;
+    background: linear-gradient(135deg, var(--dourado), var(--marrom));
+    color: #fff; padding: 2px 7px; border-radius: 4px;
+    margin-left: 6px; vertical-align: middle; letter-spacing: .5px;
+    text-shadow: 1px 1px 0 rgba(0,0,0,.2);
+  }
+
+  .vazio {
+    text-align: center; padding: 40px 20px;
+    color: #a89b88; font-size: .95rem; font-style: italic; font-weight: 600;
+  }
+
+  #lista.transitioning {
+    opacity: .5; transform: translateY(6px);
+    transition: opacity .1s ease, transform .1s ease;
+  }
+  #lista.entrando {
+    opacity: 1; transform: translateY(0);
+    transition: opacity .25s ease, transform .25s ease;
+  }
+
+  /* =========================================================
+     FOOTER
+     ========================================================= */
   footer {
     background: linear-gradient(135deg, var(--preto) 0%, var(--marrom-escuro) 100%);
-    color: var(--creme); padding: 14px 18px; display: flex; align-items: center; gap: 14px;
+    color: var(--creme);
+    padding: 14px 18px;
+    padding-left: calc(18px + env(safe-area-inset-left, 0px));
+    padding-right: calc(18px + env(safe-area-inset-right, 0px));
+    padding-bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+    display: flex; align-items: center; gap: 14px;
     border-top: 3px solid var(--dourado);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 10;
   }
   footer .resumo { flex: 1; font-size: .9rem; }
   footer .resumo strong { font-size: 1.2rem; color: var(--verde); }
@@ -231,15 +332,23 @@
   }
   footer button:disabled { background: #4a4a4a; border-color: #666; color: #999; }
 
-  /* ===== MODAIS ===== */
+  /* =========================================================
+     MODAIS
+     ========================================================= */
   .modal-bg {
     position: fixed; inset: 0; background: rgba(26,26,26,.75);
     backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center;
-    padding: 16px; z-index: 50;
+    padding: calc(16px + env(safe-area-inset-top, 0px))
+             calc(16px + env(safe-area-inset-right, 0px))
+             calc(16px + env(safe-area-inset-bottom, 0px))
+             calc(16px + env(safe-area-inset-left, 0px));
+    z-index: 50;
   }
   .modal-bg.aberto { display: flex; }
   .modal {
-    background: var(--creme); border-radius: 18px; max-width: 560px; width: 100%; max-height: 88vh;
+    background: var(--creme); border-radius: 18px; max-width: 560px; width: 100%;
+    max-height: calc(88vh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+    max-height: calc(88dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
     display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,.6);
     border: 3px solid var(--dourado); animation: popIn .35s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
@@ -247,9 +356,16 @@
   .modal header {
     background: linear-gradient(135deg, var(--preto) 0%, var(--marrom-escuro) 100%);
     border-bottom: 3px solid var(--dourado); display: flex; flex-direction: column;
-    align-items: center; justify-content: center; padding: 16px;
+    align-items: center; justify-content: center;
+    padding: 14px 16px 12px;
+    padding-top: calc(14px + env(safe-area-inset-top, 0px));
   }
-  .modal header .logo-fabis { max-height: 48px; }
+  .modal header .logo-fabis { max-height: 48px; margin-bottom: 2px; }
+  .modal header .subtitulo {
+    color: var(--dourado); font-size: .7rem; font-weight: 800;
+    letter-spacing: 2px; text-transform: uppercase;
+    margin: 8px 0 0; text-align: center;
+  }
   .modal .conteudo { padding: 18px; overflow: auto; }
   .modal pre {
     background: #fff; padding: 14px; border-radius: 10px; white-space: pre-wrap;
@@ -257,13 +373,27 @@
     border: 2px solid var(--creme-escuro);
   }
   .modal .acoes {
-    padding: 14px 18px; display: flex; gap: 8px; justify-content: flex-end;
+    padding: 14px 18px;
+    padding-bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+    display: flex; gap: 8px; justify-content: flex-end;
     border-top: 2px solid var(--creme-escuro); background: var(--creme);
   }
   .modal .acoes button { padding: 11px 18px; border-radius: 10px; border: none; font-weight: 700; cursor: pointer; }
   .modal .acoes .fechar { background: var(--creme-escuro); color: var(--marrom-escuro); }
   .modal .acoes .copiar { background: linear-gradient(135deg, var(--dourado), var(--marrom)); color: var(--creme); }
+  .modal .acoes .confirmar {
+    background: linear-gradient(135deg, var(--dourado), var(--marrom));
+    color: var(--creme); padding: 11px 18px; border-radius: 10px;
+    border: none; font-weight: 700; cursor: pointer;
+    transition: transform .15s, box-shadow .15s;
+  }
+  .modal .acoes .confirmar:hover {
+    transform: translateY(-1px); box-shadow: 0 4px 12px rgba(200,135,58,.4);
+  }
 
+  /* =========================================================
+     FORNECEDORES NO MODAL
+     ========================================================= */
   .supplier-section { padding: 14px 18px 18px; border-top: 2px solid var(--creme-escuro); }
   .supplier-label { font-size: .72rem; font-weight: 800; letter-spacing: 2px; color: var(--marrom-escuro); text-align: center; margin-bottom: 12px; }
   .supplier-buttons { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
@@ -275,17 +405,25 @@
   .supplier-btn img { width: 48px; height: 48px; border-radius: 50%; background: #fff; padding: 3px; }
   .supplier-btn.whatsapp-btn { background: linear-gradient(135deg, #25D366, #128C7E); color: #fff; border-color: #128C7E; }
 
-  /* ===== POP-UPS PREMIUM ===== */
+  /* =========================================================
+     POP-UPS PREMIUM
+     ========================================================= */
   .confirm-bg {
     position: fixed; inset: 0; background: rgba(26,26,26,.7);
     backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center;
-    padding: 16px; z-index: 200;
+    padding: calc(16px + env(safe-area-inset-top, 0px))
+             calc(16px + env(safe-area-inset-right, 0px))
+             calc(16px + env(safe-area-inset-bottom, 0px))
+             calc(16px + env(safe-area-inset-left, 0px));
+    z-index: 200;
   }
   .confirm-bg.aberto { display: flex; }
   .confirm-box {
     background: var(--creme); border-radius: 24px; max-width: 400px; width: 100%;
+    max-height: calc(92vh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
     overflow: hidden; box-shadow: 0 25px 70px rgba(0,0,0,.5);
     animation: popIn .4s cubic-bezier(0.34, 1.56, 0.64, 1); text-align: center; position: relative;
+    display: flex; flex-direction: column;
   }
   .confirm-box .top {
     background: linear-gradient(135deg, #2a1a0f 0%, #1a1a1a 100%);
@@ -293,7 +431,7 @@
   }
   .confirm-box .top img { max-height: 40px; margin-bottom: 10px; }
   .confirm-box .top .sub { font-size: .65rem; font-weight: 800; letter-spacing: 3px; color: var(--dourado); text-transform: uppercase; }
-  .confirm-box .body { padding: 28px 24px 20px; background: #fff; }
+  .confirm-box .body { padding: 28px 24px 20px; background: #fff; overflow-y: auto; }
   .confirm-box .icon-warn {
     width: 72px; height: 72px; border-radius: 50%;
     background: linear-gradient(135deg, #fee2e2, #fecaca); border: 4px solid #fff;
@@ -303,7 +441,11 @@
   }
   .confirm-box h2 { margin: 0 0 10px; font-size: 1.3rem; font-weight: 800; }
   .confirm-box p { margin: 0 0 8px; font-size: .9rem; color: #6b6355; }
-  .confirm-box .acoes { padding: 16px 24px 24px; display: flex; gap: 12px; background: #fff; }
+  .confirm-box .acoes {
+    padding: 16px 24px;
+    padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+    display: flex; gap: 12px; background: #fff;
+  }
   .confirm-box .acoes button {
     flex: 1; padding: 15px 18px; border-radius: 14px; border: none;
     font-size: .95rem; font-weight: 800; cursor: pointer;
@@ -311,10 +453,32 @@
   .confirm-box .acoes .cancelar { background: #f3f4f6; color: #4b5563; border: 1px solid #e5e7eb; }
   .confirm-box .acoes .confirmar { background: linear-gradient(135deg, #ef4444, #b91c1c); color: #fff; }
 
-  /* ===== ESTOQUE MODAL ===== */
+  .repeat-items-list {
+    text-align: left; background: #fff; border-radius: 12px;
+    padding: 10px 12px 10px 32px; margin: 14px 0 0;
+    max-height: 200px; overflow-y: auto;
+    border: 2px solid var(--creme-escuro); list-style: disc;
+  }
+  .repeat-items-list li {
+    font-size: .88rem; padding: 5px 0; color: #4b5563;
+    font-weight: 600; line-height: 1.4;
+  }
+  .repeat-items-list li::marker { color: var(--dourado); }
+
+  .confirm-count {
+    font-weight: 800; color: var(--marrom-escuro); font-size: 1rem;
+    margin-top: 14px !important; padding: 10px 16px;
+    background: var(--creme-escuro); border-radius: 10px;
+    display: inline-block;
+  }
+
+  /* =========================================================
+     ESTOQUE
+     ========================================================= */
   .estoque-list {
     background: #fff; border-radius: 12px; border: 2px solid var(--creme-escuro);
     max-height: 300px; overflow-y: auto; text-align: left; margin-top: 10px;
+    list-style: none; padding: 0;
   }
   .estoque-item {
     display: flex; justify-content: space-between; padding: 12px 14px;
@@ -327,11 +491,11 @@
   }
   .estoque-info { font-size: .85rem; color: #6b6355; margin-bottom: 16px; text-align: center; }
 
-  /* ===== PERFIL STAFF MODAL ===== */
+  /* =========================================================
+     PERFIL
+     ========================================================= */
   .profile-content { text-align: center; padding: 10px 0; }
-  .profile-photo-wrap {
-    position: relative; width: 120px; height: 120px; margin: 0 auto 16px;
-  }
+  .profile-photo-wrap { position: relative; width: 120px; height: 120px; margin: 0 auto 16px; }
   .profile-photo {
     width: 100%; height: 100%; border-radius: 50%;
     background: linear-gradient(135deg, var(--dourado), var(--marrom));
@@ -347,7 +511,9 @@
   }
   .profile-name { font-size: 1.4rem; font-weight: 800; color: var(--preto); margin-top: 10px; }
 
-  /* ===== ABOUT MODAL ===== */
+  /* =========================================================
+     ABOUT
+     ========================================================= */
   .about-content { text-align: center; padding: 8px 0; }
   .about-content .icon-about {
     width: 72px; height: 72px; border-radius: 50%;
@@ -406,23 +572,31 @@
   .confirm-box.about-modal .icon-warn { display: none; }
   .confirm-box.about-modal .top { padding: 20px; }
 
-  /* ===== SIDEBAR ===== */
+  /* =========================================================
+     SIDEBAR
+     ========================================================= */
   .sidebar-bg {
     position: fixed; inset: 0; background: rgba(26,26,26,.6);
     backdrop-filter: blur(3px); display: none; z-index: 300;
   }
   .sidebar-bg.aberto { display: block; }
   .sidebar {
-    position: fixed; top: 0; left: 0; width: 300px; max-width: 85vw; height: 100%;
+    position: fixed; top: 0; left: 0; width: 300px; max-width: 85vw;
+    height: 100%;
+    height: 100dvh;
     background: var(--creme); box-shadow: 4px 0 30px rgba(0,0,0,.4);
     border-right: 3px solid var(--dourado); z-index: 301;
     display: flex; flex-direction: column; transform: translateX(-100%);
     transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    padding-left: env(safe-area-inset-left, 0px);
   }
   .sidebar-bg.aberto .sidebar { transform: translateX(0); }
   .sidebar-header {
     background: linear-gradient(135deg, var(--preto) 0%, var(--marrom-escuro) 100%);
     padding: 20px; border-bottom: 3px solid var(--dourado);
+    position: relative;
   }
   .sidebar-header img { max-height: 42px; margin-bottom: 8px; }
   .sidebar-header .sub { font-size: .68rem; font-weight: 700; letter-spacing: 3px; color: var(--dourado); text-transform: uppercase; }
@@ -431,7 +605,7 @@
     background: rgba(255,255,255,.1); border: none; border-radius: 50%;
     color: var(--creme); font-size: 1.3rem; cursor: pointer;
   }
-  .sidebar-body { flex: 1; padding: 12px 0; overflow-y: auto; }
+  .sidebar-body { flex: 1; padding: 12px 0; overflow-y: auto; -webkit-overflow-scrolling: touch; }
   .sidebar-item {
     display: flex; align-items: center; gap: 14px; padding: 14px 20px;
     cursor: pointer; border: none; background: transparent; width: 100%; text-align: left;
@@ -456,7 +630,116 @@
     background: #fff; font-weight: 800; cursor: pointer; color: var(--marrom-escuro);
   }
   .lang-btn.ativa { background: linear-gradient(135deg, var(--dourado), var(--marrom)); color: var(--creme); }
-  .sidebar-footer { padding: 14px 20px; border-top: 2px solid var(--creme-escuro); font-size: .72rem; color: #a89b88; text-align: center; }
+  .sidebar-footer {
+    padding: 14px 20px;
+    padding-bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+    border-top: 2px solid var(--creme-escuro); font-size: .72rem; color: #a89b88; text-align: center;
+  }
+
+  /* =========================================================
+     RESPONSIVO — TELAS PEQUENAS
+     ========================================================= */
+  @media (max-width: 360px) {
+    header {
+      padding-top: calc(10px + env(safe-area-inset-top, 0px));
+      padding-bottom: 10px;
+    }
+    header .logo-fabis { max-height: 48px; }
+    .header-avatar, .menu-btn { width: 38px; height: 38px; }
+    .menu-btn .hamburger span { width: 17px; }
+    .welcome-bar { font-size: .95rem; padding: 10px 12px 4px; }
+    .tabs { padding: 8px 10px; gap: 4px; }
+    .tab { padding: 7px 12px; font-size: .78rem; }
+    .toolbar { padding: 10px 12px; }
+    .toolbar input[type="search"] { font-size: .88rem; padding: 9px 12px; }
+    .item { padding: 10px 12px; gap: 10px; }
+    .item .nome { font-size: .9rem; }
+    .item .pt { font-size: .68rem; }
+    .check { width: 24px; height: 24px; }
+    .qty input { width: 42px; }
+    .qty button { width: 30px; height: 30px; font-size: .9rem; }
+    footer {
+      padding-top: 10px;
+      padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+      gap: 10px;
+    }
+    footer .resumo { font-size: .82rem; }
+    footer .resumo strong { font-size: 1.05rem; }
+    footer button { padding: 11px 16px; font-size: .9rem; }
+    .confirm-box .acoes { padding: 12px 16px; padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px)); }
+    .supplier-buttons { grid-template-columns: 1fr; }
+  }
+
+  /* =========================================================
+     RESPONSIVO — TELAS GRANDES
+     ========================================================= */
+  @media (min-width: 481px) {
+    header .logo-fabis { max-height: 80px; }
+    .item { padding: 14px 16px; }
+    .item .nome { font-size: 1rem; }
+    .item .pt { font-size: .76rem; }
+    .tab { padding: 10px 18px; font-size: .88rem; }
+    .qty input { width: 56px; }
+  }
+
+  /* =========================================================
+     RESPONSIVO — TABLET E DESKTOP
+     ========================================================= */
+  @media (min-width: 768px) {
+    body {
+      background: #d9cfbe;
+      align-items: center;
+      justify-content: center;
+    }
+    #app-principal {
+      max-width: 720px;
+      margin: 0 auto;
+      height: 100dvh;
+      box-shadow: 0 0 60px rgba(0,0,0,.15);
+      border-left: 1px solid rgba(0,0,0,.08);
+      border-right: 1px solid rgba(0,0,0,.08);
+    }
+    #login-screen { padding: 40px; }
+    .modal { max-width: 600px; }
+    .confirm-box { max-width: 440px; }
+    .tabs::-webkit-scrollbar { height: 6px; }
+  }
+
+  /* =========================================================
+     RESPONSIVO — LANDSCAPE EM CELULAR
+     ========================================================= */
+  @media (max-height: 480px) and (orientation: landscape) {
+    header {
+      padding-top: calc(8px + env(safe-area-inset-top, 0px));
+      padding-bottom: 8px;
+    }
+    header .logo-fabis { max-height: 40px; }
+    .header-avatar, .menu-btn { width: 36px; height: 36px; }
+    .welcome-bar { padding: 6px 12px 2px; font-size: .9rem; }
+    .tabs { padding: 6px 10px; }
+    .tab { padding: 6px 12px; font-size: .76rem; }
+    .toolbar { padding: 8px 12px; }
+    footer {
+      padding-top: 8px;
+      padding-bottom: calc(8px + env(safe-area-inset-bottom, 0px));
+    }
+    footer button { padding: 10px 16px; font-size: .88rem; }
+    footer .resumo { font-size: .82rem; }
+    footer .resumo strong { font-size: 1.05rem; }
+    .modal {
+      max-height: calc(94vh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+    }
+    .confirm-box {
+      max-height: calc(94vh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+    }
+  }
+
+  /* =========================================================
+     ACESSIBILIDADE
+     ========================================================= */
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+  }
 </style>
 </head>
 <body>
@@ -483,8 +766,7 @@
       <div class="hamburger"><span></span><span></span><span></span><span></span></div>
     </button>
     <img src="logo-fabis.png" alt="Fabi's Grill" class="logo-fabis">
-    
-    <!-- NOVO: Avatar no canto superior direito -->
+
     <div class="header-avatar" id="headerAvatar" title="View Profile">
       <img id="headerAvatarImg" src="">
       <span id="headerAvatarInitials"></span>
@@ -544,7 +826,7 @@
       </div>
       <div class="acoes" style="justify-content: space-between;">
         <button class="fechar" id="btnEstoqueClose" data-i18n="close" style="flex: 1;">Close</button>
-        <button class="confirmar" id="btnEstoqueLimpar" style="flex: 1; background: linear-gradient(135deg, var(--dourado), var(--marrom)); color: #fff;" data-i18n="markReceived">Mark as Received</button>
+        <button class="confirmar" id="btnEstoqueLimpar" style="flex: 1;" data-i18n="markReceived">Mark as Received</button>
       </div>
     </div>
   </div>
@@ -563,7 +845,7 @@
             <div id="profileInitials" class="profile-photo"></div>
           </div>
           <div class="profile-name" id="profileName">Name</div>
-          
+
           <button class="btn-change-photo" id="btnChangePhoto">
             📷 <span data-i18n="changePhoto">Change Photo</span>
           </button>
@@ -676,39 +958,39 @@
           <div class="icone"><img src="icons/icon-search.png" alt="Search"></div>
           <div class="texto"><div class="titulo" data-i18n="searchItems">Search Items</div></div>
         </button>
-        
+
         <button class="sidebar-item" id="menuStock">
           <div class="icone" style="background: linear-gradient(135deg, var(--verde), var(--verde-escuro));"><span style="font-size: 1.2rem;">📦</span></div>
           <div class="texto"><div class="titulo" data-i18n="stock">Estoque</div><div class="desc" data-i18n="stockDesc">Last Order Status</div></div>
         </button>
-        
+
         <button class="sidebar-item" id="menuStaff">
           <div class="icone"><img src="icons/icon-staff.png" alt="Staff"></div>
           <div class="texto"><div class="titulo" data-i18n="staffProfile">Staff Profile</div><div class="desc" data-i18n="viewProfile">View / Edit Profile</div></div>
         </button>
-        
+
         <div class="sidebar-divider"></div>
-        
+
         <div class="lang-switch">
           <span class="label"><img src="icons/icon-language.png" alt="Language"></span>
           <button class="lang-btn" id="btnLangEN">EN</button>
           <button class="lang-btn" id="btnLangPT">PT</button>
         </div>
-        
+
         <div class="sidebar-divider"></div>
-        
+
         <button class="sidebar-item" id="menuAbout">
           <div class="icone"><img src="icons/icon-about.png" alt="About"></div>
           <div class="texto"><div class="titulo" data-i18n="about">About</div></div>
         </button>
-        
+
         <button class="sidebar-item" id="menuClear">
           <div class="icone"><img src="icons/icon-clear.png" alt="Clear"></div>
           <div class="texto"><div class="titulo" data-i18n="clearAll">Clear All</div></div>
         </button>
-        
+
         <div class="sidebar-divider"></div>
-        
+
         <button class="sidebar-item" id="menuLogout">
           <div class="icone"><img src="icons/icon-logout.png" alt="Logout"></div>
           <div class="texto"><div class="titulo" data-i18n="logout">Logout</div></div>
@@ -912,10 +1194,10 @@ function mostrarToast(mensagem, tipo = "sucesso") {
 /* ===== FIREBASE LISTENERS ===== */
 onValue(ultimoPedidoRef, (snapshot) => { ultimoPedidoSincronizado = snapshot.val() || {}; });
 onValue(estoqueHistoricoRef, (snapshot) => { estoqueHistorico = snapshot.val() || null; });
-onValue(perfisRef, (snapshot) => { 
-  perfis = snapshot.val() || {}; 
-  renderPerfil(); 
-  renderHeaderAvatar(); // Atualiza a foto do header
+onValue(perfisRef, (snapshot) => {
+  perfis = snapshot.val() || {};
+  renderPerfil();
+  renderHeaderAvatar();
 });
 
 onValue(pedidoRef, (snapshot) => {
@@ -1195,10 +1477,10 @@ function enviarParaWhatsApp(fornecedorKey) {
   const textoCodificado = encodeURIComponent(texto);
   const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
   const url = isMobile ? `whatsapp://send?text=${textoCodificado}` : `https://wa.me/?text=${textoCodificado}`;
-  
+
   salvarComoUltimoPedido();
   salvarHistoricoEstoque();
-  
+
   window.open(url, "_blank");
   modalBg.classList.remove("aberto");
 }
@@ -1221,7 +1503,7 @@ document.getElementById("btnRepeatCancel").addEventListener("click", () => {
 });
 document.getElementById("btnRepeatOk").addEventListener("click", () => {
   repeatBg.classList.remove("aberto");
-  if (isCopyAction) { executarCopia(gerarTextoPedidoFornecedor(FORNECEDOR_DEFAULT)); isCopyAction = false; } 
+  if (isCopyAction) { executarCopia(gerarTextoPedidoFornecedor(FORNECEDOR_DEFAULT)); isCopyAction = false; }
   else if (fornecedorPendente) { enviarParaWhatsApp(fornecedorPendente); }
   fornecedorPendente = null;
 });
@@ -1315,7 +1597,6 @@ function renderHeaderAvatar() {
   }
 }
 
-// Abrir perfil ao clicar no avatar do header ou no menu
 function abrirPerfil() {
   renderPerfil();
   profileBg.classList.add("aberto");
@@ -1350,7 +1631,7 @@ fileInput.addEventListener("change", async (e) => {
       body: formData
     });
     const data = await res.json();
-    
+
     if (data.success) {
       const url = data.data.url;
       const staffName = localStorage.getItem("fabis_staff_name");
@@ -1485,7 +1766,7 @@ function iniciarApp() {
     if (staffName) {
       const welcomeMsg = idiomaAtual === "pt" ? "Bem-vindo" : "Welcome";
       welcomeText.textContent = `${welcomeMsg}, ${staffName}!`;
-      renderHeaderAvatar(); // Inicializa a foto do header
+      renderHeaderAvatar();
     }
   } else {
     loginScreen.style.display = "flex"; appPrincipal.style.display = "none";
