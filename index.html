@@ -8,44 +8,26 @@
 <meta name="theme-color" content="#1a1a1a">
 <title>Fabi's Grill — Order</title>
 <style>
-  /* =========================================================
-     RESET + BASE
-     ========================================================= */
   * { box-sizing: border-box; }
-
-  html {
-    height: 100%;
-    -webkit-text-size-adjust: 100%;
-    text-size-adjust: 100%;
-  }
-
+  html { height: 100%; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   body {
-    margin: 0; padding: 0;
-    height: 100%;
-    height: 100dvh;
-    touch-action: pan-y;
-    overscroll-behavior: none;
+    margin: 0; padding: 0; height: 100%; height: 100dvh;
+    touch-action: pan-y; overscroll-behavior: none;
     user-select: none; -webkit-user-select: none; -webkit-touch-callout: none;
     font-family: 'Segoe UI', system-ui, -apple-system, Roboto, sans-serif;
-    background: var(--creme);
-    color: var(--preto);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
+    background: var(--creme); color: var(--preto);
+    display: flex; flex-direction: column; overflow: hidden;
   }
-
   :root {
     --marrom: #8b5a2b; --marrom-escuro: #5c3a1a; --dourado: #c8873a;
     --creme: #f5f0e6; --creme-escuro: #e8dfd0;
     --preto: #1a1a1a; --preto-suave: #2a2a2a;
     --verde: #16a34a; --verde-claro: #dcfce7; --verde-escuro: #15803d;
-    --vermelho: #dc2626;
-    --laranja: #ea580c;
+    --vermelho: #dc2626; --laranja: #ea580c;
+    --azul-floor: #2563eb; --azul-floor-claro: #dbeafe;
   }
 
-  /* =========================================================
-     TOAST
-     ========================================================= */
+  /* TOAST */
   #toast {
     position: fixed; top: 50%; left: 50%;
     transform: translate(-50%, -50%) scale(0.8);
@@ -57,8 +39,7 @@
     display: flex; align-items: center; gap: 12px;
     z-index: 9999; opacity: 0; visibility: hidden;
     transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-    pointer-events: none;
-    max-width: calc(100vw - 32px);
+    pointer-events: none; max-width: calc(100vw - 32px);
   }
   #toast.visivel { opacity: 1; visibility: visible; transform: translate(-50%, -50%) scale(1); }
   #toast .toast-icon {
@@ -69,16 +50,11 @@
   }
   #toast.erro .toast-icon { background: var(--vermelho); }
 
-  /* =========================================================
-     LOGIN SCREEN
-     ========================================================= */
+  /* LOGIN */
   #login-screen {
     display: none; position: fixed; inset: 0; z-index: 999;
     align-items: center; justify-content: center; flex-direction: column;
-    padding: calc(20px + env(safe-area-inset-top, 0px))
-             calc(20px + env(safe-area-inset-right, 0px))
-             calc(20px + env(safe-area-inset-bottom, 0px))
-             calc(20px + env(safe-area-inset-left, 0px));
+    padding: calc(20px + env(safe-area-inset-top, 0px)) calc(20px + env(safe-area-inset-right, 0px)) calc(20px + env(safe-area-inset-bottom, 0px)) calc(20px + env(safe-area-inset-left, 0px));
     background-color: var(--marrom-escuro);
     background-image: url('bg-login.jpg'); background-size: cover;
     background-position: center; background-repeat: no-repeat;
@@ -111,22 +87,15 @@
   }
   .login-box button:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(200,135,58,.4); }
 
-  /* =========================================================
-     APP PRINCIPAL
-     ========================================================= */
+  /* APP */
   #app-principal {
     display: none; flex-direction: column;
-    height: 100%;
-    height: 100dvh;
-    width: 100%;
-    opacity: 0; transition: opacity 0.4s ease;
-    overflow: hidden;
+    height: 100%; height: 100dvh; width: 100%;
+    opacity: 0; transition: opacity 0.4s ease; overflow: hidden;
   }
   #app-principal.visivel { opacity: 1; }
 
-  /* =========================================================
-     HEADER
-     ========================================================= */
+  /* HEADER */
   header {
     background: linear-gradient(135deg, var(--preto) 0%, var(--marrom-escuro) 100%);
     padding: 14px 20px;
@@ -149,10 +118,8 @@
     display: block; filter: drop-shadow(0 3px 10px rgba(0,0,0,.5));
     position: relative; z-index: 1;
   }
-
   .header-avatar {
-    position: absolute; top: 50%;
-    right: calc(16px + env(safe-area-inset-right, 0px));
+    position: absolute; top: 50%; right: calc(16px + env(safe-area-inset-right, 0px));
     transform: translateY(-50%);
     width: 44px; height: 44px; border-radius: 50%;
     background: linear-gradient(135deg, var(--dourado), var(--marrom));
@@ -162,13 +129,9 @@
     cursor: pointer; z-index: 5; overflow: hidden;
     box-shadow: 0 2px 8px rgba(0,0,0,.3);
   }
-  .header-avatar img {
-    width: 100%; height: 100%; object-fit: cover; display: none;
-  }
-
+  .header-avatar img { width: 100%; height: 100%; object-fit: cover; display: none; }
   .menu-btn {
-    position: absolute; top: 50%;
-    left: calc(16px + env(safe-area-inset-left, 0px));
+    position: absolute; top: 50%; left: calc(16px + env(safe-area-inset-left, 0px));
     transform: translateY(-50%); width: 44px; height: 44px;
     background: rgba(200,135,58,.15); border: 2px solid var(--dourado);
     border-radius: 12px; display: flex; align-items: center; justify-content: center;
@@ -179,9 +142,7 @@
   .menu-btn .hamburger { display: flex; flex-direction: column; gap: 4px; }
   .menu-btn .hamburger span { display: block; width: 20px; height: 2.5px; background: var(--dourado); border-radius: 2px; transition: background .2s; }
 
-  /* =========================================================
-     WELCOME BAR
-     ========================================================= */
+  /* WELCOME */
   .welcome-bar {
     text-align: center; padding: 12px 16px 6px;
     font-size: 1.1rem; font-weight: 800;
@@ -190,13 +151,9 @@
   }
   .welcome-bar span { color: var(--dourado); }
 
-  /* =========================================================
-     SYNC STATUS
-     ========================================================= */
+  /* SYNC */
   .sync-status {
-    position: fixed;
-    top: calc(16px + env(safe-area-inset-top, 0px));
-    right: calc(16px + env(safe-area-inset-right, 0px));
+    position: fixed; top: calc(16px + env(safe-area-inset-top, 0px)); right: calc(16px + env(safe-area-inset-right, 0px));
     font-size: .75rem; font-weight: 700;
     padding: 6px 12px; border-radius: 999px; box-shadow: 0 2px 10px rgba(0,0,0,.3);
     z-index: 100; transition: opacity .3s; color: #fff;
@@ -206,9 +163,7 @@
   .sync-status.offline { background: var(--vermelho); }
   .sync-status.oculto { opacity: 0; }
 
-  /* =========================================================
-     TABS
-     ========================================================= */
+  /* TABS */
   .tabs {
     display: flex; gap: 6px; padding: 12px 14px; background: var(--preto-suave);
     border-bottom: 3px solid var(--dourado); overflow-x: auto; flex-shrink: 0; scrollbar-width: thin;
@@ -231,10 +186,17 @@
     font-size: .7rem; font-weight: 800; padding: 2px 8px;
     border-radius: 999px; margin-left: 6px; box-shadow: 0 0 0 2px rgba(255,255,255,.3);
   }
+  /* Aba Floor */
+  .tab.tab-floor { border-color: var(--azul-floor); background: rgba(37,99,235,.15); color: #93c5fd; }
+  .tab.tab-floor:hover { background: rgba(37,99,235,.3); border-color: #60a5fa; }
+  .tab.tab-floor.ativa {
+    background: linear-gradient(135deg, var(--azul-floor), #1d4ed8);
+    color: #fff; border-color: #fff;
+    box-shadow: 0 2px 10px rgba(37,99,235,.6);
+  }
+  .tab.tab-floor .badge { background: var(--dourado); }
 
-  /* =========================================================
-     TOOLBAR
-     ========================================================= */
+  /* TOOLBAR */
   .toolbar {
     display: flex; flex-wrap: wrap; gap: 8px; padding: 12px 16px;
     background: var(--creme); border-bottom: 2px solid var(--creme-escuro); flex-shrink: 0;
@@ -251,18 +213,14 @@
   }
   .toolbar button.danger { background: var(--preto); color: var(--creme); }
 
-  /* =========================================================
-     MAIN + LISTA
-     ========================================================= */
+  /* MAIN */
   main {
-    flex: 1;
-    min-height: 0;
+    flex: 1; min-height: 0;
     padding: 14px 16px 30px;
     padding-left: calc(16px + env(safe-area-inset-left, 0px));
     padding-right: calc(16px + env(safe-area-inset-right, 0px));
     padding-bottom: calc(30px + env(safe-area-inset-bottom, 0px));
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+    overflow-y: auto; -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
   }
   .item {
@@ -271,6 +229,7 @@
     padding: 12px 14px; margin-bottom: 10px;
   }
   .item.selecionado { border-color: var(--verde); background: linear-gradient(to right, #f0fdf4, #dcfce7); }
+  .item.selecionado.floor-sel { border-color: var(--azul-floor); background: linear-gradient(to right, #eff6ff, #dbeafe); }
   .item .info { flex: 1; min-width: 0; }
   .item .nome { font-weight: 700; font-size: .96rem; color: var(--preto); }
   .item .pt { font-size: .72rem; color: #8a7d68; margin-top: 2px; font-style: italic; }
@@ -280,10 +239,12 @@
     color: transparent; background: #fff; flex-shrink: 0;
   }
   .item.selecionado .check { background: var(--verde); border-color: var(--verde-escuro); color: #fff; }
+  .item.selecionado.floor-sel .check { background: var(--azul-floor); border-color: #1d4ed8; }
   .qty { display: flex; align-items: center; gap: 5px; }
   .qty button { width: 34px; height: 34px; border-radius: 9px; border: 2px solid var(--creme-escuro); background: var(--creme); font-weight: 800; cursor: pointer; }
   .qty input { width: 50px; text-align: center; border: 2px solid var(--creme-escuro); border-radius: 9px; font-weight: 800; }
   .item.selecionado .qty input { border-color: var(--verde); }
+  .item.selecionado.floor-sel .qty input { border-color: var(--azul-floor); }
 
   .tag-box {
     display: inline-block; font-size: .62rem; font-weight: 800;
@@ -292,36 +253,30 @@
     margin-left: 6px; vertical-align: middle; letter-spacing: .5px;
     text-shadow: 1px 1px 0 rgba(0,0,0,.2);
   }
+  /* Tag especial FLOOR */
+  .tag-floor {
+    background: linear-gradient(135deg, var(--azul-floor), #1d4ed8);
+    color: #fff;
+  }
 
   .vazio {
     text-align: center; padding: 40px 20px;
     color: #a89b88; font-size: .95rem; font-style: italic; font-weight: 600;
   }
 
-  #lista.transitioning {
-    opacity: .5; transform: translateY(6px);
-    transition: opacity .1s ease, transform .1s ease;
-  }
-  #lista.entrando {
-    opacity: 1; transform: translateY(0);
-    transition: opacity .25s ease, transform .25s ease;
-  }
+  #lista.transitioning { opacity: .5; transform: translateY(6px); transition: opacity .1s ease, transform .1s ease; }
+  #lista.entrando { opacity: 1; transform: translateY(0); transition: opacity .25s ease, transform .25s ease; }
 
-  /* =========================================================
-     FOOTER
-     ========================================================= */
+  /* FOOTER */
   footer {
     background: linear-gradient(135deg, var(--preto) 0%, var(--marrom-escuro) 100%);
-    color: var(--creme);
-    padding: 14px 18px;
+    color: var(--creme); padding: 14px 18px;
     padding-left: calc(18px + env(safe-area-inset-left, 0px));
     padding-right: calc(18px + env(safe-area-inset-right, 0px));
     padding-bottom: calc(14px + env(safe-area-inset-bottom, 0px));
     display: flex; align-items: center; gap: 14px;
     border-top: 3px solid var(--dourado);
-    flex-shrink: 0;
-    position: relative;
-    z-index: 10;
+    flex-shrink: 0; position: relative; z-index: 10;
   }
   footer .resumo { flex: 1; font-size: .9rem; }
   footer .resumo strong { font-size: 1.2rem; color: var(--verde); }
@@ -332,16 +287,11 @@
   }
   footer button:disabled { background: #4a4a4a; border-color: #666; color: #999; }
 
-  /* =========================================================
-     MODAIS
-     ========================================================= */
+  /* MODAIS */
   .modal-bg {
     position: fixed; inset: 0; background: rgba(26,26,26,.75);
     backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center;
-    padding: calc(16px + env(safe-area-inset-top, 0px))
-             calc(16px + env(safe-area-inset-right, 0px))
-             calc(16px + env(safe-area-inset-bottom, 0px))
-             calc(16px + env(safe-area-inset-left, 0px));
+    padding: calc(16px + env(safe-area-inset-top, 0px)) calc(16px + env(safe-area-inset-right, 0px)) calc(16px + env(safe-area-inset-bottom, 0px)) calc(16px + env(safe-area-inset-left, 0px));
     z-index: 50;
   }
   .modal-bg.aberto { display: flex; }
@@ -357,8 +307,7 @@
     background: linear-gradient(135deg, var(--preto) 0%, var(--marrom-escuro) 100%);
     border-bottom: 3px solid var(--dourado); display: flex; flex-direction: column;
     align-items: center; justify-content: center;
-    padding: 14px 16px 12px;
-    padding-top: calc(14px + env(safe-area-inset-top, 0px));
+    padding: 14px 16px 12px; padding-top: calc(14px + env(safe-area-inset-top, 0px));
   }
   .modal header .logo-fabis { max-height: 48px; margin-bottom: 2px; }
   .modal header .subtitulo {
@@ -373,8 +322,7 @@
     border: 2px solid var(--creme-escuro);
   }
   .modal .acoes {
-    padding: 14px 18px;
-    padding-bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+    padding: 14px 18px; padding-bottom: calc(14px + env(safe-area-inset-bottom, 0px));
     display: flex; gap: 8px; justify-content: flex-end;
     border-top: 2px solid var(--creme-escuro); background: var(--creme);
   }
@@ -387,13 +335,9 @@
     border: none; font-weight: 700; cursor: pointer;
     transition: transform .15s, box-shadow .15s;
   }
-  .modal .acoes .confirmar:hover {
-    transform: translateY(-1px); box-shadow: 0 4px 12px rgba(200,135,58,.4);
-  }
+  .modal .acoes .confirmar:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(200,135,58,.4); }
 
-  /* =========================================================
-     FORNECEDORES NO MODAL
-     ========================================================= */
+  /* FORNECEDORES */
   .supplier-section { padding: 14px 18px 18px; border-top: 2px solid var(--creme-escuro); }
   .supplier-label { font-size: .72rem; font-weight: 800; letter-spacing: 2px; color: var(--marrom-escuro); text-align: center; margin-bottom: 12px; }
   .supplier-buttons { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
@@ -405,16 +349,11 @@
   .supplier-btn img { width: 48px; height: 48px; border-radius: 50%; background: #fff; padding: 3px; }
   .supplier-btn.whatsapp-btn { background: linear-gradient(135deg, #25D366, #128C7E); color: #fff; border-color: #128C7E; }
 
-  /* =========================================================
-     POP-UPS PREMIUM
-     ========================================================= */
+  /* CONFIRM */
   .confirm-bg {
     position: fixed; inset: 0; background: rgba(26,26,26,.7);
     backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center;
-    padding: calc(16px + env(safe-area-inset-top, 0px))
-             calc(16px + env(safe-area-inset-right, 0px))
-             calc(16px + env(safe-area-inset-bottom, 0px))
-             calc(16px + env(safe-area-inset-left, 0px));
+    padding: calc(16px + env(safe-area-inset-top, 0px)) calc(16px + env(safe-area-inset-right, 0px)) calc(16px + env(safe-area-inset-bottom, 0px)) calc(16px + env(safe-area-inset-left, 0px));
     z-index: 200;
   }
   .confirm-bg.aberto { display: flex; }
@@ -442,8 +381,7 @@
   .confirm-box h2 { margin: 0 0 10px; font-size: 1.3rem; font-weight: 800; }
   .confirm-box p { margin: 0 0 8px; font-size: .9rem; color: #6b6355; }
   .confirm-box .acoes {
-    padding: 16px 24px;
-    padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+    padding: 16px 24px; padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
     display: flex; gap: 12px; background: #fff;
   }
   .confirm-box .acoes button {
@@ -459,22 +397,16 @@
     max-height: 200px; overflow-y: auto;
     border: 2px solid var(--creme-escuro); list-style: disc;
   }
-  .repeat-items-list li {
-    font-size: .88rem; padding: 5px 0; color: #4b5563;
-    font-weight: 600; line-height: 1.4;
-  }
+  .repeat-items-list li { font-size: .88rem; padding: 5px 0; color: #4b5563; font-weight: 600; line-height: 1.4; }
   .repeat-items-list li::marker { color: var(--dourado); }
 
   .confirm-count {
     font-weight: 800; color: var(--marrom-escuro); font-size: 1rem;
     margin-top: 14px !important; padding: 10px 16px;
-    background: var(--creme-escuro); border-radius: 10px;
-    display: inline-block;
+    background: var(--creme-escuro); border-radius: 10px; display: inline-block;
   }
 
-  /* =========================================================
-     ESTOQUE
-     ========================================================= */
+  /* ESTOQUE */
   .estoque-list {
     background: #fff; border-radius: 12px; border: 2px solid var(--creme-escuro);
     max-height: 300px; overflow-y: auto; text-align: left; margin-top: 10px;
@@ -491,9 +423,7 @@
   }
   .estoque-info { font-size: .85rem; color: #6b6355; margin-bottom: 16px; text-align: center; }
 
-  /* =========================================================
-     PERFIL
-     ========================================================= */
+  /* PERFIL */
   .profile-content { text-align: center; padding: 10px 0; }
   .profile-photo-wrap { position: relative; width: 120px; height: 120px; margin: 0 auto 16px; }
   .profile-photo {
@@ -511,9 +441,7 @@
   }
   .profile-name { font-size: 1.4rem; font-weight: 800; color: var(--preto); margin-top: 10px; }
 
-  /* =========================================================
-     ABOUT
-     ========================================================= */
+  /* ABOUT */
   .about-content { text-align: center; padding: 8px 0; }
   .about-content .icon-about {
     width: 72px; height: 72px; border-radius: 50%;
@@ -572,9 +500,7 @@
   .confirm-box.about-modal .icon-warn { display: none; }
   .confirm-box.about-modal .top { padding: 20px; }
 
-  /* =========================================================
-     SIDEBAR
-     ========================================================= */
+  /* SIDEBAR */
   .sidebar-bg {
     position: fixed; inset: 0; background: rgba(26,26,26,.6);
     backdrop-filter: blur(3px); display: none; z-index: 300;
@@ -582,8 +508,7 @@
   .sidebar-bg.aberto { display: block; }
   .sidebar {
     position: fixed; top: 0; left: 0; width: 300px; max-width: 85vw;
-    height: 100%;
-    height: 100dvh;
+    height: 100%; height: 100dvh;
     background: var(--creme); box-shadow: 4px 0 30px rgba(0,0,0,.4);
     border-right: 3px solid var(--dourado); z-index: 301;
     display: flex; flex-direction: column; transform: translateX(-100%);
@@ -631,19 +556,12 @@
   }
   .lang-btn.ativa { background: linear-gradient(135deg, var(--dourado), var(--marrom)); color: var(--creme); }
   .sidebar-footer {
-    padding: 14px 20px;
-    padding-bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+    padding: 14px 20px; padding-bottom: calc(14px + env(safe-area-inset-bottom, 0px));
     border-top: 2px solid var(--creme-escuro); font-size: .72rem; color: #a89b88; text-align: center;
   }
 
-  /* =========================================================
-     RESPONSIVO — TELAS PEQUENAS
-     ========================================================= */
   @media (max-width: 360px) {
-    header {
-      padding-top: calc(10px + env(safe-area-inset-top, 0px));
-      padding-bottom: 10px;
-    }
+    header { padding-top: calc(10px + env(safe-area-inset-top, 0px)); padding-bottom: 10px; }
     header .logo-fabis { max-height: 48px; }
     .header-avatar, .menu-btn { width: 38px; height: 38px; }
     .menu-btn .hamburger span { width: 17px; }
@@ -658,21 +576,13 @@
     .check { width: 24px; height: 24px; }
     .qty input { width: 42px; }
     .qty button { width: 30px; height: 30px; font-size: .9rem; }
-    footer {
-      padding-top: 10px;
-      padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
-      gap: 10px;
-    }
+    footer { padding-top: 10px; padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px)); gap: 10px; }
     footer .resumo { font-size: .82rem; }
     footer .resumo strong { font-size: 1.05rem; }
     footer button { padding: 11px 16px; font-size: .9rem; }
     .confirm-box .acoes { padding: 12px 16px; padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px)); }
     .supplier-buttons { grid-template-columns: 1fr; }
   }
-
-  /* =========================================================
-     RESPONSIVO — TELAS GRANDES
-     ========================================================= */
   @media (min-width: 481px) {
     header .logo-fabis { max-height: 80px; }
     .item { padding: 14px 16px; }
@@ -681,20 +591,10 @@
     .tab { padding: 10px 18px; font-size: .88rem; }
     .qty input { width: 56px; }
   }
-
-  /* =========================================================
-     RESPONSIVO — TABLET E DESKTOP
-     ========================================================= */
   @media (min-width: 768px) {
-    body {
-      background: #d9cfbe;
-      align-items: center;
-      justify-content: center;
-    }
+    body { background: #d9cfbe; align-items: center; justify-content: center; }
     #app-principal {
-      max-width: 720px;
-      margin: 0 auto;
-      height: 100dvh;
+      max-width: 720px; margin: 0 auto; height: 100dvh;
       box-shadow: 0 0 60px rgba(0,0,0,.15);
       border-left: 1px solid rgba(0,0,0,.08);
       border-right: 1px solid rgba(0,0,0,.08);
@@ -704,39 +604,21 @@
     .confirm-box { max-width: 440px; }
     .tabs::-webkit-scrollbar { height: 6px; }
   }
-
-  /* =========================================================
-     RESPONSIVO — LANDSCAPE EM CELULAR
-     ========================================================= */
   @media (max-height: 480px) and (orientation: landscape) {
-    header {
-      padding-top: calc(8px + env(safe-area-inset-top, 0px));
-      padding-bottom: 8px;
-    }
+    header { padding-top: calc(8px + env(safe-area-inset-top, 0px)); padding-bottom: 8px; }
     header .logo-fabis { max-height: 40px; }
     .header-avatar, .menu-btn { width: 36px; height: 36px; }
     .welcome-bar { padding: 6px 12px 2px; font-size: .9rem; }
     .tabs { padding: 6px 10px; }
     .tab { padding: 6px 12px; font-size: .76rem; }
     .toolbar { padding: 8px 12px; }
-    footer {
-      padding-top: 8px;
-      padding-bottom: calc(8px + env(safe-area-inset-bottom, 0px));
-    }
+    footer { padding-top: 8px; padding-bottom: calc(8px + env(safe-area-inset-bottom, 0px)); }
     footer button { padding: 10px 16px; font-size: .88rem; }
     footer .resumo { font-size: .82rem; }
     footer .resumo strong { font-size: 1.05rem; }
-    .modal {
-      max-height: calc(94vh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
-    }
-    .confirm-box {
-      max-height: calc(94vh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
-    }
+    .modal { max-height: calc(94vh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)); }
+    .confirm-box { max-height: calc(94vh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)); }
   }
-
-  /* =========================================================
-     ACESSIBILIDADE
-     ========================================================= */
   @media (prefers-reduced-motion: reduce) {
     * { animation-duration: .01ms !important; transition-duration: .01ms !important; }
   }
@@ -831,7 +713,7 @@
     </div>
   </div>
 
-  <!-- MODAL PERFIL STAFF -->
+  <!-- MODAL PERFIL -->
   <div class="modal-bg" id="profileBg">
     <div class="modal">
       <header>
@@ -875,7 +757,7 @@
     </div>
   </div>
 
-  <!-- MODAL REPEAT WARNING -->
+  <!-- MODAL REPEAT -->
   <div class="confirm-bg" id="repeatBg">
     <div class="confirm-box repeat-modal">
       <div class="top"><img src="logo-fabis.png"><div class="sub" data-i18n="attention">Attention</div></div>
@@ -1096,8 +978,8 @@ const ITENS = [
   { id: "coriander", nome: "fresh coriander", pt: "Coentros" },
   { id: "sweet_corn", nome: "sweet corn", pt: "Milho doce" },
   { id: "passion_fruit", nome: "passion fruit", pt: "Maracujá" },
-  { id: "pineapple", nome: "box fresh pineapple", pt: "Abacaxi", tag: "BOX" },
-  { id: "orange", nome: "box fresh orange", pt: "Laranja", tag: "BOX" },
+  { id: "pineapple", nome: "box fresh pineapple", pt: "Abacaxi", tag: "BOX", floor: true },
+  { id: "orange", nome: "box fresh orange", pt: "Laranja", tag: "BOX", floor: true },
   { id: "striploin", nome: "Irish Beef Roasting Striploin 1x7.5-11 KG", pt: "Contra filé" },
   { id: "pork_belly", nome: "pork belly", pt: "Barriga de porco" },
   { id: "eggs", nome: "tray of eggs", pt: "Ovos", tag: "TRAY" },
@@ -1116,21 +998,21 @@ const ITENS = [
   { id: "black_pepper", nome: "bag of black pepper powder", pt: "Pimenta do reino", tag: "BAG" },
   { id: "puck", nome: "puck spread", pt: "Puck (manteiga)" },
   { id: "mayo_10kg", nome: "mayo 10kg", pt: "Maionese 10kg" },
-  { id: "mayo_sachets", nome: "mayonnaise sachets", pt: "Maionese sachês" },
+  { id: "mayo_sachets", nome: "mayonnaise sachets", pt: "Maionese sachês", floor: true },
   { id: "ketchup", nome: "ketchup", pt: "Ketchup" },
-  { id: "ketchup_sachets", nome: "ketchup sachets", pt: "Ketchup sachês" },
+  { id: "ketchup_sachets", nome: "ketchup sachets", pt: "Ketchup sachês",floor: true },
   { id: "tilda_rice", nome: "bag blue Tilda rice", pt: "Arroz", tag: "BAG" },
   { id: "potatoes", nome: "Griffin Potatoes 1x10 KG", pt: "Batata" },
-  { id: "coke_zero_330", nome: "pack of coke zero 330ml", pt: "Coca-Cola Zero 330ml", tag: "PACK" },
-  { id: "coke_zero_500", nome: "pack of coke zero 500ml", pt: "Coca-Cola Zero 500ml", tag: "PACK" },
-  { id: "coke_cola_330", nome: "pack of coke cola 330ml", pt: "Coca-Cola 330ml", tag: "PACK" },
-  { id: "coke_cola_500", nome: "pack of coke cola 500ml", pt: "Coca-Cola 500ml", tag: "PACK" },
-  { id: "sparkling", nome: "pack of sparkling water 500ml", pt: "Água com gás", tag: "PACK" },
-  { id: "still_water", nome: "pack of still water 500ml", pt: "Água sem gás", tag: "PACK" },
+  { id: "coke_zero_330", nome: "pack of coke zero 330ml", pt: "Coca-Cola Zero 330ml", tag: "PACK", floor: true },
+  { id: "coke_zero_500", nome: "pack of coke zero 500ml", pt: "Coca-Cola Zero 500ml", tag: "PACK", floor: true },
+  { id: "coke_cola_330", nome: "pack of coke cola 330ml", pt: "Coca-Cola 330ml", tag: "PACK", floor: true },
+  { id: "coke_cola_500", nome: "pack of coke cola 500ml", pt: "Coca-Cola 500ml", tag: "PACK", floor: true },
+  { id: "sparkling", nome: "pack of sparkling water 500ml", pt: "Água com gás", tag: "PACK", floor: true },
+  { id: "still_water", nome: "pack of still water 500ml", pt: "Água sem gás", tag: "PACK", floor: true },
   { id: "blue_paper", nome: "Blue Centrefeed Roll 2ply 1x6 EA", pt: "Blue paper" },
   { id: "gloves", nome: "Vinyl Gloves Blue XL L M", pt: "Luva" },
   { id: "toilet_roll", nome: "Mini Jumbo Toilet Roll 2ply", pt: "Papel higiênico" },
-  { id: "napkins", nome: "Tork White Lunch Napkin 2ply", pt: "Guardanapo" },
+  { id: "napkins", nome: "Tork White Lunch Napkin 2ply", pt: "Guardanapo", floor: true },
   { id: "washing_up", nome: "washing up", pt: "Detergente louça" },
   { id: "spray_wipe", nome: "T 001 SPRAY & WIPE", pt: "Limpa superfícies" },
   { id: "yellow_sponge", nome: "yellow sponge", pt: "Esponja amarela" },
@@ -1139,7 +1021,7 @@ const ITENS = [
   { id: "c500", nome: "c500", pt: "Embalagem C500" },
   { id: "fish_chips", nome: "fish and chips box", pt: "Embalagem fish and chips" },
   { id: "salad_375", nome: "square salad containers 375 ml", pt: "Embalagem salada" },
-  { id: "sos_bags", nome: "S.O.S brown carrier bags LARGE", pt: "Sacos S.O.S", tag: "BOX" }
+  { id: "sos_bags", nome: "S.O.S brown carrier bags LARGE", pt: "Sacos S.O.S", tag: "BOX", floor: true }
 ];
 
 const CATEGORIAS = [
@@ -1149,7 +1031,8 @@ const CATEGORIAS = [
   { id: "paes", nomeEN: "🍞 Bread/Rice", nomePT: "🍞 Pães/Arroz" },
   { id: "bebidas", nomeEN: "🥤 Drinks", nomePT: "🥤 Bebidas" },
   { id: "limpeza", nomeEN: "🧴 Cleaning", nomePT: "🧴 Limpeza" },
-  { id: "embalagem", nomeEN: "📦 Packaging", nomePT: "📦 Embalagem" }
+  { id: "embalagem", nomeEN: "📦 Packaging", nomePT: "📦 Embalagem" },
+  { id: "floor", nomeEN: "🍽️ Floor", nomePT: "🍽️ Floor", especial: true }
 ];
 
 const CATEGORIA_POR_ID = {};
@@ -1266,11 +1149,16 @@ function atualizarTotal() {
   btnVer.disabled = total === 0;
 }
 
+function getItensDaAba() {
+  if (abaAtiva === "floor") return ITENS.filter(i => i.floor === true);
+  return ITENS.filter(i => CATEGORIA_POR_ID[i.id] === abaAtiva);
+}
+
 function renderList(animar = false) {
   if (animar) { listaEl.classList.add("transitioning"); listaEl.classList.remove("entrando"); }
   const doRender = () => {
     listaEl.innerHTML = "";
-    const itensAba = ITENS.filter(i => CATEGORIA_POR_ID[i.id] === abaAtiva);
+    const itensAba = getItensDaAba();
     const itensFiltrados = itensAba.filter(i => (i.nome + " " + i.pt).toLowerCase().includes(filtro));
     if (itensFiltrados.length === 0) {
       const v = document.createElement("div"); v.className = "vazio";
@@ -1293,8 +1181,13 @@ function renderTabsOnly() {
     const btn = tabButtons[idx];
     if (!btn) return;
     if (cat.id === abaAtiva) btn.classList.add("ativa"); else btn.classList.remove("ativa");
-    const idsCat = Object.keys(CATEGORIA_POR_ID).filter(id => CATEGORIA_POR_ID[id] === cat.id);
-    const selecionados = idsCat.reduce((s, id) => s + (estado[id] || 0), 0);
+    let selecionados = 0;
+    if (cat.id === "floor") {
+      selecionados = ITENS.filter(i => i.floor === true).reduce((s, i) => s + (estado[i.id] || 0), 0);
+    } else {
+      const idsCat = Object.keys(CATEGORIA_POR_ID).filter(id => CATEGORIA_POR_ID[id] === cat.id);
+      selecionados = idsCat.reduce((s, id) => s + (estado[id] || 0), 0);
+    }
     const badgeExistente = btn.querySelector(".badge");
     if (selecionados > 0) {
       if (badgeExistente) badgeExistente.textContent = selecionados;
@@ -1308,11 +1201,16 @@ function renderTabsOnly() {
 function renderTabs() {
   tabsEl.innerHTML = "";
   CATEGORIAS.forEach(cat => {
-    const idsCat = Object.keys(CATEGORIA_POR_ID).filter(id => CATEGORIA_POR_ID[id] === cat.id);
-    const selecionados = idsCat.reduce((s, id) => s + (estado[id] || 0), 0);
+    let selecionados = 0;
+    if (cat.id === "floor") {
+      selecionados = ITENS.filter(i => i.floor === true).reduce((s, i) => s + (estado[i.id] || 0), 0);
+    } else {
+      const idsCat = Object.keys(CATEGORIA_POR_ID).filter(id => CATEGORIA_POR_ID[id] === cat.id);
+      selecionados = idsCat.reduce((s, id) => s + (estado[id] || 0), 0);
+    }
     const nome = idiomaAtual === "pt" ? cat.nomePT : cat.nomeEN;
     const btn = document.createElement("button");
-    btn.className = "tab" + (abaAtiva === cat.id ? " ativa" : "");
+    btn.className = "tab" + (abaAtiva === cat.id ? " ativa" : "") + (cat.especial ? " tab-floor" : "");
     btn.innerHTML = nome + (selecionados > 0 ? `<span class="badge">${selecionados}</span>` : "");
     btn.onclick = () => {
       if (abaAtiva === cat.id) return;
@@ -1328,8 +1226,9 @@ function render(animar = false) { renderTabs(); renderList(animar); }
 
 function renderItem(item, container) {
   const qtd = estado[item.id] || 0;
+  const isFloorView = abaAtiva === "floor";
   const div = document.createElement("div");
-  div.className = "item" + (qtd > 0 ? " selecionado" : "");
+  div.className = "item" + (qtd > 0 ? " selecionado" : "") + (qtd > 0 && isFloorView ? " floor-sel" : "");
 
   const check = document.createElement("div");
   check.className = "check"; check.textContent = "✓";
@@ -1337,7 +1236,8 @@ function renderItem(item, container) {
 
   const info = document.createElement("div");
   info.className = "info";
-  info.innerHTML = `<div class="nome">${item.nome}${item.tag ? `<span class="tag-box">${item.tag}</span>` : ""}</div><div class="pt">${item.pt}</div>`;
+  const tagExtra = item.floor ? `<span class="tag-box tag-floor">FLOOR</span>` : "";
+  info.innerHTML = `<div class="nome">${item.nome}${item.tag ? `<span class="tag-box">${item.tag}</span>` : ""}${tagExtra}</div><div class="pt">${item.pt}</div>`;
   info.onclick = () => toggleItem(item.id);
 
   const qty = document.createElement("div");
@@ -1389,7 +1289,8 @@ document.getElementById("busca").addEventListener("input", (e) => {
   filtro = e.target.value.toLowerCase().trim();
   if (filtro) {
     listaEl.innerHTML = "";
-    const resultados = ITENS.filter(i => (i.nome + " " + i.pt).toLowerCase().includes(filtro));
+    const fonte = ITENS;
+    const resultados = fonte.filter(i => (i.nome + " " + i.pt).toLowerCase().includes(filtro));
     if (resultados.length === 0) {
       const v = document.createElement("div"); v.className = "vazio";
       v.textContent = idiomaAtual === "pt" ? "Nenhum item encontrado." : "No items found.";
@@ -1550,7 +1451,7 @@ document.getElementById("btnEstoqueLimpar").addEventListener("click", async () =
 
 estoqueBg.addEventListener("click", (e) => { if (e.target === estoqueBg) estoqueBg.classList.remove("aberto"); });
 
-/* ===== PERFIL E AVATAR DO HEADER ===== */
+/* ===== PERFIL ===== */
 const profileBg = document.getElementById("profileBg");
 const profileName = document.getElementById("profileName");
 const profileImg = document.getElementById("profileImg");
